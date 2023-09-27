@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const CLASSIFICATION_A_TITLE = ref("");
-const CLASSIFICATION_B_TITLE = ref("");
-const CLASSIFICATION_C_TITLE = ref("");
+const CLASSIFICATION_A_TITLE = ref("A");
+const CLASSIFICATION_B_TITLE = ref("B");
+const CLASSIFICATION_C_TITLE = ref("C");
 
 const MAIN_KEYWORDS = ref('');
 const CLASSIFICATION_A = ref("");
@@ -274,9 +274,9 @@ const onClickButtonReset = () => {
   CLASSIFICATION_B_CHECKBOX.value = false
   CLASSIFICATION_C_CHECKBOX.value = false
 
-  CLASSIFICATION_A_TITLE.value = ""
-  CLASSIFICATION_B_TITLE.value = ""
-  CLASSIFICATION_C_TITLE.value = ""
+  CLASSIFICATION_A_TITLE.value = "A"
+  CLASSIFICATION_B_TITLE.value = "B"
+  CLASSIFICATION_C_TITLE.value = "C"
   MAIN_KEYWORDS.value = ""
   CLASSIFICATION_A.value = ""
   CLASSIFICATION_B.value = ""
@@ -292,30 +292,30 @@ const onClickButtonReset = () => {
       <article class="flex flex-col gap-4 justify-between items-center">
         <h2 class="text-xl">MAIN KEYWORDS</h2>
         <textarea rows="20" placeholder="Here your keywords" v-model="MAIN_KEYWORDS"
-          class="w-full p-4 rounded-xl border-2 border-gray-300" />
+          class=" border-2 border-gray-300 dark:bg-slate-400 p-4 rounded-xl w-full" />
       </article>
 
       <article class="flex flex-col gap-4 justify-between items-center">
-        <input type="text" class="p-2 rounded-xl text-center border-2 border-gray-300" v-model="CLASSIFICATION_A_TITLE"
+        <input type="text" class="border-2 border-gray-300 dark:bg-slate-400 p-2 rounded-xl text-center" v-model="CLASSIFICATION_A_TITLE"
           placeholder="Classification A" />
         <textarea rows="20" placeholder="Here your keywords" v-model="CLASSIFICATION_A"
-          class="w-full p-4 rounded-xl border-2 border-gray-300" />
+          class=" border-2 border-gray-300 dark:bg-slate-400 p-4 rounded-xl w-full" />
       </article>
 
       <article class="flex flex-col gap-4 justify-between items-center">
-        <input type="text" class="p-2 rounded-xl text-center border-2 border-gray-300" v-model="CLASSIFICATION_B_TITLE"
+        <input type="text" class="border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50 p-2 rounded-xl text-center" v-model="CLASSIFICATION_B_TITLE"
           placeholder="Classification B" :disabled="!CLASSIFICATION_B_CHECKBOX" />
         <input type="checkbox" v-model="CLASSIFICATION_B_CHECKBOX" />
         <textarea rows="19" placeholder="Here your keywords" v-model="CLASSIFICATION_B"
-          class="w-full p-4 rounded-xl border-2 border-gray-300" :disabled="!CLASSIFICATION_B_CHECKBOX" />
+          class=" border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50  p-4 rounded-xl w-full" :disabled="!CLASSIFICATION_B_CHECKBOX" />
       </article>
 
       <article class="flex flex-col gap-4 justify-between items-center">
-        <input type="text" class="p-2 rounded-xl text-center border-2 border-gray-300" v-model="CLASSIFICATION_C_TITLE"
+        <input type="text" class="border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50 p-2 rounded-xl text-center" v-model="CLASSIFICATION_C_TITLE"
           placeholder="Classification C" :disabled="!CLASSIFICATION_C_CHECKBOX" />
         <input type="checkbox" v-model="CLASSIFICATION_C_CHECKBOX" />
         <textarea rows="19" placeholder="Here your keywords" v-model="CLASSIFICATION_C"
-          class="w-full p-4 rounded-xl border-2 border-gray-300" :disabled="!CLASSIFICATION_C_CHECKBOX" />
+          class=" border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50 p-4 rounded-xl w-full" :disabled="!CLASSIFICATION_C_CHECKBOX" />
       </article>
 
     </section>
@@ -488,9 +488,9 @@ const onClickButtonReset = () => {
     <section class="flex flex-col w-full gap-4">
 
 
-      <h2 class="text-2xl text-center mb-4 w-full">4 KEYWORDS:</h2>
       <article class="flex flex-wrap justify-between gap-8 w-full"
-        v-if="CLASSIFICATION_B_CHECKBOX && CLASSIFICATION_C_CHECKBOX">
+      v-if="CLASSIFICATION_B_CHECKBOX && CLASSIFICATION_C_CHECKBOX">
+      <h2 class="text-2xl text-center mb-4 w-full">4 KEYWORDS:</h2>
         <!--K-->
         <div class="flex-col">
 
@@ -541,28 +541,28 @@ const onClickButtonReset = () => {
         <div class="flex-col">
           <label for="AKCB">
             <input type="checkbox" v-model="AKCB" id="AKCB" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD +' + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
+            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
 
           <label for="AKBC">
             <input type="checkbox" v-model="AKBC" id="AKBC" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD +' + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
+            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="AKBC">
             <input type="checkbox" v-model="AKBC" id="AKBC" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD +' + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
+            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="ABCK">
             <input type="checkbox" v-model="ABCK" id="ABCK" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} +' + {{ CLASSIFICATION_C_TITLE }} + KEYWORD'
+            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
@@ -576,7 +576,7 @@ const onClickButtonReset = () => {
 
           <label for="ACBK">
             <input type="checkbox" v-model="ACBK" id="ACBK" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} +' + {{ CLASSIFICATION_B_TITLE }} + KEYWORD'
+            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
@@ -594,14 +594,14 @@ const onClickButtonReset = () => {
         <div class="flex-col">
           <label for="BKAC">
             <input type="checkbox" v-model="BKAC" id="BKAC" />
-            {{ CLASSIFICATION_B_TITLE }} + KEYWORD +' + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
+            {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="BKCA">
             <input type="checkbox" v-model="BKCA" id="BKCA" />
-            {{ CLASSIFICATION_B_TITLE }} + KEYWORD +' + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
+            {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
@@ -615,7 +615,7 @@ const onClickButtonReset = () => {
 
           <label for="BACK">
             <input type="checkbox" v-model="BACK" id="BACK" />
-            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} +' + {{ CLASSIFICATION_C_TITLE }} + KEYWORD'
+            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
@@ -629,7 +629,7 @@ const onClickButtonReset = () => {
 
           <label for="BCAK">
             <input type="checkbox" v-model="BCAK" id="BCAK" />
-            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} +' + {{ CLASSIFICATION_A_TITLE }} + KEYWORD'
+            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
@@ -639,21 +639,21 @@ const onClickButtonReset = () => {
         <div class="flex-col">
           <label for="CKBA">
             <input type="checkbox" v-model="CKBA" id="CKBA" />
-            {{ CLASSIFICATION_C_TITLE }} + KEYWORD +' + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
+            {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
 
           <label for="CKAB">
             <input type="checkbox" v-model="CKAB" id="CKAB" />
-            {{ CLASSIFICATION_C_TITLE }} + KEYWORD +' + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
+            {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
 
           <label for="CABK">
             <input type="checkbox" v-model="CABK" id="CABK" />
-            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} +' + {{ CLASSIFICATION_B_TITLE }} + KEYWORD'
+            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
@@ -667,7 +667,7 @@ const onClickButtonReset = () => {
 
           <label for="CBAK">
             <input type="checkbox" v-model="CBAK" id="CBAK" />
-            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} +' + {{ CLASSIFICATION_A_TITLE }} + KEYWORD'
+            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD
             <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
@@ -696,7 +696,7 @@ const onClickButtonReset = () => {
 
       </div>
       <textarea rows="20" v-model="FINAL_RESULT" label="Final result"
-        class="w-full p-4 rounded-xl border-2 border-gray-300 my-4" />
+        class=" border-2 border-gray-300 dark:bg-slate-400 p-4 rounded-xl w-full my-4" />
     </section>
     <!-- END OF RESULT ZONE-->
     <!-- RESET ZONE-->

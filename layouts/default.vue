@@ -55,7 +55,7 @@ onMounted(() => {
                 </svg>
                 <span>Home</span>
             </NuxtLink>
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/concatenator">
+            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/concatenator">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -63,7 +63,7 @@ onMounted(() => {
                 </svg>
                 <span>Concatenator</span>
             </NuxtLink>
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/">
+            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="4" y1="21" x2="4" y2="14"></line>
@@ -78,7 +78,7 @@ onMounted(() => {
                 </svg>
                 <span>Keyword cleaner</span>
             </NuxtLink>
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/">
+            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5" />
@@ -103,6 +103,6 @@ onMounted(() => {
 
 </header>
 
-<main class="bg-white border-gray-200 border flex flex-col mx-auto my-4 w-10/12 p-4 rounded-xl dark:border-slate-600 dark:shadow-slate-700 shadow-2xl shadow-slate-600">
+<main class="bg-white border-gray-200 border dark:border-slate-600 dark:shadow-slate-700 dark:bg-slate-300 flex flex-col mx-auto my-4 w-10/12 p-4 rounded-xl shadow-2xl shadow-slate-600">
     <slot />
 </main></template>
