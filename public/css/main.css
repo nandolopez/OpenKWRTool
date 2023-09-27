@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply dark:bg-black bg-slate-200;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
