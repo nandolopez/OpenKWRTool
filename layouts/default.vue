@@ -44,7 +44,7 @@ onMounted(() => {
 </script>
 <template>
     <header
-        class="border-slate-400 bg-gradient-to-b from-slate-50 to-gray-300 rounded-b border-b content-center dark:bg-slate-700 dark:bg-gradient-to-b dark:from-slate-700 dark:to-gray-900 dark:border-slate-600 dark:shadow-slate-700  dark:text-white flex font-bold justify-between items-center p-4  shadow-md shadow-slate-600">
+        class="border-slate-400 bg-gray-300 rounded-b border-b content-center dark:bg-gray-900 dark:border-slate-600 dark:shadow-slate-700  dark:text-white flex font-bold justify-between items-center p-4  shadow shadow-slate-600">
         <h2 class="text-xl">Keyword Research OS Tool</h2>
         <nav class="flex gap-8">
             <NuxtLink class="flex gap-2 items-center text-xl" to="/">
@@ -63,7 +63,7 @@ onMounted(() => {
                 </svg>
                 <span>Concatenator</span>
             </NuxtLink>
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/">
+            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/cleaner">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="4" y1="21" x2="4" y2="14"></line>
