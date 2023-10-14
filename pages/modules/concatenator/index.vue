@@ -91,6 +91,7 @@ const combineTwo = (a: string[], b: string[]) => {
     })
   })
 }
+
 //Combine 2 word
 const combineThree = (a: string[], b: string[], c: string[]) => {
   a.forEach((ea: string) => {
@@ -101,6 +102,7 @@ const combineThree = (a: string[], b: string[], c: string[]) => {
     })
   })
 }
+
 //Combine 3 word
 const combineFour = (a: string[], b: string[], c: string[], d: string[]) => {
   a.forEach((ea: string) => {
@@ -115,7 +117,11 @@ const combineFour = (a: string[], b: string[], c: string[], d: string[]) => {
   })
 }
 
-const onClilckButtonSelectAll = () => {
+/**
+ * Select all checkboxes
+ */
+
+const onClickButtonSelectAll = () => {
   //2 KEYWORDS COMBINATION
   KA.value = true
   AK.value = true
@@ -124,53 +130,64 @@ const onClilckButtonSelectAll = () => {
   KC.value = true
   CK.value = true
 
-  //3 KEYWORDS COMBINATION
-  KAB.value = true
-  KBA.value = true
-  AKB.value = true
-  ABK.value = true
-  BKA.value = true
-  BAK.value = true
-  KAC.value = true
-  KCA.value = true
-  AKC.value = true
-  ACK.value = true
-  CKA.value = true
-  CAK.value = true
-  KCB.value = true
-  KBC.value = true
-  CKB.value = true
-  CBK.value = true
-  BKC.value = true
-  BCK.value = true
+  if (CLASSIFICATION_B_CHECKBOX) {
+    //3 KEYWORDS COMBINATION
+    KAB.value = true
+    KBA.value = true
+    AKB.value = true
+    ABK.value = true
+    BKA.value = true
+    BAK.value = true
+    KAC.value = true
+    KCA.value = true
+    AKC.value = true
+    ACK.value = true
+    CKA.value = true
+    CAK.value = true
+    KCB.value = true
+    KBC.value = true
+    CKB.value = true
+    CBK.value = true
+    BKC.value = true
+    BCK.value = true
+  }
 
-  //4 KEYWORDS COMBINATION
-  KABC.value = true
-  KACB.value = true
-  KBAC.value = true
-  KBCA.value = true
-  KCAB.value = true
-  KCBA.value = true
-  AKCB.value = true
-  AKBC.value = true
-  ABCK.value = true
-  ABKC.value = true
-  ACBK.value = true
-  ACKB.value = true
-  BKAC.value = true
-  BKCA.value = true
-  BAKC.value = true
-  BACK.value = true
-  BCKA.value = true
-  BCAK.value = true
-  CKBA.value = true
-  CKAB.value = true
-  CABK.value = true
-  CAKB.value = true
-  CBAK.value = true
-  CBKA.value = true
+  if (CLASSIFICATION_C_CHECKBOX) {
+
+    //4 KEYWORDS COMBINATION
+    KABC.value = true
+    KACB.value = true
+    KBAC.value = true
+    KBCA.value = true
+    KCAB.value = true
+    KCBA.value = true
+    AKCB.value = true
+    AKBC.value = true
+    ABCK.value = true
+    ABKC.value = true
+    ACBK.value = true
+    ACKB.value = true
+    BKAC.value = true
+    BKCA.value = true
+    BAKC.value = true
+    BACK.value = true
+    BCKA.value = true
+    BCAK.value = true
+    CKBA.value = true
+    CKAB.value = true
+    CABK.value = true
+    CAKB.value = true
+    CBAK.value = true
+    CBKA.value = true
+  }
 }
-const onClilckButtonUnSelectAll = () => {
+
+/**
+ * Unselect all checkboxes
+ */
+
+
+const onClickButtonUnSelectAll = () => {
   //2 KEYWORDS COMBINATION
   KA.value = false
   AK.value = false
@@ -231,10 +248,17 @@ const onClilckButtonUnSelectAll = () => {
   }
 }
 
+/**
+ * Send the FINAL_RESULT variable to clipboard
+ */
+
 const onClickButtonCopy = () => {
   navigator.clipboard.writeText(FINAL_RESULT.value);
 }
 
+/**
+ * Reset all fields as default
+ */
 const onClickButtonGenerate = () => {
   STATUS.value = 'Generating combinations of 2 keywords'
 
@@ -298,9 +322,13 @@ const onClickButtonGenerate = () => {
   STATUS.value = 'Finished :D'
 }
 
+/**
+ * Reset all fields as default
+ */
+
 const onClickButtonReset = () => {
 
-  onClilckButtonUnSelectAll()
+  onClickButtonUnSelectAll()
 
   CLASSIFICATION_B_CHECKBOX.value = false
   CLASSIFICATION_C_CHECKBOX.value = false
@@ -355,8 +383,8 @@ const onClickButtonReset = () => {
     <!-- END OF KEYWORDS TEXTAREA ZONE-->
     <!-- SELECT ALL BUTTONS -->
     <section class="flex justify-start gap-4 w-full">
-      <UButton @click="onClilckButtonSelectAll()" label="Select All" />
-      <UButton @click="onClilckButtonUnSelectAll()" label="Unselect all" />
+      <UButton @click="onClickButtonSelectAll()" label="Select All" />
+      <UButton @click="onClickButtonUnSelectAll()" label="Unselect all" />
     </section>
     <!-- END OF SELECT ALL BUTTONS -->
 
