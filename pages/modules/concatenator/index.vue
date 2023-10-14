@@ -137,7 +137,12 @@ const onClilckButtonSelectAll = () => {
   ACK.value = true
   CKA.value = true
   CAK.value = true
-
+  KCB.value = true
+  KBC.value = true
+  CKB.value = true
+  CBK.value = true
+  BKC.value = true
+  BCK.value = true
 
   //4 KEYWORDS COMBINATION
   KABC.value = true
@@ -174,45 +179,56 @@ const onClilckButtonUnSelectAll = () => {
   KC.value = false
   CK.value = false
 
-  //3 KEYWORDS COMBINATION
-  KAB.value = false
-  KBA.value = false
-  AKB.value = false
-  ABK.value = false
-  BKA.value = false
-  BAK.value = false
-  KAC.value = false
-  KCA.value = false
-  AKC.value = false
-  ACK.value = false
-  CKA.value = false
-  CAK.value = false
+  if (CLASSIFICATION_B_CHECKBOX) {
+    //3 KEYWORDS COMBINATION
+    KAB.value = false
+    KBA.value = false
+    AKB.value = false
+    ABK.value = false
+    BKA.value = false
+    BAK.value = false
+    KAC.value = false
+    KCA.value = false
+    AKC.value = false
+    ACK.value = false
+    CKA.value = false
+    CAK.value = false
+    KCB.value = false
+    KBC.value = false
+    CKB.value = false
+    CBK.value = false
+    BKC.value = false
+    BCK.value = false
+  }
 
-  //4 KEYWORDS COMBINATION
-  KABC.value = false
-  KACB.value = false
-  KBAC.value = false
-  KBCA.value = false
-  KCAB.value = false
-  KCBA.value = false
-  AKCB.value = false
-  AKBC.value = false
-  ABCK.value = false
-  ABKC.value = false
-  ACBK.value = false
-  ACKB.value = false
-  BKAC.value = false
-  BKCA.value = false
-  BAKC.value = false
-  BACK.value = false
-  BCKA.value = false
-  BCAK.value = false
-  CKBA.value = false
-  CKAB.value = false
-  CABK.value = false
-  CAKB.value = false
-  CBAK.value = false
-  CBKA.value = false
+
+  if (CLASSIFICATION_C_CHECKBOX) {
+    //4 KEYWORDS COMBINATION
+    KABC.value = false
+    KACB.value = false
+    KBAC.value = false
+    KBCA.value = false
+    KCAB.value = false
+    KCBA.value = false
+    AKCB.value = false
+    AKBC.value = false
+    ABCK.value = false
+    ABKC.value = false
+    ACBK.value = false
+    ACKB.value = false
+    BKAC.value = false
+    BKCA.value = false
+    BAKC.value = false
+    BACK.value = false
+    BCKA.value = false
+    BCAK.value = false
+    CKBA.value = false
+    CKAB.value = false
+    CABK.value = false
+    CAKB.value = false
+    CBAK.value = false
+    CBKA.value = false
+  }
 }
 
 const onClickButtonCopy = () => {
@@ -339,12 +355,8 @@ const onClickButtonReset = () => {
     <!-- END OF KEYWORDS TEXTAREA ZONE-->
     <!-- SELECT ALL BUTTONS -->
     <section class="flex justify-start gap-4 w-full">
-      <Button type="Button"
-        class="py-2 px-4  bg-indigo-600 hover:bg-indigo-600 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
-        @click="onClilckButtonSelectAll()">Select All</Button>
-      <Button type="Button"
-        class="py-2 px-4  bg-indigo-600 hover:bg-indigo-600 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
-        @click="onClilckButtonUnSelectAll()">Unselect all</Button>
+      <UButton @click="onClilckButtonSelectAll()" label="Select All" />
+      <UButton @click="onClilckButtonUnSelectAll()" label="Unselect all" />
     </section>
     <!-- END OF SELECT ALL BUTTONS -->
 
@@ -486,235 +498,159 @@ const onClickButtonReset = () => {
       </UCard>
       <UCard v-if="CLASSIFICATION_C_CHECKBOX">
         <template #header> 4 Keywords combinations </template>
-        <div class="grid grid-cols-3 gap-8">
+        <div class="grid grid-cols-4 gap-8">
           <!-- Keyword + A + B-->
           <section class="flex flex-col gap-4">
-            
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
-              <UCheckbox v-model="KAB" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
+
+            <!--K-->
+
+            <UFormGroup
+              :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              <UCheckbox :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KABC" />
             </UFormGroup>
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
-              <UCheckbox v-model="KBA" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
+
+            <UFormGroup
+              :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KACB" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
-              <UCheckbox v-model="AKB" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+
+            <UFormGroup
+              :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              <UCheckbox :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KBAC" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
-              <UCheckbox v-model="ABK" :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+
+            <UFormGroup
+              :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KBCA" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
-              <UCheckbox v-model="BKA" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+
+            <UFormGroup
+              :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KCAB" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
-              <UCheckbox v-model="BAK" :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+
+            <UFormGroup
+              :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KCBA" />
             </UFormGroup>
+
 
           </section>
 
+          <section class="flex flex-col gap-4">
 
+            <!--A-->
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="AKCB" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              <UCheckbox :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              <UCheckbox :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`">
+              <UCheckbox :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ABCK" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`">
+              <UCheckbox :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="ABKC" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
+              <UCheckbox :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ACBK" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="ACKB" />
+            </UFormGroup>
+          </section>
+          <section class="flex flex-col gap-4">
+            <!--B-->
+
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              <UCheckbox :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BKAC" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BKCA" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`">
+              <UCheckbox :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BAKC" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`">
+              <UCheckbox :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BACK" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BCKA" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
+              <UCheckbox :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BCAK" />
+            </UFormGroup>
+
+          </section>
+          <section class="flex flex-col gap-4">
+            <!--C-->
+
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CKBA" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CKAB" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
+              <UCheckbox :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CABK" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CAKB" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
+              <UCheckbox :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CBAK" />
+            </UFormGroup>
+
+            <UFormGroup
+              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CBKA" />
+            </UFormGroup>
+          </section>
         </div>
 
       </UCard>
     </div>
 
 
-    <section class="flex flex-col w-full gap-4">
-
-
-      <article class="flex flex-wrap justify-between gap-8 w-full"
-        v-if="CLASSIFICATION_B_CHECKBOX && CLASSIFICATION_C_CHECKBOX">
-        <h2 class="text-2xl text-center mb-4 w-full">4 KEYWORDS:</h2>
-        <!--K-->
-        <div class="flex-col">
-
-          <label for="KABC">
-            <UCheckbox v-model="KABC" id="KABC" />
-            KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="KACB">
-            <UCheckbox v-model="KACB" id="KACB" />
-            KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-              C_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="KBAC">
-            <UCheckbox v-model="KBAC" id="KBAC" />
-            KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-              A_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="KBCA">
-            <UCheckbox v-model="KBCA" id="KBCA" />
-            KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="KCAB">
-            <UCheckbox v-model="KCAB" id="KCAB" />
-            KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-              A_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="KCBA">
-            <UCheckbox v-model="KCBA" id="KCBA" />
-            KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
-          </label>
-        </div>
-
-        <!--A-->
-        <div class="flex-col">
-          <label for="AKCB">
-            <UCheckbox v-model="AKCB" id="AKCB" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-              C_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="AKBC">
-            <UCheckbox v-model="AKBC" id="AKBC" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="AKBC">
-            <UCheckbox v-model="AKBC" id="AKBC" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="ABCK">
-            <UCheckbox v-model="ABCK" id="ABCK" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-              C_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="ABKC">
-            <UCheckbox v-model="ABKC" id="ABKC" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-              K_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="ACBK">
-            <UCheckbox v-model="ACBK" id="ACBK" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="ACKB">
-            <UCheckbox v-model="ACKB" id="ACKB" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-              K_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
-          </label>
-        </div>
-
-
-        <!--B-->
-        <div class="flex-col">
-          <label for="BKAC">
-            <UCheckbox v-model="BKAC" id="BKAC" />
-            {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-              A_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="BKCA">
-            <UCheckbox v-model="BKCA" id="BKCA" />
-            {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-              C_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="BAKC">
-            <UCheckbox v-model="BAKC" id="BAKC" />
-            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-              K_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="BACK">
-            <UCheckbox v-model="BACK" id="BACK" />
-            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-              C_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="BCKA">
-            <UCheckbox v-model="BCKA" id="BCKA" />
-            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-              K_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="BCAK">
-            <UCheckbox v-model="BCAK" id="BCAK" />
-            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-              A_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
-          </label>
-        </div>
-
-        <!--C-->
-        <div class="flex-col">
-          <label for="CKBA">
-            <UCheckbox v-model="CKBA" id="CKBA" />
-            {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="CKAB">
-            <UCheckbox v-model="CKAB" id="CKAB" />
-            {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-              A_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="CABK">
-            <UCheckbox v-model="CABK" id="CABK" />
-            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-              B_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="CAKB">
-            <UCheckbox v-model="CAKB" id="CAKB" />
-            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-              K_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="CBAK">
-            <UCheckbox v-model="CBAK" id="CBAK" />
-            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-              A_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
-          </label>
-
-          <label for="CBKA">
-            <UCheckbox v-model="CBKA" id="CBKA" />
-            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-              K_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
-          </label>
-        </div>
-      </article>
-
-    </section>
     <!-- END OF COMBINATIONS ZONE-->
     <!-- RESULT ZONE-->
     <section class="flex flex-col">
@@ -723,24 +659,17 @@ const onClickButtonReset = () => {
           Status: {{ STATUS }}
 
         </span>
-        <button
-          class="py-2 px-4  bg-indigo-600 hover:bg-indigo-600 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
-          type="button" @click="onClickButtonCopy()">Copy result</button>
+        <UButton @click="onClickButtonCopy()" label="Copy result" />
 
       </div>
-      <UTextarea :rows="20" v-model="FINAL_RESULT" label="Final result"
-        class=" border-2 border-gray-300 dark:bg-slate-400 p-4 rounded-xl w-full my-4" />
+      <UTextarea :rows="20" v-model="FINAL_RESULT" label="Final result" readonly />
     </section>
     <!-- END OF RESULT ZONE-->
     <!-- RESET ZONE-->
     <section>
       <div class="flex justify-between mb-4">
-        <button
-          class="py-2 px-4  bg-indigo-600 hover:bg-indigo-600 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
-          type="button" @click="onClickButtonReset()">Reset</button>
-        <button
-          class="py-2 px-4  bg-indigo-600 hover:bg-indigo-600 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
-          type="button" @click="onClickButtonGenerate()">Generate</button>
+        <UButton @click="onClickButtonReset()" label="Reset" />
+        <UButton @click="onClickButtonGenerate()" label="Generate" />
       </div>
     </section>
     <!-- END OF RESET ZONE-->
