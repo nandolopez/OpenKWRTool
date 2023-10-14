@@ -49,7 +49,8 @@ onMounted(() => {
         <nav class="flex gap-8">
             <NuxtLink class="flex gap-2 items-center text-xl" to="/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9" />
                     <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
                 </svg>
@@ -57,7 +58,8 @@ onMounted(() => {
             </NuxtLink>
             <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/concatenator">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                 </svg>
@@ -65,7 +67,8 @@ onMounted(() => {
             </NuxtLink>
             <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/cleaner">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <line x1="4" y1="21" x2="4" y2="14"></line>
                     <line x1="4" y1="10" x2="4" y2="3"></line>
                     <line x1="12" y1="21" x2="12" y2="12"></line>
@@ -80,7 +83,8 @@ onMounted(() => {
             </NuxtLink>
             <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    :stroke="DARKMODE ? '#FFFFFF' : '#475569'" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5" />
                     <path
                         d="M5.5 5.1L2 12v6c0 1.1.9 2 2 2h16a2 2 0 002-2v-6l-3.4-6.9A2 2 0 0016.8 4H7.2a2 2 0 00-1.8 1.1z" />
@@ -98,11 +102,15 @@ onMounted(() => {
                 <circle cx="12" cy="12" r="5" />
                 <path
                     d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-        </svg>
-    </button>
+            </svg>
+        </button>
 
-</header>
+    </header>
 
-<main class="bg-white border-gray-200 border dark:border-slate-600 dark:shadow-slate-700 dark:bg-slate-300 flex flex-col mx-auto my-4 w-10/12 p-4 rounded-xl shadow-2xl shadow-slate-600">
-    <slot />
-</main></template>
+    <main>
+        <UContainer>
+            <slot />
+
+        </UContainer>
+    </main>
+</template>

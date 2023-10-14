@@ -49,6 +49,13 @@ const AKC = ref(false)
 const ACK = ref(false)
 const CKA = ref(false)
 const CAK = ref(false)
+const KCB = ref(false)
+const KBC = ref(false)
+const CKB = ref(false)
+const CBK = ref(false)
+const BKC = ref(false)
+const BCK = ref(false)
+
 
 //4 KEYWORDS COMBINATION
 const KABC = ref(false)
@@ -130,6 +137,7 @@ const onClilckButtonSelectAll = () => {
   ACK.value = true
   CKA.value = true
   CAK.value = true
+
 
   //4 KEYWORDS COMBINATION
   KABC.value = true
@@ -235,6 +243,13 @@ const onClickButtonGenerate = () => {
     if (ACK.value) combineThree(A_ARRAY.value, C_ARRAY.value, K_ARRAY.value)
     if (CKA.value) combineThree(C_ARRAY.value, K_ARRAY.value, A_ARRAY.value)
     if (CAK.value) combineThree(C_ARRAY.value, A_ARRAY.value, K_ARRAY.value)
+    if (KCB.value) combineThree(K_ARRAY.value, C_ARRAY.value, B_ARRAY.value)
+    if (KBC.value) combineThree(K_ARRAY.value, B_ARRAY.value, C_ARRAY.value)
+    if (CKB.value) combineThree(C_ARRAY.value, K_ARRAY.value, B_ARRAY.value)
+    if (CBK.value) combineThree(C_ARRAY.value, B_ARRAY.value, K_ARRAY.value)
+    if (BKC.value) combineThree(B_ARRAY.value, K_ARRAY.value, C_ARRAY.value)
+    if (BCK.value) combineThree(B_ARRAY.value, C_ARRAY.value, K_ARRAY.value)
+
   }
 
   if (CLASSIFICATION_B_CHECKBOX && CLASSIFICATION_C_CHECKBOX) {
@@ -286,39 +301,41 @@ const onClickButtonReset = () => {
 
 </script>
 <template>
-  <div class="flex flex-col w-full gap-4">
+  <div class="flex flex-col mt-4 w-full gap-4">
+
     <!-- KEYWORDS TEXTAREA ZONE-->
-    <section class="grid grid-cols-4 w-full gap-4">
-      <article class="flex flex-col gap-4 justify-between items-center">
-        <h2 class="text-xl">MAIN KEYWORDS</h2>
-        <textarea rows="20" placeholder="Here your keywords" v-model="MAIN_KEYWORDS"
-          class=" border-2 border-gray-300 dark:bg-slate-400 p-4 rounded-xl w-full" />
-      </article>
+    <UCard>
+      <template #header> Keywords </template>
+      <section class="grid grid-cols-4 w-full gap-4">
+        <article class="flex flex-col gap-4 justify-between items-center">
+          <h2 class="text-xl">MAIN KEYWORDS</h2>
+          <UTextarea :rows="20" size="xl" placeholder="Here your keywords" v-model="MAIN_KEYWORDS" />
+        </article>
 
-      <article class="flex flex-col gap-4 justify-between items-center">
-        <input type="text" class="border-2 border-gray-300 dark:bg-slate-400 p-2 rounded-xl text-center" v-model="CLASSIFICATION_A_TITLE"
-          placeholder="Classification A" />
-        <textarea rows="20" placeholder="Here your keywords" v-model="CLASSIFICATION_A"
-          class=" border-2 border-gray-300 dark:bg-slate-400 p-4 rounded-xl w-full" />
-      </article>
+        <article class="flex flex-col gap-4 justify-between items-center">
+          <UInput v-model="CLASSIFICATION_A_TITLE" placeholder="Classification A" />
+          <UTextarea :rows="20" size="xl" placeholder="Here your keywords" v-model="CLASSIFICATION_A" />
+        </article>
 
-      <article class="flex flex-col gap-4 justify-between items-center">
-        <input type="text" class="border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50 p-2 rounded-xl text-center" v-model="CLASSIFICATION_B_TITLE"
-          placeholder="Classification B" :disabled="!CLASSIFICATION_B_CHECKBOX" />
-        <input type="checkbox" v-model="CLASSIFICATION_B_CHECKBOX" />
-        <textarea rows="19" placeholder="Here your keywords" v-model="CLASSIFICATION_B"
-          class=" border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50  p-4 rounded-xl w-full" :disabled="!CLASSIFICATION_B_CHECKBOX" />
-      </article>
+        <article class="flex flex-col gap-4 justify-between items-center">
+          <UCheckbox v-model="CLASSIFICATION_B_CHECKBOX" label="Enable B" />
+          <UInput v-model="CLASSIFICATION_B_TITLE" placeholder="Classification B"
+            :disabled="!CLASSIFICATION_B_CHECKBOX" />
+          <UTextarea :rows="19" size="xl" placeholder="Here your keywords" v-model="CLASSIFICATION_B"
+            :disabled="!CLASSIFICATION_B_CHECKBOX" />
+        </article>
 
-      <article class="flex flex-col gap-4 justify-between items-center">
-        <input type="text" class="border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50 p-2 rounded-xl text-center" v-model="CLASSIFICATION_C_TITLE"
-          placeholder="Classification C" :disabled="!CLASSIFICATION_C_CHECKBOX" />
-        <input type="checkbox" v-model="CLASSIFICATION_C_CHECKBOX" />
-        <textarea rows="19" placeholder="Here your keywords" v-model="CLASSIFICATION_C"
-          class=" border-2 border-gray-300 dark:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50 p-4 rounded-xl w-full" :disabled="!CLASSIFICATION_C_CHECKBOX" />
-      </article>
+        <article class="flex flex-col gap-4 justify-between items-center">
+          <UCheckbox v-model="CLASSIFICATION_C_CHECKBOX" label="Enable C" :disabled="!CLASSIFICATION_B_CHECKBOX" />
+          <UInput v-model="CLASSIFICATION_C_TITLE" placeholder="Classification C"
+            :disabled="!CLASSIFICATION_C_CHECKBOX" />
+          <UTextarea :rows="19" size="xl" placeholder="Here your keywords" v-model="CLASSIFICATION_C"
+            :disabled="!CLASSIFICATION_C_CHECKBOX" />
+        </article>
 
-    </section>
+      </section>
+
+    </UCard>
     <!-- END OF KEYWORDS TEXTAREA ZONE-->
     <!-- SELECT ALL BUTTONS -->
     <section class="flex justify-start gap-4 w-full">
@@ -330,209 +347,225 @@ const onClickButtonReset = () => {
         @click="onClilckButtonUnSelectAll()">Unselect all</Button>
     </section>
     <!-- END OF SELECT ALL BUTTONS -->
+
     <!-- COMBINATIONS ZONE-->
-    <div class="grid grid-cols-2">
-      <h2 class="text-2xl text-center mb-4">2 KEYWORDS:</h2>
-      <h2 class="text-2xl text-center mb-4">3 KEYWORDS:</h2>
-      <article class="flex w-full justify-center gap-8">
-        <div>
-          <h3 class="text-lg mb-2 font-bold"> KEYWORD + {{ CLASSIFICATION_A_TITLE }}</h3>
-          <label for="KA">
-            <input type="checkbox" v-model="KA" id="KA" />
-            KEYWORD + {{ CLASSIFICATION_A_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }}</span>
-          </p>
-
-          <label for="AK">
-            <input type="checkbox" v-model="AK" id="AK" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }}</span>
-          </p>
-        </div>
-        <div v-if="CLASSIFICATION_B_CHECKBOX">
-          <h3 class="text-lg mb-2 font-bold"> KEYWORD + {{ CLASSIFICATION_B_TITLE }}</h3>
-          <label for="KB">
-            <input type="checkbox" v-model="KB" id="KB" />
-            KEYWORD + {{ CLASSIFICATION_B_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }}</span>
-          </p>
-
-          <label for="BK">
-            <input type="checkbox" v-model="BK" id="BK" />
-            {{ CLASSIFICATION_B_TITLE }} + KEYWORD
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }}</span>
-          </p>
-        </div>
-
-        <div v-if="CLASSIFICATION_C_CHECKBOX">
-          <h3 class="text-lg mb-2 font-bold"> KEYWORD + {{ CLASSIFICATION_C_TITLE }}</h3>
-          <label for="KC" v-if="CLASSIFICATION_C_CHECKBOX">
-            <input type="checkbox" v-model="KC" id="KC" />
-            KEYWORD + {{ CLASSIFICATION_C_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }}</span>
-          </p>
-
-          <label for="CK" v-if="CLASSIFICATION_C_CHECKBOX">
-            <input type="checkbox" v-model="CK" id="CK" />
-            {{ CLASSIFICATION_C_TITLE }} + KEYWORD
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }}</span>
-          </p>
-        </div>
-      </article>
+    <div class="flex flex-col gap-4">
+      <UCard>
+        <template #header> 2 Keywords combinations </template>
+        <div class="grid grid-cols-3 gap-8">
+          <section class="flex flex-col gap-4">
+            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_A_TITLE }} combinations</h2>
+            <!-- A + Keyword-->
+            <UFormGroup :label="'KEYWORD + ' + CLASSIFICATION_A_TITLE">
+              <UCheckbox v-model="KA" :label="`${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="CLASSIFICATION_A_TITLE + ' + KEYWORD'">
+              <UCheckbox v-model="AK" :label="`${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+          </section>
+          <section v-if="CLASSIFICATION_B_CHECKBOX" class="flex flex-col gap-4">
+            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_B_TITLE }} combinations</h2>
+            <!-- B + Keyword-->
+            <UFormGroup :label="'KEYWORD + ' + CLASSIFICATION_B_TITLE">
+              <UCheckbox v-model="KB" :label="`${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="CLASSIFICATION_B_TITLE + ' + KEYWORD'">
+              <UCheckbox v-model="BK" :label="`${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+          </section>
+          <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
+            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_C_TITLE }} combinations</h2>
+            <!-- C + Keyword-->
+            <UFormGroup :label="'KEYWORD + ' + CLASSIFICATION_C_TITLE">
+              <UCheckbox v-model="KC" :label="`${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="CLASSIFICATION_C_TITLE + ' + KEYWORD'">
+              <UCheckbox v-model="CK" :label="`${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+          </section>
 
 
 
-      <article class="flex justify-center gap-8 w-full" v-if="CLASSIFICATION_B_CHECKBOX || CLASSIFICATION_C_CHECKBOX">
-        <div v-if="CLASSIFICATION_B_CHECKBOX">
 
-          <h3 class="text-lg mb-2 font-bold"> KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-          </h3>
-          <label for="KAB">
-            <input type="checkbox" v-model="KAB" id="KAB" />
-            KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-            B_ARRAY[0] }}</span></p>
 
-          <label for="KBA">
-            <input type="checkbox" v-model="KBA" id="KBA" />
-            KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-            A_ARRAY[0] }}</span></p>
-
-          <label for="ABK">
-            <input type="checkbox" v-model="ABK" id="ABK" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-            K_ARRAY[0] }} </span></p>
-
-          <label for="AKB">
-            <input type="checkbox" v-model="AKB" id="AKB" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-            B_ARRAY[0] }} </span></p>
-
-          <label for="BKA">
-            <input type="checkbox" v-model="BKA" id="BKA" />
-            {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
-            K_ARRAY[0] }}</span></p>
-
-          <label for="BAK">
-            <input type="checkbox" v-model="BAK" id="BAK" />
-            {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-            K_ARRAY[0] }}</span></p>
         </div>
 
-        <div v-if="CLASSIFICATION_C_CHECKBOX">
+      </UCard>
+      <UCard v-if="CLASSIFICATION_B_CHECKBOX">
+        <template #header> 3 Keywords combinations </template>
+        <div class="grid grid-cols-3 gap-8">
+          <!-- Keyword + A + B-->
+          <section class="flex flex-col gap-4">
+            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_A_TITLE }} +
+              {{ CLASSIFICATION_B_TITLE }} combinations</h2>
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox v-model="KAB" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox v-model="KBA" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox v-model="AKB" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
+              <UCheckbox v-model="ABK" :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox v-model="BKA" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
+              <UCheckbox v-model="BAK" :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
 
-          <h3 class="text-lg mb-2 font-bold"> KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-          </h3>
-          <label for="KAC">
-            <input type="checkbox" v-model="KAC" id="KAC" />
-            KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-            C_ARRAY[0] }}</span></p>
+          </section>
+          <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
+            <!-- Keyword + A + C-->
+            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_A_TITLE }} +
+              {{ CLASSIFICATION_C_TITLE }} combinations</h2>
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="KAC" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="KCA" :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="AKC" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="ACK" :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="CKA" :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="CAK" :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
 
-          <label for="KCA">
-            <input type="checkbox" v-model="KCA" id="KCA" />
-            KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-            A_ARRAY[0] }}</span></p>
+          </section>
+          <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
+            <h2 class="font-bold col-span-2 my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_B_TITLE }} +
+              {{ CLASSIFICATION_C_TITLE }} combinations</h2>
+            <!-- Keyword + B + C-->
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="KBC" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="KCB" :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="BKC" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="BCK" :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="CKB" :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`"
+              v-if="CLASSIFICATION_C_CHECKBOX">
+              <UCheckbox v-model="CBK" :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
 
-          <label for="ACK">
-            <input type="checkbox" v-model="ACK" id="ACK" />
-            {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-            K_ARRAY[0] }} </span></p>
+          </section>
 
-          <label for="AKC">
-            <input type="checkbox" v-model="AKC" id="AKC" />
-            {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
-            C_ARRAY[0] }} </span></p>
 
-          <label for="CKA">
-            <input type="checkbox" v-model="CKA" id="CKA" />
-            {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }}
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
-            K_ARRAY[0] }}</span></p>
 
-          <label for="CAK">
-            <input type="checkbox" v-model="CAK" id="CAK" />
-            {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
-          </label>
-          <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
-            K_ARRAY[0] }}</span></p>
         </div>
 
-      </article>
+      </UCard>
+      <UCard v-if="CLASSIFICATION_C_CHECKBOX">
+        <template #header> 4 Keywords combinations </template>
+        <div class="grid grid-cols-3 gap-8">
+          <!-- Keyword + A + B-->
+          <section class="flex flex-col gap-4">
+            
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox v-model="KAB" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox v-model="KBA" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
+              <UCheckbox v-model="AKB" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
+              <UCheckbox v-model="ABK" :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
+              <UCheckbox v-model="BKA" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+            </UFormGroup>
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
+              <UCheckbox v-model="BAK" :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+            </UFormGroup>
+
+          </section>
+
+
+        </div>
+
+      </UCard>
     </div>
+
+
     <section class="flex flex-col w-full gap-4">
 
 
       <article class="flex flex-wrap justify-between gap-8 w-full"
-      v-if="CLASSIFICATION_B_CHECKBOX && CLASSIFICATION_C_CHECKBOX">
-      <h2 class="text-2xl text-center mb-4 w-full">4 KEYWORDS:</h2>
+        v-if="CLASSIFICATION_B_CHECKBOX && CLASSIFICATION_C_CHECKBOX">
+        <h2 class="text-2xl text-center mb-4 w-full">4 KEYWORDS:</h2>
         <!--K-->
         <div class="flex-col">
 
           <label for="KABC">
-            <input type="checkbox" v-model="KABC" id="KABC" />
+            <UCheckbox v-model="KABC" id="KABC" />
             KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="KACB">
-            <input type="checkbox" v-model="KACB" id="KACB" />
+            <UCheckbox v-model="KACB" id="KACB" />
             KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
 
           <label for="KBAC">
-            <input type="checkbox" v-model="KBAC" id="KBAC" />
+            <UCheckbox v-model="KBAC" id="KBAC" />
             KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="KBCA">
-            <input type="checkbox" v-model="KBCA" id="KBCA" />
+            <UCheckbox v-model="KBCA" id="KBCA" />
             KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
 
           <label for="KCAB">
-            <input type="checkbox" v-model="KCAB" id="KCAB" />
+            <UCheckbox v-model="KCAB" id="KCAB" />
             KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
 
           <label for="KCBA">
-            <input type="checkbox" v-model="KCBA" id="KCBA" />
+            <UCheckbox v-model="KCBA" id="KCBA" />
             KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ K_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
         </div>
@@ -540,51 +573,51 @@ const onClickButtonReset = () => {
         <!--A-->
         <div class="flex-col">
           <label for="AKCB">
-            <input type="checkbox" v-model="AKCB" id="AKCB" />
+            <UCheckbox v-model="AKCB" id="AKCB" />
             {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
 
           <label for="AKBC">
-            <input type="checkbox" v-model="AKBC" id="AKBC" />
+            <UCheckbox v-model="AKBC" id="AKBC" />
             {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="AKBC">
-            <input type="checkbox" v-model="AKBC" id="AKBC" />
+            <UCheckbox v-model="AKBC" id="AKBC" />
             {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="ABCK">
-            <input type="checkbox" v-model="ABCK" id="ABCK" />
+            <UCheckbox v-model="ABCK" id="ABCK" />
             {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
 
           <label for="ABKC">
-            <input type="checkbox" v-model="ABKC" id="ABKC" />
+            <UCheckbox v-model="ABKC" id="ABKC" />
             {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               K_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="ACBK">
-            <input type="checkbox" v-model="ACBK" id="ACBK" />
+            <UCheckbox v-model="ACBK" id="ACBK" />
             {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
 
           <label for="ACKB">
-            <input type="checkbox" v-model="ACKB" id="ACKB" />
+            <UCheckbox v-model="ACKB" id="ACKB" />
             {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ A_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               K_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
         </div>
@@ -593,44 +626,44 @@ const onClickButtonReset = () => {
         <!--B-->
         <div class="flex-col">
           <label for="BKAC">
-            <input type="checkbox" v-model="BKAC" id="BKAC" />
+            <UCheckbox v-model="BKAC" id="BKAC" />
             {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="BKCA">
-            <input type="checkbox" v-model="BKCA" id="BKCA" />
+            <UCheckbox v-model="BKCA" id="BKCA" />
             {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
 
           <label for="BAKC">
-            <input type="checkbox" v-model="BAKC" id="BAKC" />
+            <UCheckbox v-model="BAKC" id="BAKC" />
             {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_C_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               K_ARRAY[0] }} {{ C_ARRAY[0] }}</span></p>
           </label>
 
           <label for="BACK">
-            <input type="checkbox" v-model="BACK" id="BACK" />
+            <UCheckbox v-model="BACK" id="BACK" />
             {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               C_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
 
           <label for="BCKA">
-            <input type="checkbox" v-model="BCKA" id="BCKA" />
+            <UCheckbox v-model="BCKA" id="BCKA" />
             {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ C_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               K_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
 
           <label for="BCAK">
-            <input type="checkbox" v-model="BCAK" id="BCAK" />
+            <UCheckbox v-model="BCAK" id="BCAK" />
             {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ C_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ B_ARRAY[0] }} {{ C_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
         </div>
@@ -638,44 +671,44 @@ const onClickButtonReset = () => {
         <!--C-->
         <div class="flex-col">
           <label for="CKBA">
-            <input type="checkbox" v-model="CKBA" id="CKBA" />
+            <UCheckbox v-model="CKBA" id="CKBA" />
             {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
 
           <label for="CKAB">
-            <input type="checkbox" v-model="CKAB" id="CKAB" />
+            <UCheckbox v-model="CKAB" id="CKAB" />
             {{ CLASSIFICATION_C_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ K_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
 
           <label for="CABK">
-            <input type="checkbox" v-model="CABK" id="CABK" />
+            <UCheckbox v-model="CABK" id="CABK" />
             {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               B_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
 
           <label for="CAKB">
-            <input type="checkbox" v-model="CAKB" id="CAKB" />
+            <UCheckbox v-model="CAKB" id="CAKB" />
             {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD + {{ CLASSIFICATION_B_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ A_ARRAY[0] }} {{
               K_ARRAY[0] }} {{ B_ARRAY[0] }}</span></p>
           </label>
 
           <label for="CBAK">
-            <input type="checkbox" v-model="CBAK" id="CBAK" />
+            <UCheckbox v-model="CBAK" id="CBAK" />
             {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + {{ CLASSIFICATION_A_TITLE }} + KEYWORD
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ B_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               A_ARRAY[0] }} {{ K_ARRAY[0] }}</span></p>
           </label>
 
           <label for="CBKA">
-            <input type="checkbox" v-model="CBKA" id="CBKA" />
+            <UCheckbox v-model="CBKA" id="CBKA" />
             {{ CLASSIFICATION_C_TITLE }} + {{ CLASSIFICATION_B_TITLE }} + KEYWORD + {{ CLASSIFICATION_A_TITLE }}
-            <p class="ml-10 mb-4">Example: <span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ B_ARRAY[0] }} {{
+            <p class="ml-10 mb-4"><span class="text-blue-500 font-bold"> {{ C_ARRAY[0] }} {{ B_ARRAY[0] }} {{
               K_ARRAY[0] }} {{ A_ARRAY[0] }}</span></p>
           </label>
         </div>
@@ -695,7 +728,7 @@ const onClickButtonReset = () => {
           type="button" @click="onClickButtonCopy()">Copy result</button>
 
       </div>
-      <textarea rows="20" v-model="FINAL_RESULT" label="Final result"
+      <UTextarea :rows="20" v-model="FINAL_RESULT" label="Final result"
         class=" border-2 border-gray-300 dark:bg-slate-400 p-4 rounded-xl w-full my-4" />
     </section>
     <!-- END OF RESULT ZONE-->
