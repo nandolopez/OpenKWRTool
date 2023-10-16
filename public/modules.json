@@ -1,0 +1,18 @@
+[
+  {
+    "uri": "concatenator",
+    "names": {
+      "en": "Concatenator",
+      "es": "Concadenador"
+    },
+    "icon":"i-heroicons-link"
+  },
+  {
+    "uri": "cleaner",
+    "names": {
+      "en": "Cleaner",
+      "es": "Limpiador"
+    },
+    "icon":"i-heroicons-trash"
+  }
+]
