@@ -1,78 +1,88 @@
 <script setup lang="ts">
-const DARKMODE = ref(false)
 
-const toggleDarkMode = () => {
-    if (DARKMODE.value) {
+const MENU = ref([
+    {
+        to: '/',
+        label: 'Home',
+        icon: 'i-heroicons-home',
+    },
+    {
+        to: "/modules/concatenator",
+        label: "Concadenador",
+        icon: "i-heroicons-link"
+    },
+    {
+        to: "/modules/cleaner",
+        label: "Cleaner",
+        icon: "i-heroicons-trash"
+    },
+    {
+        to: "/modules/project",
+        label: "Project",
+        icon: "i-heroicons-chart-bar"
+    }
+])
+
+const DARK_MODE = ref(false)
+
+const toggleDark_Mode = () => {
+
+    if (localStorage.getItem('dark_mode') === 'true') {
         document.documentElement.classList.remove("dark");
-        localStorage.setItem('darkmode', "false")
     } else {
         document.documentElement.classList.add("dark");
-        localStorage.setItem('darkmode', "true")
     }
-    DARKMODE.value = !DARKMODE.value
+    localStorage.setItem('dark_mode', document.documentElement.classList.contains("dark").toString())
 };
 
 onMounted(async () => {
-    await fetch("modules.json")
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
 
-    //Checking if the user come previously for set the darkmode
-    DARKMODE.value = localStorage.getItem('darkmode');
-
-    //If it's first time, localstorage > darkmode record does not exists darkmode = false
-    if (!DARKMODE.value) {
-
+    //If it's first time, localstorage > dark_mode record does not exists dark_mode = false
+    if (localStorage.getItem('dark_mode') === null) {
         /**
-         * Set darkmode as opposite as user has in his browser, with this way we can reuse
-         * toogleDarkMode function for set the user preference
+         * Checking if browser accept matchMedia for detect if is dark mode
+         * compatible by default
          */
+        const hasDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-        DARKMODE.value = document.documentElement.classList.contains("dark")
-        localStorage.setItem('darkmode', DARKMODE.value.toString())
+        //If it's compatible set the mode in localStorage variable
+        //Added the ! for set oposite and change in toggle_dark as user want
+        localStorage.setItem('dark_mode', (!hasDarkMode).toString())
     } else {
-        /**
-         * If user has enabled darkmode we set the variable as opposite for set correct
-         * when do the toggle
-         */
-        localStorage.getItem('darkmode') === 'true' ? DARKMODE.value = false : DARKMODE.value = true;
+        toggleDark_Mode()
     }
-    toggleDarkMode()
+    toggleDark_Mode()
+
 })
 
 </script>
 <template>
-    <header
-        class="border-slate-400 bg-gray-300 rounded-b border-b content-center dark:bg-gray-900 dark:border-slate-600 dark:shadow-slate-700  dark:text-white flex font-bold justify-between items-center p-4  shadow shadow-slate-600">
+    <header class=" bg-white dark:bg-gray-700 flex justify-between h-16 p-4 rounded-2xl shadow-lg w-full">
         <h2 class="text-xl">Keyword Research OS Tool</h2>
-        <nav class="flex gap-8">
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/">
-                <UIcon name="i-heroicons-home" />
-                <span>Home</span>
-            </NuxtLink>
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/concatenator">
-                <UIcon name="i-heroicons-link" />
-                <span>Concatenator</span>
-            </NuxtLink>
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/cleaner">
-                <UIcon name="i-heroicons-trash" />
-                <span>Keyword cleaner</span>
-            </NuxtLink>
-            <NuxtLink class="flex gap-2 items-center text-xl" to="/modules/">
-                <UIcon name="i-heroicons-briefcase" />
-                <span>Project manager</span>
-            </NuxtLink>
-        </nav>
-        <UButton color="white" variant="solid" size="xl" :icon="DARKMODE ? 'i-heroicons-moon' : 'i-heroicons-sun'"
-            @click="toggleDarkMode()" />
+        <UButton color="white" variant="solid" size="xl" :icon="DARK_MODE ? 'i-heroicons-moon' : 'i-heroicons-sun'"
+            @click="toggleDark_Mode()" />
 
     </header>
 
-    <main>
-        <UContainer>
+    <main class="flex mt-4 gap-4">
+        <aside class="bg-white dark:bg-gray-700 flex justify-between h-full p-4 rounded-2xl shadow-lg w-80">
+            <UVerticalNavigation :links="MENU" />
+        </aside>
+        <main class="bg-white dark:bg-gray-700 h-full p-4 rounded-2xl shadow-lg w-full">
             <slot />
 
-        </UContainer>
+        </main>
     </main>
 </template>
+
+<style>
+body {
+    @apply dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-600 p-4;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+a,
+a span {
+    @apply font-bold dark:text-gray-200 text-gray-600;
+}
+</style>

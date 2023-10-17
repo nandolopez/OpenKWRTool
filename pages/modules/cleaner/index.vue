@@ -40,7 +40,7 @@ const onClickButtonClear = () => {
 };
 </script>
 <template>
-  <div class="grid grid-cols-3 gap-2 mt-4">
+  <div class="grid grid-cols-3 gap-2">
     <UTextarea :rows="19" placeholder="Insert here the keywords list" label="Copy here the dirt keywords"
       v-model="DIRT_KWS" />
     <div class="flex flex-col gap-4">

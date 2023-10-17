@@ -345,10 +345,10 @@ const onClickButtonReset = () => {
 
 </script>
 <template>
-  <div class="flex flex-col mt-4 w-full gap-4">
+  <div class="flex flex-col w-full gap-4">
 
     <!-- KEYWORDS TEXTAREA ZONE-->
-    <UCard>
+    <UCard :ui="{background:'dark:bg-transparent'}">
       <template #header> Keywords </template>
       <section class="grid grid-cols-4 w-full gap-4">
         <article class="flex flex-col gap-4 justify-between items-center">
@@ -390,7 +390,7 @@ const onClickButtonReset = () => {
 
     <!-- COMBINATIONS ZONE-->
     <div class="flex flex-col gap-4">
-      <UCard>
+      <UCard :ui="{background:'dark:bg-transparent'}">
         <template #header> 2 Keywords combinations </template>
         <div class="grid grid-cols-3 gap-8">
           <section class="flex flex-col gap-4">
