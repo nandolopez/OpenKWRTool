@@ -1,37 +1,13 @@
 <script setup lang="ts">
 
-const MENU = ref([
-    {
-        to: '/',
-        label: 'Home',
-        icon: 'i-heroicons-home',
-    },
-    {
-        to: "/modules/concatenator",
-        label: "Concadenador",
-        icon: "i-heroicons-link"
-    },
-    {
-        to: "/modules/cleaner",
-        label: "Cleaner",
-        icon: "i-heroicons-trash"
-    },
-    {
-        to: "/modules/project",
-        label: "Project",
-        icon: "i-heroicons-chart-bar"
-    }
-])
+const MENU = ref([])
 
 const DARK_MODE = ref(false)
 
 const toggleDark_Mode = () => {
-
-    if (localStorage.getItem('dark_mode') === 'true') {
-        document.documentElement.classList.remove("dark");
-    } else {
-        document.documentElement.classList.add("dark");
-    }
+    DARK_MODE.value = !DARK_MODE.value
+    const DARK = document.documentElement.classList
+    localStorage.getItem('dark_mode') === 'true' ? DARK.remove("dark") : DARK.add("dark");
     localStorage.setItem('dark_mode', document.documentElement.classList.contains("dark").toString())
 };
 
@@ -52,6 +28,10 @@ onMounted(async () => {
         toggleDark_Mode()
     }
     toggleDark_Mode()
+
+    await fetch('modules.json')
+    .then((result) => result.json())
+    .then((data)=>MENU.value = data)
 
 })
 

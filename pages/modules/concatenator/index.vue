@@ -390,7 +390,7 @@ const onClickButtonReset = () => {
 
     <!-- COMBINATIONS ZONE-->
     <div class="flex flex-col gap-4">
-      <UCard :ui="{background:'dark:bg-transparent'}">
+      <UCard :ui="{background:'dark:bg-transparent'}  ">
         <template #header> 2 Keywords combinations </template>
         <div class="grid grid-cols-3 gap-8">
           <section class="flex flex-col gap-4">
@@ -423,10 +423,6 @@ const onClickButtonReset = () => {
               <UCheckbox v-model="CK" :label="`${C_ARRAY[0]} ${K_ARRAY[0]}`" />
             </UFormGroup>
           </section>
-
-
-
-
 
         </div>
 

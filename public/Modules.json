@@ -1,0 +1,22 @@
+[
+  {
+    "to": "/",
+    "label": "Home",
+    "icon": "i-heroicons-home"
+  },
+  {
+    "to": "/modules/concatenator",
+    "label": "Concadenador",
+    "icon": "i-heroicons-link"
+  },
+  {
+    "to": "/modules/cleaner",
+    "label": "Cleaner",
+    "icon": "i-heroicons-trash"
+  },
+  {
+    "to": "/modules/project",
+    "label": "Project",
+    "icon": "i-heroicons-chart-bar"
+  }
+]
