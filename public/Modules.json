@@ -2,21 +2,21 @@
   {
     "to": "/",
     "label": "Home",
-    "icon": "i-heroicons-home"
+    "icon": "dashicons:admin-home"
   },
   {
     "to": "/modules/concatenator",
     "label": "Concadenador",
-    "icon": "i-heroicons-link"
+    "icon": "dashicons:admin-links"
   },
   {
     "to": "/modules/cleaner",
     "label": "Cleaner",
-    "icon": "i-heroicons-trash"
+    "icon": "material-symbols:filter-alt-sharp"
   },
   {
     "to": "/modules/project",
     "label": "Project",
-    "icon": "i-heroicons-chart-bar"
+    "icon": "streamline:shipping-box-2-box-package-label-delivery-shipment-shipping-3d"
   }
 ]

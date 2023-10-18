@@ -348,49 +348,64 @@ const onClickButtonReset = () => {
   <div class="flex flex-col w-full gap-4">
 
     <!-- KEYWORDS TEXTAREA ZONE-->
-    <UCard :ui="{background:'dark:bg-transparent'}">
-      <template #header> Keywords </template>
+    
+      
       <section class="grid grid-cols-4 w-full gap-4">
-        <article class="flex flex-col gap-4 justify-between items-center">
-          <h2 class="text-xl">MAIN KEYWORDS</h2>
-          <UTextarea :rows="20" size="xl" placeholder="Here your keywords" v-model="MAIN_KEYWORDS" />
-        </article>
 
-        <article class="flex flex-col gap-4 justify-between items-center">
-          <UInput v-model="CLASSIFICATION_A_TITLE" placeholder="Classification A" />
-          <UTextarea :rows="20" size="xl" placeholder="Here your keywords" v-model="CLASSIFICATION_A" />
-        </article>
-
-        <article class="flex flex-col gap-4 justify-between items-center">
-          <UCheckbox v-model="CLASSIFICATION_B_CHECKBOX" label="Enable B" />
-          <UInput v-model="CLASSIFICATION_B_TITLE" placeholder="Classification B"
-            :disabled="!CLASSIFICATION_B_CHECKBOX" />
-          <UTextarea :rows="19" size="xl" placeholder="Here your keywords" v-model="CLASSIFICATION_B"
-            :disabled="!CLASSIFICATION_B_CHECKBOX" />
-        </article>
-
-        <article class="flex flex-col gap-4 justify-between items-center">
-          <UCheckbox v-model="CLASSIFICATION_C_CHECKBOX" label="Enable C" :disabled="!CLASSIFICATION_B_CHECKBOX" />
-          <UInput v-model="CLASSIFICATION_C_TITLE" placeholder="Classification C"
-            :disabled="!CLASSIFICATION_C_CHECKBOX" />
-          <UTextarea :rows="19" size="xl" placeholder="Here your keywords" v-model="CLASSIFICATION_C"
-            :disabled="!CLASSIFICATION_C_CHECKBOX" />
-        </article>
-
+        <div class="flex flex-col text-center">
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Main keywords</label>
+          <textarea rows="21"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Here your keywords" v-model="MAIN_KEYWORDS"></textarea>
+        </div>
+        <div class="flex flex-col gap-2">
+          <input type="text"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            v-model="CLASSIFICATION_A_TITLE" placeholder="Classification A" />
+          <textarea rows="20"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Here your keywords" v-model="CLASSIFICATION_A"></textarea>
+        </div>
+        <div class="flex flex-col gap-2">
+          <input type="checkbox" v-model="CLASSIFICATION_B_CHECKBOX">
+          <input type="text" :disabled="!CLASSIFICATION_B_CHECKBOX"
+            class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            v-model="CLASSIFICATION_B_TITLE" placeholder="Classification B" />
+          <textarea rows="20" :disabled="!CLASSIFICATION_B_CHECKBOX"
+            class="disabled:opacity-70 disabled:cursor-not-allowed block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Here your keywords" v-model="CLASSIFICATION_B"></textarea>
+        </div>
+        <div class="flex flex-col gap-2">
+          <input type="checkbox" v-model="CLASSIFICATION_C_CHECKBOX">
+          <input type="text" :disabled="!CLASSIFICATION_C_CHECKBOX"
+            class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            v-model="CLASSIFICATION_C_TITLE" placeholder="Classification C" />
+          <textarea rows="20" :disabled="!CLASSIFICATION_C_CHECKBOX"
+            class="disabled:opacity-70 disabled:cursor-not-allowed block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Here your keywords" v-model="CLASSIFICATION_C"></textarea>
+        </div>
       </section>
 
-    </UCard>
+    
     <!-- END OF KEYWORDS TEXTAREA ZONE-->
     <!-- SELECT ALL BUTTONS -->
-    <section class="flex justify-start gap-4 w-full">
-      <UButton @click="onClickButtonSelectAll()" label="Select All" />
-      <UButton @click="onClickButtonUnSelectAll()" label="Unselect all" />
+    <section class="flex justify-start gap-4 w-full">      
+      <button
+      type="button"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      @click="onClickButtonSelectAll()">
+      Select All</button>
+      <button
+      type="button"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      @click="onClickButtonUnSelectAll()">
+      Unselect all</button>
     </section>
     <!-- END OF SELECT ALL BUTTONS -->
-
+  
     <!-- COMBINATIONS ZONE-->
     <div class="flex flex-col gap-4">
-      <UCard :ui="{background:'dark:bg-transparent'}  ">
+      <UCard :ui="{ background: 'dark:bg-transparent' }">
         <template #header> 2 Keywords combinations </template>
         <div class="grid grid-cols-3 gap-8">
           <section class="flex flex-col gap-4">
@@ -683,17 +698,17 @@ const onClickButtonReset = () => {
           Status: {{ STATUS }}
 
         </span>
-        <UButton @click="onClickButtonCopy()" label="Copy result" />
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" @click="onClickButtonCopy()" label="Copy result" />
 
       </div>
-      <UTextarea :rows="20" v-model="FINAL_RESULT" label="Final result" readonly />
+      <Textarea rows="20" v-model="FINAL_RESULT" label="Final result" readonly />
     </section>
     <!-- END OF RESULT ZONE-->
     <!-- RESET ZONE-->
     <section>
       <div class="flex justify-between mb-4">
-        <UButton @click="onClickButtonReset()" label="Reset" />
-        <UButton @click="onClickButtonGenerate()" label="Generate" />
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" @click="onClickButtonReset()" label="Reset" />
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" @click="onClickButtonGenerate()" label="Generate" />
       </div>
     </section>
     <!-- END OF RESET ZONE-->

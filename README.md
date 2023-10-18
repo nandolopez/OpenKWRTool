@@ -73,4 +73,5 @@ of a specific language or port. The universal way is webpages.
 - Vue + Nuxt: this is for make modular the app each one develop and add his own
 app storing in "modules" directory
 - Tailwindcss: for the gui.
-
+- Vuestic
+- Iconify
