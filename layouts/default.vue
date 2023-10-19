@@ -63,9 +63,12 @@ onMounted(async () => {
                         </label>
                     </li>
                     <li v-for="item in data">
-                        <NuxtLink :to="item.to" is-active>
-                            <Icon :name="item.icon" :color="DARK_MODE ? 'black' : 'white'" />
-                            {{ item.label }}
+                        <NuxtLink class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group w-full" :to="item.to" is-active>
+                            <span class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                
+                                <Icon :name="item.icon" :color="DARK_MODE ? 'black' : 'white'" />
+                                {{ item.label }}
+                            </span>
                         </NuxtLink>
                     </li>
                 </ul>
