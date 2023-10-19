@@ -406,22 +406,34 @@ const onClickButtonReset = () => {
     <!-- COMBINATIONS ZONE-->
     <div class="flex flex-col gap-4">
       <UCard :ui="{ background: 'dark:bg-transparent' }">
-        <template #header> 2 Keywords combinations </template>
+        <h2 class="text-xl"> 2 Keywords combinations </h2>
+
+        
+
         <div class="grid grid-cols-3 gap-8">
           <section class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_A_TITLE }} combinations</h2>
+            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} combinations</h2>
             <!-- A + Keyword-->
-            <UFormGroup :label="'KEYWORD + ' + CLASSIFICATION_A_TITLE">
-              <UCheckbox v-model="KA" :label="`${K_ARRAY[0]} ${A_ARRAY[0]}`" />
-            </UFormGroup>
-            <UFormGroup :label="CLASSIFICATION_A_TITLE + ' + KEYWORD'">
-              <UCheckbox v-model="AK" :label="`${A_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </UFormGroup>
+
+            <div class="flex flex-col gap-4">
+              <span>Keyword + {{CLASSIFICATION_A_TITLE}}</span>
+              <label for="KA" class="flex gap-4">
+                <input type="checkbox" v-model="KA" id="KA"/>
+                {{K_ARRAY[0]}} {{A_ARRAY[0]}}
+              </label>
+            </div>
+            <div class="flex flex-col gap-4">
+              <span>{{CLASSIFICATION_A_TITLE}} + Keyword</span>
+              <label for="KA" class="flex gap-4">
+                <input type="checkbox" v-model="AK" id="AK"/>
+                {{A_ARRAY[0]}} {{K_ARRAY[0]}}
+              </label>
+            </div>
           </section>
           <section v-if="CLASSIFICATION_B_CHECKBOX" class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_B_TITLE }} combinations</h2>
+            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_B_TITLE }} combinations</h2>
             <!-- B + Keyword-->
-            <UFormGroup :label="'KEYWORD + ' + CLASSIFICATION_B_TITLE">
+            <UFormGroup :label="'Keyword + ' + CLASSIFICATION_B_TITLE">
               <UCheckbox v-model="KB" :label="`${K_ARRAY[0]} ${B_ARRAY[0]}`" />
             </UFormGroup>
             <UFormGroup :label="CLASSIFICATION_B_TITLE + ' + KEYWORD'">
@@ -429,9 +441,9 @@ const onClickButtonReset = () => {
             </UFormGroup>
           </section>
           <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_C_TITLE }} combinations</h2>
+            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_C_TITLE }} combinations</h2>
             <!-- C + Keyword-->
-            <UFormGroup :label="'KEYWORD + ' + CLASSIFICATION_C_TITLE">
+            <UFormGroup :label="'Keyword + ' + CLASSIFICATION_C_TITLE">
               <UCheckbox v-model="KC" :label="`${K_ARRAY[0]} ${C_ARRAY[0]}`" />
             </UFormGroup>
             <UFormGroup :label="CLASSIFICATION_C_TITLE + ' + KEYWORD'">
@@ -443,25 +455,25 @@ const onClickButtonReset = () => {
 
       </UCard>
       <UCard v-if="CLASSIFICATION_B_CHECKBOX">
-        <template #header> 3 Keywords combinations </template>
+        <h2 class="text-xl"> 3 Keywords combinations </h2>
         <div class="grid grid-cols-3 gap-8">
           <!-- Keyword + A + B-->
           <section class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_A_TITLE }} +
+            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} +
               {{ CLASSIFICATION_B_TITLE }} combinations</h2>
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+            <UFormGroup :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox v-model="KAB" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+            <UFormGroup :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox v-model="KBA" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox v-model="AKB" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
             </UFormGroup>
             <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
               <UCheckbox v-model="ABK" :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox v-model="BKA" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
             </UFormGroup>
             <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
@@ -471,17 +483,17 @@ const onClickButtonReset = () => {
           </section>
           <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
             <!-- Keyword + A + C-->
-            <h2 class="font-bold col-span-2  my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_A_TITLE }} +
+            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} +
               {{ CLASSIFICATION_C_TITLE }} combinations</h2>
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`"
+            <UFormGroup :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="KAC" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`"
+            <UFormGroup :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="KCA" :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`"
+            <UFormGroup :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="AKC" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
             </UFormGroup>
@@ -489,7 +501,7 @@ const onClickButtonReset = () => {
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="ACK" :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`"
+            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="CKA" :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
             </UFormGroup>
@@ -500,18 +512,18 @@ const onClickButtonReset = () => {
 
           </section>
           <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2 my-2 border-b-2">KEYWORD + {{ CLASSIFICATION_B_TITLE }} +
+            <h2 class="font-bold col-span-2 my-2 border-b-2">Keyword + {{ CLASSIFICATION_B_TITLE }} +
               {{ CLASSIFICATION_C_TITLE }} combinations</h2>
             <!-- Keyword + B + C-->
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`"
+            <UFormGroup :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="KBC" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`"
+            <UFormGroup :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="KCB" :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`"
+            <UFormGroup :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="BKC" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
             </UFormGroup>
@@ -519,7 +531,7 @@ const onClickButtonReset = () => {
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="BCK" :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
             </UFormGroup>
-            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`"
+            <UFormGroup :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`"
               v-if="CLASSIFICATION_C_CHECKBOX">
               <UCheckbox v-model="CKB" :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
             </UFormGroup>
@@ -536,7 +548,7 @@ const onClickButtonReset = () => {
 
       </UCard>
       <UCard v-if="CLASSIFICATION_C_CHECKBOX">
-        <template #header> 4 Keywords combinations </template>
+        <h2 class="text-xl"> 4 Keywords combinations </h2>
         <div class="grid grid-cols-4 gap-8">
           <!-- Keyword + A + B-->
           <section class="flex flex-col gap-4">
@@ -544,32 +556,32 @@ const onClickButtonReset = () => {
             <!--K-->
 
             <UFormGroup
-              :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
               <UCheckbox :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KABC" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KACB" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
               <UCheckbox :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KBAC" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KBCA" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KCAB" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KCBA" />
             </UFormGroup>
 
@@ -581,17 +593,17 @@ const onClickButtonReset = () => {
             <!--A-->
 
             <UFormGroup
-              :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="AKCB" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
               <UCheckbox :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
               <UCheckbox :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
             </UFormGroup>
 
@@ -601,7 +613,7 @@ const onClickButtonReset = () => {
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`">
+              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`">
               <UCheckbox :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="ABKC" />
             </UFormGroup>
 
@@ -611,7 +623,7 @@ const onClickButtonReset = () => {
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
+              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="ACKB" />
             </UFormGroup>
           </section>
@@ -620,17 +632,17 @@ const onClickButtonReset = () => {
 
 
             <UFormGroup
-              :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+              :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
               <UCheckbox :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BKAC" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BKCA" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_C_TITLE}`">
+              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`">
               <UCheckbox :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BAKC" />
             </UFormGroup>
 
@@ -640,7 +652,7 @@ const onClickButtonReset = () => {
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
+              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BCKA" />
             </UFormGroup>
 
@@ -655,12 +667,12 @@ const onClickButtonReset = () => {
 
 
             <UFormGroup
-              :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+              :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CKBA" />
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_C_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+              :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CKAB" />
             </UFormGroup>
 
@@ -670,7 +682,7 @@ const onClickButtonReset = () => {
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD + ${CLASSIFICATION_B_TITLE}`">
+              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
               <UCheckbox :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CAKB" />
             </UFormGroup>
 
@@ -680,7 +692,7 @@ const onClickButtonReset = () => {
             </UFormGroup>
 
             <UFormGroup
-              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD + ${CLASSIFICATION_A_TITLE}`">
+              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
               <UCheckbox :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CBKA" />
             </UFormGroup>
           </section>
