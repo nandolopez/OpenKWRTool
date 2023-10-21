@@ -1,39 +1,45 @@
 <script setup lang="ts">
-const KW = reactive([])
-const KW_INFO = reactive([])
-const KW_MIX = reactive([])
-const KW_TRA = reactive([])
-const STRUCTURE = reactive([])
-const BLOG = reactive([])
+import { IKeyword } from '../interfaces/IKeyword'
+
+
+//Keyword List
+const KeywordList = reactive<IKeyword[]>([]);
+
+//For selectors keywords
+const BATCH_KW = reactive<number[]>([])
+const BATCH_INFORMATIONAL = reactive<number[]>([])
+const BATCH_TRANSACTIONAL = reactive<number[]>([])
+const BATCH_MIX = reactive<number[]>([])
+
+//Flor do a fake routing
+const CURRENT_MENU = ref("load")
+
+//For search keywords of classified keywords
 const SEARCH_INPUT = ref("")
 
-const moveFromKWToInfo = (index:number) =>{
-    KW_INFO.push(KW[index]);
-    KW.splice(index, 1);
-}
-const moveFromKWToMix = (index:number) =>{
-    KW_MIX.push(KW[index]);
-    KW.splice(index, 1);
-}
-const moveFromKWToTra= (index:number) =>{
-    KW_TRA.push(KW[index]);
-    KW.splice(index, 1);
-}
+//When load a keyword remove forbidden words
+const BLACK_LIST_KEYWORDS = ref("")
 
-const moveFromInfoToKW= (index:number) =>{
-    KW.push(KW[index]);
-    KW_INFO.splice(index, 1);
-}
-const moveFromMixToKW= (index:number) =>{
-    KW.push(KW[index]);
-    KW_MIX.splice(index, 1);
-}
-const moveFromTraToKW= (index:number) =>{
-    KW.push(KW[index]);
-    KW_TRA.splice(index, 1);
-}
+//Set as informational this contained keywords
+const INFORMATIONAL_LIST_KEYWORDS = ref("")
+
+//Set as transactional this contained keywords
+const TRANSACTIONAL_LIST_KEYWORDS = ref("")
 
 
+/**
+ * 
+ * @param index 
+ * @param type 
+ * 
+ * change type of specified keyword (indentified by index)
+ */
+const onChangeKeywordType = (index: number, type: string) => KeywordList[index].type = type
+
+
+const onClickButtonLoadProject = () => {
+
+}
 
 
 </script>
@@ -61,6 +67,21 @@ const moveFromTraToKW= (index:number) =>{
                 builder</a>
         </li>
     </ul>
+    <article class="flex flex-col w-full">
+        <button type="button"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-32"
+            @click="onClickButtonLoadProject()">
+            Copy result</button>
+    </article>
+    <article class="flex flex-col w-full">
+
+    </article>
+    <article class="flex flex-col w-full">
+
+    </article>
+    <article class="flex flex-col w-full">
+
+    </article>
     <div>
     </div>
 </template>

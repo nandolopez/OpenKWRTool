@@ -536,7 +536,6 @@ const onClickButtonReset = () => {
         <section class="flex flex-col gap-4">
 
           <!--K-->
-
           <FormGroupComponent
             :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
             <CheckboxComponent :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KABC" />
