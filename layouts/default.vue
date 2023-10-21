@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { TheCard, Toggle, Sidebar, SidebarItem } from 'flowbite-vue'
-
-const { data, refresh, pending } = await useFetch('modules.json')
+const { data } = await useFetch('modules.json')
 
 const DARK_MODE = ref(false)
 
 const toggleDark_Mode = () => {
+
+    //Toggling the status of DARK_MODE for set the interface toggle
     DARK_MODE.value = !DARK_MODE.value
+    //HTML object for add / remove the dark class
     const DARK = document.documentElement.classList
     localStorage.getItem('dark_mode') === 'true' ? DARK.remove("dark") : DARK.add("dark");
+    //Updating the localstorage variable for remember the next visit
     localStorage.setItem('dark_mode', document.documentElement.classList.contains("dark").toString())
 };
 
@@ -82,7 +84,7 @@ onMounted(async () => {
 <style>
 body {
     @apply dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-600 p-4;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    /*font-family: 'Plus Jakarta Sans', sans-serif;*/
 }
 
 .dark {

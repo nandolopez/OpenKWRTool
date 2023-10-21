@@ -348,341 +348,332 @@ const onClickButtonReset = () => {
   <div class="flex flex-col w-full gap-4">
 
     <!-- KEYWORDS TEXTAREA ZONE-->
-    
-      
-      <section class="grid grid-cols-4 w-full gap-4">
 
-        <div class="flex flex-col text-center">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Main keywords</label>
-          <textarea rows="22"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Here your keywords" v-model="MAIN_KEYWORDS"></textarea>
-        </div>
-        <div class="flex flex-col gap-2">
-          <input type="text"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            v-model="CLASSIFICATION_A_TITLE" placeholder="Classification A" />
-          <textarea rows="21"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Here your keywords" v-model="CLASSIFICATION_A"></textarea>
-        </div>
-        <div class="flex flex-col items-center justify-center gap-2">
-          <input type="checkbox" v-model="CLASSIFICATION_B_CHECKBOX">
-          <input type="text" :disabled="!CLASSIFICATION_B_CHECKBOX"
-            class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            v-model="CLASSIFICATION_B_TITLE" placeholder="Classification B" />
-          <textarea rows="20" :disabled="!CLASSIFICATION_B_CHECKBOX"
-            class="disabled:opacity-70 disabled:cursor-not-allowedblock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Here your keywords" v-model="CLASSIFICATION_B"></textarea>
-        </div>
-        <div class="flex flex-col items-center justify-center gap-2">
-          <input type="checkbox" v-model="CLASSIFICATION_C_CHECKBOX">
-          <input type="text" :disabled="!CLASSIFICATION_C_CHECKBOX"
-            class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            v-model="CLASSIFICATION_C_TITLE" placeholder="Classification C" />
-          <textarea rows="20" :disabled="!CLASSIFICATION_C_CHECKBOX"
-            class="disabled:opacity-70 disabled:cursor-not-allowedblock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Here your keywords" v-model="CLASSIFICATION_C"></textarea>
-        </div>
-      </section>
 
-    
+    <section class="grid grid-cols-4 w-full gap-4">
+
+      <div class="flex flex-col text-center">
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Main keywords</label>
+        <textarea rows="22"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Here your keywords" v-model="MAIN_KEYWORDS"></textarea>
+      </div>
+      <div class="flex flex-col gap-2">
+        <input type="text"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          v-model="CLASSIFICATION_A_TITLE" placeholder="Classification A" />
+        <textarea rows="21"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Here your keywords" v-model="CLASSIFICATION_A"></textarea>
+      </div>
+      <div class="flex flex-col items-center justify-center gap-2">
+        <input type="checkbox" v-model="CLASSIFICATION_B_CHECKBOX">
+        <input type="text" :disabled="!CLASSIFICATION_B_CHECKBOX"
+          class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          v-model="CLASSIFICATION_B_TITLE" placeholder="Classification B" />
+        <textarea rows="20" :disabled="!CLASSIFICATION_B_CHECKBOX"
+          class="disabled:opacity-70 disabled:cursor-not-allowedblock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Here your keywords" v-model="CLASSIFICATION_B"></textarea>
+      </div>
+      <div class="flex flex-col items-center justify-center gap-2">
+        <input type="checkbox" v-model="CLASSIFICATION_C_CHECKBOX" :disabled="!CLASSIFICATION_B_CHECKBOX"
+          class="disabled:opacity-70 disabled:cursor-not-allowed">
+        <input type="text" :disabled="!CLASSIFICATION_C_CHECKBOX"
+          class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          v-model="CLASSIFICATION_C_TITLE" placeholder="Classification C" />
+        <textarea rows="20" :disabled="!CLASSIFICATION_C_CHECKBOX"
+          class="disabled:opacity-70 disabled:cursor-not-allowedblock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Here your keywords" v-model="CLASSIFICATION_C"></textarea>
+      </div>
+    </section>
+
+
     <!-- END OF KEYWORDS TEXTAREA ZONE-->
     <!-- SELECT ALL BUTTONS -->
-    <section class="flex justify-start gap-4 w-full">      
-      <button
-      type="button"
-      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-      @click="onClickButtonSelectAll()">
-      Select All</button>
-      <button
-      type="button"
-      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-      @click="onClickButtonUnSelectAll()">
-      Unselect all</button>
+    <section class="flex justify-start gap-4 w-full">
+      <button type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        @click="onClickButtonSelectAll()">
+        Select All</button>
+      <button type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        @click="onClickButtonUnSelectAll()">
+        Unselect all</button>
     </section>
     <!-- END OF SELECT ALL BUTTONS -->
-  
+
     <!-- COMBINATIONS ZONE-->
     <div class="flex flex-col gap-4">
-        <h2 class="text-xl"> 2 Keywords combinations </h2>
+      <h2 class="text-xl"> 2 KEYWORDS COMBINATIONS </h2>
+      <div class="grid grid-cols-3 gap-8">
+        <section class="flex flex-col gap-4">
+          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} combinations</h2>
+          <!-- A + Keyword-->
+          <FormGroupComponent :label="'Keyword + ' + CLASSIFICATION_A_TITLE">
+            <CheckboxComponent v-model="KA" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="CLASSIFICATION_A_TITLE + ' + KEYWORD'">
+            <CheckboxComponent v-model="AK" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
+        </section>
+        <section v-if="CLASSIFICATION_B_CHECKBOX" class="flex flex-col gap-4">
+          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_B_TITLE }} combinations</h2>
+          <!-- B + Keyword-->
+          <FormGroupComponent :label="'Keyword + ' + CLASSIFICATION_B_TITLE">
+            <CheckboxComponent v-model="KB" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="CLASSIFICATION_B_TITLE + ' + KEYWORD'">
+            <CheckboxComponent v-model="BK" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
+        </section>
+        <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
+          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_C_TITLE }} combinations</h2>
+          <!-- C + Keyword-->
+          <FormGroupComponent :label="'Keyword + ' + CLASSIFICATION_C_TITLE">
+            <CheckboxComponent v-model="KC" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="CLASSIFICATION_C_TITLE + ' + KEYWORD'">
+            <CheckboxComponent v-model="CK" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
+        </section>
 
-        
+      </div>
 
-        <div class="grid grid-cols-3 gap-8">
-          <section class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} combinations</h2>
-            <!-- A + Keyword-->
-            <FormGroupComponent :label="'Keyword + ' + CLASSIFICATION_A_TITLE">
-              <CheckboxComponent v-model="KA" :label="`${K_ARRAY[0]} ${A_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="CLASSIFICATION_A_TITLE + ' + KEYWORD'">
-              <CheckboxComponent v-model="AK" :label="`${A_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-          </section>
-          <section v-if="CLASSIFICATION_B_CHECKBOX" class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_B_TITLE }} combinations</h2>
-            <!-- B + Keyword-->
-            <FormGroupComponent :label="'Keyword + ' + CLASSIFICATION_B_TITLE">
-              <CheckboxComponent v-model="KB" :label="`${K_ARRAY[0]} ${B_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="CLASSIFICATION_B_TITLE + ' + KEYWORD'">
-              <CheckboxComponent v-model="BK" :label="`${B_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-          </section>
-          <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_C_TITLE }} combinations</h2>
-            <!-- C + Keyword-->
-            <FormGroupComponent :label="'Keyword + ' + CLASSIFICATION_C_TITLE">
-              <CheckboxComponent v-model="KC" :label="`${K_ARRAY[0]} ${C_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="CLASSIFICATION_C_TITLE + ' + KEYWORD'">
-              <CheckboxComponent v-model="CK" :label="`${C_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-          </section>
+      <h2 class="mt-8 text-xl" v-if="CLASSIFICATION_B_CHECKBOX"> 3 KEYWORDS COMBINATIONS </h2>
+      <div class="grid grid-cols-3 gap-8" v-if="CLASSIFICATION_B_CHECKBOX">
+        <!-- Keyword + A + B-->
+        <section class="flex flex-col gap-4">
+          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} +
+            {{ CLASSIFICATION_B_TITLE }} combinations</h2>
+          <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent v-model="KAB" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent v-model="KBA" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent v-model="AKB" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
+            <CheckboxComponent v-model="ABK" :label="`Example: ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent v-model="BKA" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
+            <CheckboxComponent v-model="BAK" :label="`Example: ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
 
-        </div>
+        </section>
+        <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
+          <!-- Keyword + A + C-->
+          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} +
+            {{ CLASSIFICATION_C_TITLE }} combinations</h2>
+          <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="KAC" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="KCA" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="AKC" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="ACK" :label="`Example: ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="CKA" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="CAK" :label="`Example: ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
 
-        <h2 class="text-xl"> 3 Keywords combinations </h2>
-        <div class="grid grid-cols-3 gap-8">
-          <!-- Keyword + A + B-->
-          <section class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} +
-              {{ CLASSIFICATION_B_TITLE }} combinations</h2>
-            <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent v-model="KAB" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent v-model="KBA" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent v-model="AKB" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
-              <CheckboxComponent v-model="ABK" :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent v-model="BKA" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
-              <CheckboxComponent v-model="BAK" :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
+        </section>
+        <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
+          <h2 class="font-bold col-span-2 my-2 border-b-2">Keyword + {{ CLASSIFICATION_B_TITLE }} +
+            {{ CLASSIFICATION_C_TITLE }} combinations</h2>
+          <!-- Keyword + B + C-->
+          <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="KBC" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="KCB" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="BKC" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="BCK" :label="`Example: ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="CKB" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+          </FormGroupComponent>
+          <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`"
+            v-if="CLASSIFICATION_C_CHECKBOX">
+            <CheckboxComponent v-model="CBK" :label="`Example: ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+          </FormGroupComponent>
 
-          </section>
-          <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
-            <!-- Keyword + A + C-->
-            <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ CLASSIFICATION_A_TITLE }} +
-              {{ CLASSIFICATION_C_TITLE }} combinations</h2>
-            <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="KAC" :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="KCA" :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="AKC" :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="ACK" :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="CKA" :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="CAK" :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-
-          </section>
-          <section v-if="CLASSIFICATION_C_CHECKBOX" class="flex flex-col gap-4">
-            <h2 class="font-bold col-span-2 my-2 border-b-2">Keyword + {{ CLASSIFICATION_B_TITLE }} +
-              {{ CLASSIFICATION_C_TITLE }} combinations</h2>
-            <!-- Keyword + B + C-->
-            <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="KBC" :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="KCB" :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="BKC" :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="BCK" :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="CKB" :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
-            </FormGroupComponent>
-            <FormGroupComponent :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`"
-              v-if="CLASSIFICATION_C_CHECKBOX">
-              <CheckboxComponent v-model="CBK" :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
-            </FormGroupComponent>
-
-          </section>
+        </section>
 
 
 
-        </div>
+      </div>
 
-        <h2 class="text-xl"> 4 Keywords combinations </h2>
-        <div class="grid grid-cols-4 gap-8">
-          <!-- Keyword + A + B-->
-          <section class="flex flex-col gap-4">
+      <h2 class="border-b-2 mt-4 text-xl " v-if="CLASSIFICATION_C_CHECKBOX"> 4 KEYWORDS COMBINATIONS</h2>
+      <div class="grid grid-cols-4 gap-8" v-if="CLASSIFICATION_C_CHECKBOX">
+        <!-- Keyword + A + B-->
+        <section class="flex flex-col gap-4">
 
-            <!--K-->
+          <!--K-->
 
-            <FormGroupComponent
-              :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
-              <CheckboxComponent :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KABC" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+            <CheckboxComponent :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KABC" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KACB" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KACB" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
-              <CheckboxComponent :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KBAC" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+            <CheckboxComponent :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KBAC" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KBCA" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KBCA" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KCAB" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KCAB" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KCBA" />
-            </FormGroupComponent>
-
-
-          </section>
-
-          <section class="flex flex-col gap-4">
-
-            <!--A-->
-
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="AKCB" />
-            </FormGroupComponent>
-
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
-              <CheckboxComponent :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
-            </FormGroupComponent>
-
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
-              <CheckboxComponent :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
-            </FormGroupComponent>
-
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`">
-              <CheckboxComponent :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ABCK" />
-            </FormGroupComponent>
-
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`">
-              <CheckboxComponent :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="ABKC" />
-            </FormGroupComponent>
-
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
-              <CheckboxComponent :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ACBK" />
-            </FormGroupComponent>
-
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="ACKB" />
-            </FormGroupComponent>
-          </section>
-          <section class="flex flex-col gap-4">
-            <!--B-->
+          <FormGroupComponent
+            :label="`Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KCBA" />
+          </FormGroupComponent>
 
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
-              <CheckboxComponent :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BKAC" />
-            </FormGroupComponent>
+        </section>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BKCA" />
-            </FormGroupComponent>
+        <section class="flex flex-col gap-4">
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`">
-              <CheckboxComponent :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BAKC" />
-            </FormGroupComponent>
+          <!--A-->
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`">
-              <CheckboxComponent :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BACK" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="AKCB" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BCKA" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+            <CheckboxComponent :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
-              <CheckboxComponent :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BCAK" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`">
+            <CheckboxComponent :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ABCK" />
+          </FormGroupComponent>
 
-          </section>
-          <section class="flex flex-col gap-4">
-            <!--C-->
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`">
+            <CheckboxComponent :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="ABKC" />
+          </FormGroupComponent>
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
+            <CheckboxComponent :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ACBK" />
+          </FormGroupComponent>
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="ACKB" />
+          </FormGroupComponent>
+        </section>
+        <section class="flex flex-col gap-4">
+          <!--B-->
 
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CKBA" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE}`">
+            <CheckboxComponent :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BKAC" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CKAB" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BKCA" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
-              <CheckboxComponent :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CABK" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_C_TITLE}`">
+            <CheckboxComponent :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BAKC" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
-              <CheckboxComponent :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CAKB" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_C_TITLE} + KEYWORD`">
+            <CheckboxComponent :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BACK" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
-              <CheckboxComponent :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CBAK" />
-            </FormGroupComponent>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BCKA" />
+          </FormGroupComponent>
 
-            <FormGroupComponent
-              :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
-              <CheckboxComponent :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CBKA" />
-            </FormGroupComponent>
-          </section>
-        </div>
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
+            <CheckboxComponent :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BCAK" />
+          </FormGroupComponent>
+
+        </section>
+        <section class="flex flex-col gap-4">
+          <!--C-->
+
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CKBA" />
+          </FormGroupComponent>
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_C_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CKAB" />
+          </FormGroupComponent>
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + ${CLASSIFICATION_B_TITLE} + KEYWORD`">
+            <CheckboxComponent :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CABK" />
+          </FormGroupComponent>
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_A_TITLE} + Keyword + ${CLASSIFICATION_B_TITLE}`">
+            <CheckboxComponent :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CAKB" />
+          </FormGroupComponent>
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + ${CLASSIFICATION_A_TITLE} + KEYWORD`">
+            <CheckboxComponent :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CBAK" />
+          </FormGroupComponent>
+
+          <FormGroupComponent
+            :label="`${CLASSIFICATION_C_TITLE} + ${CLASSIFICATION_B_TITLE} + Keyword + ${CLASSIFICATION_A_TITLE}`">
+            <CheckboxComponent :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CBKA" />
+          </FormGroupComponent>
+        </section>
+      </div>
 
     </div>
 
@@ -690,22 +681,28 @@ const onClickButtonReset = () => {
     <!-- END OF COMBINATIONS ZONE-->
     <!-- RESULT ZONE-->
     <section class="flex justify-between">
-        <span>
-          Status: {{ STATUS }}
-        </span>
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-32" @click="onClickButtonCopy()" >Copy result</button>
+      <span>
+        Status: {{ STATUS }}
+      </span>
+      <button type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-32"
+        @click="onClickButtonCopy()">Copy result</button>
     </section>
     <section class="flex">
-      <textarea rows="20" v-model="FINAL_RESULT" label="Final result" readonly  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-    
+      <textarea rows="20" v-model="FINAL_RESULT" label="Final result" readonly
+        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
     </section>
     <!-- END OF RESULT ZONE-->
     <!-- RESET ZONE-->
     <section class="flex justify-between mb-4">
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" @click="onClickButtonReset()">Reset</button>
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" @click="onClickButtonGenerate()">Generate</button>
+      <button type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        @click="onClickButtonReset()">Reset</button>
+      <button type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        @click="onClickButtonGenerate()">Generate</button>
     </section>
     <!-- END OF RESET ZONE-->
   </div>
-
 </template>
