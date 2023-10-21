@@ -1,4 +1,40 @@
 <script setup lang="ts">
+const KW = reactive([])
+const KW_INFO = reactive([])
+const KW_MIX = reactive([])
+const KW_TRA = reactive([])
+const STRUCTURE = reactive([])
+const BLOG = reactive([])
+const SEARCH_INPUT = ref("")
+
+const moveFromKWToInfo = (index:number) =>{
+    KW_INFO.push(KW[index]);
+    KW.splice(index, 1);
+}
+const moveFromKWToMix = (index:number) =>{
+    KW_MIX.push(KW[index]);
+    KW.splice(index, 1);
+}
+const moveFromKWToTra= (index:number) =>{
+    KW_TRA.push(KW[index]);
+    KW.splice(index, 1);
+}
+
+const moveFromInfoToKW= (index:number) =>{
+    KW.push(KW[index]);
+    KW_INFO.splice(index, 1);
+}
+const moveFromMixToKW= (index:number) =>{
+    KW.push(KW[index]);
+    KW_MIX.splice(index, 1);
+}
+const moveFromTraToKW= (index:number) =>{
+    KW.push(KW[index]);
+    KW_TRA.splice(index, 1);
+}
+
+
+
 
 </script>
 <template>
