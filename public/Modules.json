@@ -5,17 +5,17 @@
     "icon": "dashicons:admin-home"
   },
   {
-    "to": "/modules/concatenator",
+    "to": "/concatenator",
     "label": "Concadenador",
     "icon": "dashicons:admin-links"
   },
   {
-    "to": "/modules/cleaner",
+    "to": "/cleaner",
     "label": "Cleaner",
     "icon": "material-symbols:filter-alt-sharp"
   },
   {
-    "to": "/modules/project",
+    "to": "/project",
     "label": "Project",
     "icon": "streamline:shipping-box-2-box-package-label-delivery-shipment-shipping-3d"
   }

@@ -41,17 +41,16 @@ const onClickButtonClear = () => {
 </script>
 <template>
   <div class="grid grid-cols-3 gap-2">
-    <UTextarea :rows="19" placeholder="Insert here the keywords list" label="Copy here the dirt keywords"
-      v-model="DIRT_KWS" />
+    <textarea rows="20" v-model="CLEAN_KWS" label="Insert here the keywords list" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+
     <div class="flex flex-col gap-4">
       <h2 class="text-2xl text-center">FILTERS</h2>
-      <UCheckbox label="Replace accented letters (á, é, í....) for not accented letters (a, e, i...)" v-model="REPLACE_ACCENTS" />
-      <UCheckbox label="Remove long tail keywords with more of 10 words" v-model="REMOVE_BIG" />
-      <UCheckbox label="Remove unwished characters like + -" v-model="REMOVE_CHARACTERS" />
-      <UCheckbox label="Remove duplicated content" v-model="SET_UNIQUES" />
+      <CheckboxComponent label="Replace accented letters (á, é, í....) for not accented letters (a, e, i...)" v-model="REPLACE_ACCENTS" />
+      <CheckboxComponent label="Remove long tail keywords with more of 10 words" v-model="REMOVE_BIG" />
+      <CheckboxComponent label="Remove unwished characters like + -" v-model="REMOVE_CHARACTERS" />
+      <CheckboxComponent label="Remove duplicated content" v-model="SET_UNIQUES" />
       <UButton label="Clear" @click="onClickButtonClear()" />
     </div>
-    <UTextarea :rows="19" label="Your cleaned keywords" v-model="CLEAN_KWS" readonly/>
-
+    <textarea rows="20" v-model="CLEAN_KWS" label="Your cleaned keywords" readonly  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
   </div>
 </template>
