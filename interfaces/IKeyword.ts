@@ -1,4 +1,5 @@
 export interface IKeyword {
+  Id: number;
   keyword: string;
   volume: number;
   type: string;

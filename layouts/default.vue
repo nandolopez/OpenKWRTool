@@ -87,7 +87,7 @@ onMounted(async () => {
                     <li>
                         <NuxtLink
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 gap-4 group w-full"
-                            to="/project">
+                            to="/concatenator">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 :stroke="DARK_MODE ? '#FFFFFF' : '#000000'" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -145,16 +145,14 @@ onMounted(async () => {
 
 <style>
 body {
-    @apply dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-600 p-4;
+    @apply dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-600 p-4 line-clamp-2;
     /*font-family: 'Plus Jakarta Sans', sans-serif;*/
 }
 
 .dark {
     background: #1F262F;
 }
-
-a,
-a span {
-    @apply font-bold dark:text-gray-200 text-gray-600;
+a{
+    @apply font-medium text-blue-600 dark:text-blue-500 hover:underline
 }
 </style>

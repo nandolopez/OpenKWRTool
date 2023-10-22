@@ -3,53 +3,133 @@ definePageMeta({
     layout: false
 })
 
+
 // INPUTS
-
-const STATUS = ref("")
-const INPUT_FILE_LOAD_PROJECT = ref("")
-
-const INPUT_FILE_LOAD_CSV = ref("")
 const INPUT_SELECT_PRESET = ref("None")
 
-const INPUT_NUMBER_INITIAL_LINE = ref<number | undefined>()
-const INPUT_INITIAL_COLUMN = ref<number | undefined>()
+const INPUT_SELECT_SEPARATOR = ref("Tabulations")
+
 const INPUT_PROJECT_NAME = ref("")
+const INPUT_NUMBER_STARTING_LINE = ref<number>(0)
+const INPUT_KEYWORD_COLUMN = ref<number>(0)
+const INPUT_VOLUME_COLUMN = ref<number>(0)
 
-
-
-const onClickButtonSaveProject = () => {
-    const element = document.createElement('a');
-    const file = new Blob([localStorage.keywords], { type: 'text/json' });
-    element.href = URL.createObjectURL(file);
-    element.download = 'MyProject.json';
-    document.body.appendChild(element);
-    element.click();
-}
-
-const onClickButtonLoadProcessCSV = () => {
-
-}
 
 const disabledButtonSaveProject = computed(() => {
     return localStorage.keywords === undefined
 })
+const disabledCSVUploader = computed(() => {
+
+    return INPUT_PROJECT_NAME.value === '' ||
+        INPUT_NUMBER_STARTING_LINE.value === 0 ||
+        INPUT_KEYWORD_COLUMN.value === 0 ||
+        INPUT_VOLUME_COLUMN.value === 0
+})
+
+const projectName = computed (()=>localStorage.getItem('project'))
+
+const onClickButtonSaveProject = () => {
+    const element = document.createElement('a');
+    const export_data = {
+        project: localStorage.getItem('project'),
+        keywords: JSON.parse(localStorage.getItem('keywords') || '')
+    }
+
+    const file = new Blob([JSON.stringify(export_data)], { type: 'text/json' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'MyProject.json';
+    document.body.appendChild(element);
+    element.click();
+    
+}
+
+
+const onInputSelectPreset = (event: any) => {
+    if (event.target.value === 'Google') {
+        INPUT_NUMBER_STARTING_LINE.value = 6
+        INPUT_KEYWORD_COLUMN.value = 1
+        INPUT_VOLUME_COLUMN.value = 4
+        INPUT_SELECT_SEPARATOR.value = "Tabulations"
+    }
+}
+
+const onInputFileLoadProject = async (event: any) => {
+    const file = event.target.files[0];
+    const text = await file.text();
+    const ImportedData = JSON.parse(text);
+    localStorage.setItem('keywords', JSON.stringify(ImportedData.keywords))
+    localStorage.setItem('project', ImportedData.project)
+    localStorage.keywords = text
+    location.reload();
+};
+
+const onInputFileLoadCSV = async (event: any) => {
+    localStorage.removeItem('keywords')
+    localStorage.removeItem('project')
+    const file = event.target.files[0];
+    const text = await file.text();
+    const lines = text.split('\n');
+    let separator = '\t';
+
+    switch (INPUT_SELECT_SEPARATOR.value) {
+        case "Tabulations":
+            separator = '\t';
+            break;
+        case "Semicolon":
+            separator = ';';
+            break;
+        case "Comma":
+            separator = ',';
+            break;
+        case "Spaces":
+            separator = ' ';
+            break;
+    }
+
+    const data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any, index:number) => {
+        const values = line.split(separator);
+        return {
+            id: index,
+            keyword: values[INPUT_KEYWORD_COLUMN.value - 1],
+            volume: Number(values[INPUT_VOLUME_COLUMN.value - 1]),
+            type: "",
+            url: "",
+            selected: false
+        };
+    });
+    data.sort((a: any, b: any) => b.volume - a.volume);
+    localStorage.setItem('keywords', JSON.stringify(data))
+    localStorage.setItem('project', INPUT_PROJECT_NAME.value)
+    location.reload();
+};
 
 
 </script>
 <template>
     <NuxtLayout name="projects">
-        <h2 class="border-b font-bold mb-6 pb-4 text-2xl  w-full">Current project</h2>
+        <h2 class="border-b font-bold mb-6 pb-4 text-2xl  w-full">Current project: {{ projectName }}</h2>
         <!--Loader-->
         <article class="grid grid-cols-2 gap-2 w-full">
             <section class="flex flex-col items-center justify-center">
                 <button type="button"
                     class="disabled:opacity-50 disabled:cursor-not-allowed text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                     @click="onClickButtonSaveProject()" :disabled="disabledButtonSaveProject">
-                    Save current project</button>
+                    Save the project</button>
+                <button type="button"
+                    class="disabled:opacity-50 disabled:cursor-not-allowed text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    @click="onClickButtonSaveProject()" :disabled="disabledButtonSaveProject">
+                    Export to Excel</button>
                 <p v-if="disabledButtonSaveProject">No projects loaded in your browser</p>
 
             </section>
             <section>
+                <div class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert"
+                    v-if="!disabledButtonSaveProject"
+                    >
+                    <span class="font-medium">Note: </span> Load a project removes the current active
+                    project, please save it before load other one.
+                </div>
                 <label for="dropzone-file"
                     class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -62,16 +142,77 @@ const disabledButtonSaveProject = computed(() => {
                                 click
                                 here </span> or drag and drop</p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" accept=".json" />
+                    <input id="dropzone-file" type="file" class="hidden" accept=".json" @input="onInputFileLoadProject($event)" />
                 </label>
             </section>
         </article>
         <h2 class="border-b font-bold mb-6 pb-4 text-2xl  w-full">New project</h2>
         <!--Loader-->
         <article class="grid grid-cols-2 gap-4 w-full">
+            <section class="col-span-2">
+                <p>Open the CSV with a editor (Excel / notepad / vim / textEdit...) and fill the following information</p>
+                <p>You must fill the form for enable the CSV Uploader</p>
+                <div class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert"
+                    v-if="!disabledButtonSaveProject"
+                    >
+                    <span class="font-medium">Note: </span> Load a CSV removes the current active
+                    project, please save it before load a new CSV.
+                </div>
+            </section>
+            <section class="grid grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="project_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Project name
+                    </label>
+                    <input type="text" id="project_name" v-model="INPUT_PROJECT_NAME"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="presets"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Presets</label>
+                    <select id="presets" v-model="INPUT_SELECT_PRESET" @input="onInputSelectPreset($event)"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="None">None</option>
+                        <option value="Google">Google Keyword Planner</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="separator"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Separator</label>
+                    <select id="separator" v-model="INPUT_SELECT_SEPARATOR"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="Tabulations">Tabulations</option>
+                        <option value="Comma">Comma</option>
+                        <option value="Semicolon">Semicolon</option>
+                        <option value="Spaces">Spaces</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="Headers_line" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Starting line</label>
+                    <input type="number" id="Headers_line" v-model="INPUT_NUMBER_STARTING_LINE"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="keyword_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Keyword column
+                    </label>
+                    <input type="number" id="keyword_column" v-model="INPUT_KEYWORD_COLUMN"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="volume_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Volume column
+                    </label>
+                    <input type="number" id="keyword_column" v-model="INPUT_VOLUME_COLUMN"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+            </section>
             <section>
-                <label for="dropzone-file"
-                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <label for="dropzone-file-csv"
+                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50  dark:bg-gray-700  dark:border-gray-600 "
+                    :class="disabledCSVUploader ? 'opacity-50 cursor-not-allowed' : 'dark:hover:bg-bray-800 cursor-pointer hover:bg-gray-100 dark:hover:border-gray-500 dark:hover:bg-gray-600'">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -82,57 +223,9 @@ const disabledButtonSaveProject = computed(() => {
                                 click
                                 here </span> or drag and drop</p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" accept=".csv" />
+                    <input id="dropzone-file-csv" type="file" class="hidden" accept=".csv" :disabled="disabledCSVUploader"
+                        @input="onInputFileLoadCSV($event)" />
                 </label>
-            </section>
-            <section class="grid grid-cols-2 gap-6 mb-6">
-                <div>
-                    <label for="countries"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Presets</label>
-                    <select id="countries"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>none</option>
-                        <option>Google Keyword Planner</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="line" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
-                        line</label>
-                    <input type="number" id="line"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required>
-                </div>
-                <div>
-                    <label for="keyword_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Keyword column
-                    </label>
-                    <input type="number" id="keyword_column"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required>
-                </div>
-                <div>
-                    <label for="volume_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Volume column
-                    </label>
-                    <input type="number" id="keyword_column"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required>
-                </div>
-                <div>
-                    <label for="project_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Project name
-                    </label>
-                    <input type="text" id="project_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required>
-                </div>
-                <div class="flex items-center justify-center pt-6 w-full">
-                    <button type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-32 h-12"
-                        @click="onClickButtonSaveProject()">
-                        Process CSV</button>
-                </div>
-
             </section>
         </article>
     </NuxtLayout>

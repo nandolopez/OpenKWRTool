@@ -1,40 +1,45 @@
 <template>
-    <p>This is an open source tool for simplify your keyword research composed by following tools:</p>
-    <ol class="list-disc p-4">
-        <li>Concatenator for get more keywords</li>
-        <li>Keywords cleaner: this is a tool that optimize your keywords for Google Keyword planner doing the following
-            tasks:
-            <ul class="list-decimal p-2">
-                <li>Remove long tail keywords with more with + 10 words</li>
-                <li>Replace not accepted accented letters for not-accented</li>
-                <li>Local characters like ñ for n</li>
-                <li>Remove duplicated keywords that you can find in your research</li>
-            </ul>
-        </li>
-        <li>Project: Import CSV with your keywords and metrics, classify and set the structure of your website</li>
-    </ol>
-    <p>
-    <h2>ALL IN YOUR DEVICE</h2>
-    <p>This website doesn't save information, you will have options of export / save your keywords and projects along all
-        tools</p>
+    <div class=" bg-white border border-gray-200 mb-4 p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-full">
+        <h1 class="mb-2 text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">KEYWORD RESEARCH OPEN
+            SOURCE TOOL</h1>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Is a couple online tool pack for simplify your keyword
+            research.</p>
 
-    </p>
-    <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
-        role="alert">
-        <span class="font-medium">Warning alert!</span> This tool executes in your device / web browser
     </div>
-    <p>This means that performance of this tool is related to your device. This performance depends of your devices RAM /
-        Processor number of keywords</p>
-    <ol class="list-disc p-4">
-        <li>More RAM / Processor more keywords can manipulate</li>
-        <li>More keywords low performance</li>
-        <li>Due each device is different, it's imposible for developers of this tool provide performance metrics</li>
-        <li>But we can recommend you, execute this tool in a computer with following features for avoid issues:
-            <ol class="list-disc p-2">
-                <li>Processor intel i5, AMD Ryzen, M1 or higher </li>
-                <li>RAM 16Gb or higher</li>
-                <li>More of 32Gb of HDD free</li>
+    <div class="grid grid-cols-2 gap-4">
+        <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-full">
+            <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Available tools</h2>
+            <ol class="list-disc p-4">
+                <li><span class="font-bold">Concatenator: </span> mix different keywords for get variants</li>
+                <li><span class="font-bold">Cleaner: </span> clean your keywords list to Google Keyword planner requirements
+                </li>
+                <li><span class="font-bold">Projects: </span> classify the keywords, and make informational and
+                    transactional estructure</li>
             </ol>
-        </li>
-    </ol>
+
+        </div>
+        <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-full">
+            <h1 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">FEATURES</h1>
+            <ol class="list-disc p-4">
+                <li><span class="font-bold">Open source: </span> available in <a
+                        href="https://github.com/nandolopez/OpenKWRTool">Github</a></li>
+                <li><span class="font-bold">Customizable: </span> with flowbite + tailwindcss power</li>
+                <li><span class="font-bold">Local work: </span> all this tools work in your browser, this website doesn't
+                    collect information</li>
+                <li><span class="font-bold">Local deploy: </span> do you want use in your business? download from <a
+                        href="https://github.com/nandolopez/OpenKWRTool">Github</a> and deploy a local copy</li>
+            </ol>
+
+        </div>
+        <div class="col-span-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-full">
+            <h1 class="mb-2 text-2xl font-bold tracking-tight text-yellow-300">WARNING</h1>
+            <ol class="list-disc p-4">
+                <li>All process executes in your device, this means that performance of the tool it's linked to power of your device.</li>
+                <li>This tool use Localstorage for manage the information (a database integrated in your browser), this means that the limit of information that can process is of 5Mb (around 50K keywords)</li>
+                
+            </ol>
+
+        </div>
+
+    </div>
 </template>
