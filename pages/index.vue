@@ -1,6 +1,3 @@
-<script setup lang="ts">
-
-</script>
 <template>
     <p>This is an open source tool for simplify your keyword research composed by following tools:</p>
     <ol class="list-disc p-4">

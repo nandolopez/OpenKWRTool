@@ -1,35 +1,44 @@
 <script setup lang="ts">
 const DARK_MODE = ref<boolean>()
 
+
+//Set dark mode function for avoid repeated code
 const setDarkMode = () => {
     document.documentElement.classList.add('dark')
     localStorage.dark_mode = 'true'
     DARK_MODE.value = true
 }
+//Set light mode function for avoid repeated code
 const setLightMode = () => {
     document.documentElement.classList.remove('dark')
     localStorage.dark_mode = 'false'
     DARK_MODE.value = false
 }
 
-const onClickToggleDarkMode = () => {
-    if (DARK_MODE.value) {
-        setLightMode()
-    } else {
-        setDarkMode()
-    }
+//Function for the dark mode button
+const onClickButtonDarkMode = () => {
+    DARK_MODE.value ?  setLightMode() : setDarkMode()
 };
 
 onMounted(async () => {
-    const DARK_CLASS = document.documentElement.classList
+    /**
+     * Checking if exists an entry called "dark mode" in local storage
+     * this entry set if the user come previously to the website and 
+     * set dark mode
+     */
     if (!('dark_mode' in localStorage)) {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches.toString()) {
+        /**
+         * If doesn't exists check if browser is compatible with dark mode and
+         * is set
+         */
+
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            //If is set dark mode in browser set dark mode in the website by default
             setDarkMode()
         }
     } else {
         localStorage.dark_mode === 'true' ? setDarkMode() : setLightMode()
     }
-    console.log(DARK_MODE.value)
 })
 
 </script>
@@ -47,7 +56,7 @@ onMounted(async () => {
                         <button
                             type="button"
                             class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                            @click="onClickToggleDarkMode()"
+                            @click="onClickButtonDarkMode()"
                             >
                             <svg v-if="DARK_MODE" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
