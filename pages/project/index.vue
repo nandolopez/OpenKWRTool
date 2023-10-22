@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { IKeyword } from '~/interfaces/IKeyword';
+
 definePageMeta({
     layout: false
 })
@@ -14,10 +16,18 @@ const INPUT_NUMBER_STARTING_LINE = ref<number>(0)
 const INPUT_KEYWORD_COLUMN = ref<number>(0)
 const INPUT_VOLUME_COLUMN = ref<number>(0)
 
+const TEXTAREA_BLACKLIST = ref("")
+const TEXTAREA_FILTER_INFORMATIONAL = ref("")
+const TEXTAREA_FILTER_TRANSACTIONAL = ref("")
 
+//COMPUTED PROPERTIES
+
+//Check if exists a active project
 const disabledButtonSaveProject = computed(() => {
     return localStorage.keywords === undefined
 })
+
+// Validate form
 const disabledCSVUploader = computed(() => {
 
     return INPUT_PROJECT_NAME.value === '' ||
@@ -26,7 +36,9 @@ const disabledCSVUploader = computed(() => {
         INPUT_VOLUME_COLUMN.value === 0
 })
 
-const projectName = computed (()=>localStorage.getItem('project'))
+// Get active project from localstorage
+const projectName = computed(() => localStorage.getItem('project'))
+
 
 const onClickButtonSaveProject = () => {
     const element = document.createElement('a');
@@ -40,18 +52,9 @@ const onClickButtonSaveProject = () => {
     element.download = 'MyProject.json';
     document.body.appendChild(element);
     element.click();
-    
+
 }
 
-
-const onInputSelectPreset = (event: any) => {
-    if (event.target.value === 'Google') {
-        INPUT_NUMBER_STARTING_LINE.value = 6
-        INPUT_KEYWORD_COLUMN.value = 1
-        INPUT_VOLUME_COLUMN.value = 4
-        INPUT_SELECT_SEPARATOR.value = "Tabulations"
-    }
-}
 
 const onInputFileLoadProject = async (event: any) => {
     const file = event.target.files[0];
@@ -86,10 +89,14 @@ const onInputFileLoadCSV = async (event: any) => {
             break;
     }
 
-    const data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any, index:number) => {
+    const BLACKLIST = TEXTAREA_BLACKLIST.value.split(", ")
+    const INFORMATIONAL = TEXTAREA_FILTER_INFORMATIONAL.value.split(", ")
+    const TRANSACTIONAL = TEXTAREA_FILTER_TRANSACTIONAL.value.split(", ")
+
+    const data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any, index: number) => {
         const values = line.split(separator);
         return {
-            id: index,
+            id: 0,
             keyword: values[INPUT_KEYWORD_COLUMN.value - 1],
             volume: Number(values[INPUT_VOLUME_COLUMN.value - 1]),
             type: "",
@@ -97,11 +104,40 @@ const onInputFileLoadCSV = async (event: any) => {
             selected: false
         };
     });
-    data.sort((a: any, b: any) => b.volume - a.volume);
-    localStorage.setItem('keywords', JSON.stringify(data))
+  
+    const filtered = data.filter((e: any) => !BLACKLIST.some((bl: string) => e.keyword.includes(bl)))
+    filtered.sort((a: any, b: any) => b.volume - a.volume);
+
+    if (INFORMATIONAL.length > 0 || TRANSACTIONAL.length > 0) {
+        // Foreach of array for assign ID and do filters
+        filtered.forEach((element: any, index: number) => {
+            if (INFORMATIONAL.some((f: string) => element.keyword.includes(f))) {
+                filtered[index].type = "Informational"
+            }
+            if (TRANSACTIONAL.some((f: string) => element.keyword.includes(f))) {
+                filtered[index].type = "Transactional"
+            }
+        });
+    }
+
+    //assigning Ids
+    filtered.forEach((element: any, index: number) => {
+        filtered[index].id = index
+    });
+
+    localStorage.setItem('keywords', JSON.stringify(filtered))
     localStorage.setItem('project', INPUT_PROJECT_NAME.value)
-    location.reload();
+    // location.reload();
 };
+
+const onInputSelectPreset = (event: any) => {
+    if (event.target.value === 'Google') {
+        INPUT_NUMBER_STARTING_LINE.value = 6
+        INPUT_KEYWORD_COLUMN.value = 1
+        INPUT_VOLUME_COLUMN.value = 4
+        INPUT_SELECT_SEPARATOR.value = "Tabulations"
+    }
+}
 
 
 </script>
@@ -124,9 +160,7 @@ const onInputFileLoadCSV = async (event: any) => {
             </section>
             <section>
                 <div class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                    role="alert"
-                    v-if="!disabledButtonSaveProject"
-                    >
+                    role="alert" v-if="!disabledButtonSaveProject">
                     <span class="font-medium">Note: </span> Load a project removes the current active
                     project, please save it before load other one.
                 </div>
@@ -142,7 +176,8 @@ const onInputFileLoadCSV = async (event: any) => {
                                 click
                                 here </span> or drag and drop</p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" accept=".json" @input="onInputFileLoadProject($event)" />
+                    <input id="dropzone-file" type="file" class="hidden" accept=".json"
+                        @input="onInputFileLoadProject($event)" />
                 </label>
             </section>
         </article>
@@ -153,9 +188,7 @@ const onInputFileLoadCSV = async (event: any) => {
                 <p>Open the CSV with a editor (Excel / notepad / vim / textEdit...) and fill the following information</p>
                 <p>You must fill the form for enable the CSV Uploader</p>
                 <div class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                    role="alert"
-                    v-if="!disabledButtonSaveProject"
-                    >
+                    role="alert" v-if="!disabledButtonSaveProject">
                     <span class="font-medium">Note: </span> Load a CSV removes the current active
                     project, please save it before load a new CSV.
                 </div>
@@ -163,7 +196,7 @@ const onInputFileLoadCSV = async (event: any) => {
             <section class="grid grid-cols-2 gap-6 mb-6">
                 <div>
                     <label for="project_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Project name
+                        Project name *
                     </label>
                     <input type="text" id="project_name" v-model="INPUT_PROJECT_NAME"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -178,8 +211,8 @@ const onInputFileLoadCSV = async (event: any) => {
                     </select>
                 </div>
                 <div>
-                    <label for="separator"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Separator</label>
+                    <label for="separator" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Separator
+                        *</label>
                     <select id="separator" v-model="INPUT_SELECT_SEPARATOR"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="Tabulations">Tabulations</option>
@@ -190,24 +223,51 @@ const onInputFileLoadCSV = async (event: any) => {
                 </div>
                 <div>
                     <label for="Headers_line" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Starting line</label>
+                        Starting line *</label>
                     <input type="number" id="Headers_line" v-model="INPUT_NUMBER_STARTING_LINE"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
                 <div>
                     <label for="keyword_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Keyword column
+                        Keyword column *
                     </label>
                     <input type="number" id="keyword_column" v-model="INPUT_KEYWORD_COLUMN"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
                 <div>
                     <label for="volume_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Volume column
+                        Volume column *
                     </label>
                     <input type="number" id="keyword_column" v-model="INPUT_VOLUME_COLUMN"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
+                <div>
+                    <label for="volume_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Dirt keywords filter (that you like remove from kw research)
+                    </label>
+
+
+                    <textarea id="message" rows="4" v-model="TEXTAREA_BLACKLIST"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Write the blacklist keyword comma separated, example: brand1, unnecesary, text..."></textarea>
+                </div>
+                <div>
+                    <label for="volume_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Informational filter
+                    </label>
+                    <textarea id="message" rows="4" v-model="TEXTAREA_FILTER_INFORMATIONAL"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Write the informational of keywords comma separated, example: best, new, discover..."></textarea>
+                </div>
+                <div>
+                    <label for="volume_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Transactional filter
+                    </label>
+                    <textarea id="message" rows="4" v-model="TEXTAREA_FILTER_TRANSACTIONAL"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Write the transactional of keywords comma separated, example: price, purchase, shop..."></textarea>
+                </div>
+
             </section>
             <section>
                 <label for="dropzone-file-csv"

@@ -44,7 +44,7 @@ onMounted(async () => {
 </script>
 <template>
     <div class="flex gap-4">
-        <aside id="default-sidebar" class="w-72 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        <aside id="default-sidebar" class="w-72 h-full transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar">
             <div class="h-full px-3 py-6 overflow-y-auto bg-gray-50 dark:bg-gray-900 rounded-2xl shadow-xl">
                 <ul class="space-y-2 font-medium">
@@ -137,15 +137,16 @@ onMounted(async () => {
                 </ul>
             </div>
         </aside>
-        <main class="bg-white dark:bg-gray-900 h-full p-4 rounded-2xl shadow-lg w-full">
+        <main class="bg-white dark:bg-gray-900  p-4 rounded-2xl shadow-lg w-full ">
             <slot />
         </main>
     </div>
 </template>
 
 <style>
+
 body {
-    @apply dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-600 p-4 line-clamp-2;
+    @apply dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-600 line-clamp-2 h-1/2 overflow-auto p-4;
     /*font-family: 'Plus Jakarta Sans', sans-serif;*/
 }
 
