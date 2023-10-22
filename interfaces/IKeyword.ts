@@ -3,4 +3,5 @@ export interface IKeyword {
   volume: number;
   type: string;
   url:string;
+  selected: boolean;
 }

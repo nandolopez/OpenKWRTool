@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
 const MENU = ref([])
-const DARK_MODE = localStorage.getItem('dark_mode') === 'true';
 onMounted(async () => {
     await fetch('modules.json')
         .then((result) => result.json())
