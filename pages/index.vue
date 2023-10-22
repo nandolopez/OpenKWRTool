@@ -1,12 +1,5 @@
 <script setup lang="ts">
 
-const MENU = ref([])
-onMounted(async () => {
-    await fetch('modules.json')
-        .then((result) => result.json())
-        .then((data) => MENU.value = data)
-})
-
 </script>
 <template>
     <p>This is an open source tool for simplify your keyword research composed by following tools:</p>
