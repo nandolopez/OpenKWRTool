@@ -93,8 +93,15 @@ const onInputFileLoadCSV = async (event: any) => {
     const INFORMATIONAL = TEXTAREA_FILTER_INFORMATIONAL.value.split(", ")
     const TRANSACTIONAL = TEXTAREA_FILTER_TRANSACTIONAL.value.split(", ")
 
-    const data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any, index: number) => {
+    let data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any) => {
         const values = line.split(separator);
+        let type = ''
+        if (INFORMATIONAL.some((f: string) => values[INPUT_KEYWORD_COLUMN.value - 1].includes(f))) {
+            type = "Informational"
+        }
+        if (TRANSACTIONAL.some((f: string) => values[INPUT_KEYWORD_COLUMN.value - 1].includes(f))) {
+            type = "Informational"
+        }
         return {
             id: 0,
             keyword: values[INPUT_KEYWORD_COLUMN.value - 1],
@@ -104,28 +111,20 @@ const onInputFileLoadCSV = async (event: any) => {
             selected: false
         };
     });
-  
-    const filtered = data.filter((e: any) => !BLACKLIST.some((bl: string) => e.keyword.includes(bl)))
-    filtered.sort((a: any, b: any) => b.volume - a.volume);
+    data.sort((a: any, b: any) => b.volume - a.volume);
 
-    if (INFORMATIONAL.length > 0 || TRANSACTIONAL.length > 0) {
-        // Foreach of array for assign ID and do filters
-        filtered.forEach((element: any, index: number) => {
-            if (INFORMATIONAL.some((f: string) => element.keyword.includes(f))) {
-                filtered[index].type = "Informational"
-            }
-            if (TRANSACTIONAL.some((f: string) => element.keyword.includes(f))) {
-                filtered[index].type = "Transactional"
-            }
-        });
-    }
+    console.log(data.length)
+
+    data = data.filter((element: IKeyword) => !BLACKLIST.some((bl: string) => element.keyword.includes(bl)))
+
+    console.log(data.length)
 
     //assigning Ids
-    filtered.forEach((element: any, index: number) => {
-        filtered[index].id = index
+    data.forEach((element: any, index: number) => {
+        data[index].id = index
     });
 
-    localStorage.setItem('keywords', JSON.stringify(filtered))
+    localStorage.setItem('keywords', JSON.stringify(data))
     localStorage.setItem('project', INPUT_PROJECT_NAME.value)
     // location.reload();
 };
