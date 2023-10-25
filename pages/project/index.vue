@@ -15,6 +15,7 @@ const INPUT_PROJECT_NAME = ref("")
 const INPUT_NUMBER_STARTING_LINE = ref<number>(0)
 const INPUT_KEYWORD_COLUMN = ref<number>(0)
 const INPUT_VOLUME_COLUMN = ref<number>(0)
+const INPUT_ADS_HIGH = ref<number>(0)
 
 const TEXTAREA_BLACKLIST = ref("")
 const TEXTAREA_FILTER_INFORMATIONAL = ref("")
@@ -44,7 +45,9 @@ const onClickButtonSaveProject = () => {
     const element = document.createElement('a');
     const export_data = {
         project: localStorage.getItem('project'),
-        keywords: JSON.parse(localStorage.getItem('keywords') || '')
+        keywords: JSON.parse(localStorage.getItem('keywords') || ''),
+        structure: JSON.parse(localStorage.getItem('structure') || ''),
+        blog: JSON.parse(localStorage.getItem('blog') || '')
     }
 
     const file = new Blob([JSON.stringify(export_data)], { type: 'text/json' });
@@ -62,6 +65,8 @@ const onInputFileLoadProject = async (event: any) => {
     const ImportedData = JSON.parse(text);
     localStorage.setItem('keywords', JSON.stringify(ImportedData.keywords))
     localStorage.setItem('project', ImportedData.project)
+    localStorage.setItem('structure', ImportedData.structure)
+    localStorage.setItem('blog', ImportedData.blog)
     localStorage.keywords = text
     location.reload();
 };
@@ -69,6 +74,8 @@ const onInputFileLoadProject = async (event: any) => {
 const onInputFileLoadCSV = async (event: any) => {
     localStorage.removeItem('keywords')
     localStorage.removeItem('project')
+    localStorage.removeItem('structure')
+    localStorage.removeItem('blog')
     const file = event.target.files[0];
     const text = await file.text();
     const lines = text.split('\n');
@@ -93,40 +100,61 @@ const onInputFileLoadCSV = async (event: any) => {
     const INFORMATIONAL = TEXTAREA_FILTER_INFORMATIONAL.value.split(", ")
     const TRANSACTIONAL = TEXTAREA_FILTER_TRANSACTIONAL.value.split(", ")
 
-    const data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any, index: number) => {
+    let data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any) => {
         const values = line.split(separator);
+
+        //keyword by default is undefined
+        let kw_type = ''
+
+        let keyword = values[INPUT_KEYWORD_COLUMN.value - 1]
+
+
+        //If people bid up for the keyword this is transactional 
+        if (values[INPUT_ADS_HIGH.value - 1] === "") kw_type = 'Transactional';
+
+        //If keyword contains a word in INFORMATIONAL kw list, it's informational 
+        if (INFORMATIONAL[0] !== '') {
+            if (INFORMATIONAL.some((f: string) => values[INPUT_KEYWORD_COLUMN.value - 1].includes(f))) {
+                kw_type = 'Informational';
+            }
+        }
+
+        //If keyword contains a word in TRANSACTIONAL kw list, it's transactional 
+        if (TRANSACTIONAL[0] !== '') {
+            if (TRANSACTIONAL.some((f: string) => values[INPUT_KEYWORD_COLUMN.value - 1].includes(f))) {
+                kw_type = 'Transactional';
+            }
+        }
+        if (BLACKLIST[0] !== '') {
+            if (BLACKLIST.some((bl: string) => values[INPUT_KEYWORD_COLUMN.value - 1].includes(bl))) {
+                keyword = 'null'
+            }
+        }
+
         return {
             id: 0,
-            keyword: values[INPUT_KEYWORD_COLUMN.value - 1],
+            keyword: keyword,
             volume: Number(values[INPUT_VOLUME_COLUMN.value - 1]),
-            type: "",
+            type: kw_type,
             url: "",
             selected: false
         };
     });
-  
-    const filtered = data.filter((e: any) => !BLACKLIST.some((bl: string) => e.keyword.includes(bl)))
-    filtered.sort((a: any, b: any) => b.volume - a.volume);
 
-    if (INFORMATIONAL.length > 0 || TRANSACTIONAL.length > 0) {
-        // Foreach of array for assign ID and do filters
-        filtered.forEach((element: any, index: number) => {
-            if (INFORMATIONAL.some((f: string) => element.keyword.includes(f))) {
-                filtered[index].type = "Informational"
-            }
-            if (TRANSACTIONAL.some((f: string) => element.keyword.includes(f))) {
-                filtered[index].type = "Transactional"
-            }
-        });
-    }
+
+    data = data.filter((e: any) => e.keyword !== 'null')
+
+    data.sort((a: any, b: any) => b.volume - a.volume);
 
     //assigning Ids
-    filtered.forEach((element: any, index: number) => {
-        filtered[index].id = index
+    data.forEach((element: any, index: number) => {
+        data[index].id = index
     });
 
-    localStorage.setItem('keywords', JSON.stringify(filtered))
     localStorage.setItem('project', INPUT_PROJECT_NAME.value)
+    localStorage.setItem('keywords', JSON.stringify(data))
+    localStorage.setItem('structure', JSON.stringify([]))
+    localStorage.setItem('blog', JSON.stringify([]))
     // location.reload();
 };
 
@@ -135,6 +163,7 @@ const onInputSelectPreset = (event: any) => {
         INPUT_NUMBER_STARTING_LINE.value = 6
         INPUT_KEYWORD_COLUMN.value = 1
         INPUT_VOLUME_COLUMN.value = 4
+        INPUT_ADS_HIGH.value = 10
         INPUT_SELECT_SEPARATOR.value = "Tabulations"
     }
 }
@@ -239,6 +268,13 @@ const onInputSelectPreset = (event: any) => {
                         Volume column *
                     </label>
                     <input type="number" id="keyword_column" v-model="INPUT_VOLUME_COLUMN"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="volume_column" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Google Ads High range
+                    </label>
+                    <input type="number" id="keyword_column" v-model="INPUT_ADS_HIGH"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
                 <div>

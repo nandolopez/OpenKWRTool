@@ -137,7 +137,7 @@ onMounted(async () => {
                 </ul>
             </div>
         </aside>
-        <main class="bg-white dark:bg-gray-900  p-4 rounded-2xl shadow-lg w-full ">
+        <main class="bg-gray-100 dark:bg-gray-900  p-4 rounded-2xl shadow-lg w-full ">
             <slot />
         </main>
     </div>
@@ -145,8 +145,11 @@ onMounted(async () => {
 
 <style>
 
+html{
+    @apply max-h-screen;
+}
 body {
-    @apply dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-600 line-clamp-2 h-1/2 overflow-auto p-4;
+    @apply dark:bg-gray-800 bg-gray-200 dark:text-gray-200 text-gray-600 line-clamp-2 overflow-auto p-4;
     /*font-family: 'Plus Jakarta Sans', sans-serif;*/
 }
 
