@@ -1,22 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  app: {
-    head: {
-      link: [
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
-          crossorigin: "",
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600&display=swap",
-          crossorigin: "",
-        },
-      ],
-    },
-  },
+  
   devtools: {
     enabled: true,
 
@@ -24,7 +8,33 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  modules: ["@nuxtjs/tailwindcss","nuxt-icon"],
+  modules: ["@nuxtjs/tailwindcss", "@vuestic/nuxt"],
   ssr: false,
-  
+  vuestic: {
+    config: {
+      colors: {
+        variables: {
+          primary: "#3E82F8",
+          secondary: "#818992",
+          success: "#03505C",
+          info: "#1E429F",
+          danger: "#F87F7F",
+          warning: "#F9CA16",
+          backgroundPrimary: "#111827",
+          backgroundSecondary: "#1E262F",
+          backgroundElement: "#111827",
+          backgroundBorder: "#3D4C58",
+          textPrimary: "#F1F1F1",
+          textInverted: "#0B121A",
+          shadow: "rgba(255, 255, 255, 0.12)",
+          focus: "#3E82F8",
+          transparent: "rgba(0, 0, 0, 0)",
+          backgroundLanding: "#070d14",
+          backgroundLandingBorder: "rgba(43, 49, 56, 0.8)",
+        }
+      },
+    },
+
+    css: ["typography", "reset"],
+  },
 });

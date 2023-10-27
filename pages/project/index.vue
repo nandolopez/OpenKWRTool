@@ -172,7 +172,7 @@ const onInputSelectPreset = (event: any) => {
 </script>
 <template>
     <NuxtLayout name="projects">
-        <h2 class="border-b font-bold mb-6 pb-4 text-2xl  w-full">Current project: {{ projectName }}</h2>
+        <h2 class="va-h2">Current project: {{ projectName }}</h2>
         <!--Loader-->
         <article class="grid grid-cols-2 gap-2 w-full">
             <section class="flex flex-col items-center justify-center">

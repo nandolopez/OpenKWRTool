@@ -409,323 +409,308 @@ const onClickButtonReset = () => {
 
     <!-- KEYWORDS TEXTAREA ZONE-->
 
+    <va-card class="p-4 w-full h-96">
+      <div class="flex gap-4 justify-between h-full">
+        <va-card-content class="flex flex-col text-center md3">
+          <va-textarea class="h-full" label="Main keywords" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_MAIN" />
 
-    <section class="grid grid-cols-4 w-full gap-4">
-
-      <div class="flex flex-col text-center">
-        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Main keywords</label>
-        <textarea rows="22"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Here your keywords" v-model="INPUT_TEXTAREA_MAIN"></textarea>
+        </va-card-content>
+        <va-card-content class="flex flex-col gap-2">
+          <va-input placeholder="CLASSIFICATION A" v-model="INPUT_TEXT_A"/>
+          <va-textarea class="h-full" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_A" />
+        </va-card-content>
+        <va-card-content class="flex flex-col gap-2 items-center">
+          <va-checkbox v-model="INPUT_CHECKBOX_B" />
+          <va-input :disabled="!INPUT_CHECKBOX_B"  placeholder="CLASSIFICATION B" v-model="INPUT_TEXT_B"/>
+          <va-textarea class="h-full" :disabled="!INPUT_CHECKBOX_B" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_B" />
+        </va-card-content>
+        <va-card-content class="flex flex-col gap-2 items-center">
+          <va-checkbox  :disabled="!INPUT_CHECKBOX_B"  v-model="INPUT_CHECKBOX_C" />
+          <va-input :disabled="!INPUT_CHECKBOX_C"  placeholder="CLASSIFICATION C" v-model="INPUT_TEXT_C"/>
+          <va-textarea class="h-full" :disabled="!INPUT_CHECKBOX_C" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_C" />
+        </va-card-content>
       </div>
-      <div class="flex flex-col gap-2">
-        <input type="text"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="INPUT_TEXT_A" placeholder="Classification A" />
-        <textarea rows="21"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Here your keywords" v-model="INPUT_TEXTAREA_A"></textarea>
-      </div>
-      <div class="flex flex-col items-center justify-center gap-2">
-        <input type="checkbox" v-model="INPUT_CHECKBOX_B">
-        <input type="text" :disabled="!INPUT_CHECKBOX_B"
-          class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="INPUT_TEXT_B" placeholder="Classification B" />
-        <textarea rows="20" :disabled="!INPUT_CHECKBOX_B"
-          class="disabled:opacity-70 disabled:cursor-not-allowedblock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Here your keywords" v-model="INPUT_TEXTAREA_B"></textarea>
-      </div>
-      <div class="flex flex-col items-center justify-center gap-2">
-        <input type="checkbox" v-model="INPUT_CHECKBOX_C" :disabled="!INPUT_CHECKBOX_B"
-          class="disabled:opacity-70 disabled:cursor-not-allowed">
-        <input type="text" :disabled="!INPUT_CHECKBOX_C"
-          class="disabled:opacity-70 disabled:cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="INPUT_TEXT_C" placeholder="Classification C" />
-        <textarea rows="20" :disabled="!INPUT_CHECKBOX_C"
-          class="disabled:opacity-70 disabled:cursor-not-allowedblock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Here your keywords" v-model="INPUT_TEXTAREA_C"></textarea>
-      </div>
-    </section>
+    </va-card>
 
 
     <!-- END OF KEYWORDS TEXTAREA ZONE-->
     <!-- SELECT ALL BUTTONS -->
-    <section class="flex justify-start gap-4 w-full">
-      <button type="button"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        @click="onClickButtonSelectAll()">
-        Select All</button>
-      <button type="button"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        @click="onClickButtonUnSelectAll()">
-        Unselect all</button>
-    </section>
+    <va-card>
+      <va-card-content>
+        <div class="flex justify-center gap-4">
+          <va-button @click="onClickButtonSelectAll()">Select all</va-button>
+          <va-button @click="onClickButtonUnSelectAll()">Unselect all</va-button>
+        </div>
+      </va-card-content>
+    </va-card>
     <!-- END OF SELECT ALL BUTTONS -->
 
     <!-- COMBINATIONS ZONE-->
-    <div class="flex flex-col gap-4">
-      <h2 class="text-xl"> 2 KEYWORDS COMBINATIONS </h2>
-      <div class="grid grid-cols-3 gap-8">
-        <section class="flex flex-col gap-4">
-          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ INPUT_TEXT_A }} combinations</h2>
+    <va-card class="flex flex-col gap-4 mb-4">
+      <va-card-title> <h4 class="va-h4">2 KEYWORDS COMBINATIONS</h4></va-card-title>
+      <div class="grid grid-cols-3 justify-between">
+        <va-card-content class="flex flex-col gap-4 pt-0">
+          <h5 class="va-h5 font-bold">Keyword + {{ INPUT_TEXT_A }} combinations</h5>
           <!-- A + Keyword-->
           <FormGroupComponent :label="'Keyword + ' + INPUT_TEXT_A">
-            <CheckboxComponent v-model="KA" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+            <va-switch v-model="KA" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="INPUT_TEXT_A + ' + KEYWORD'">
-            <CheckboxComponent v-model="AK" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="AK" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
-        </section>
-        <section v-if="INPUT_CHECKBOX_B" class="flex flex-col gap-4">
-          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ INPUT_TEXT_B }} combinations</h2>
+        </va-card-content>
+        <va-card-content v-if="INPUT_CHECKBOX_B" class="flex flex-col gap-4">
+          <h5 class="va-h5 font-bold">Keyword + {{ INPUT_TEXT_B }} combinations</h5>
           <!-- B + Keyword-->
           <FormGroupComponent :label="'Keyword + ' + INPUT_TEXT_B">
-            <CheckboxComponent v-model="KB" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+            <va-switch v-model="KB" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="INPUT_TEXT_B + ' + KEYWORD'">
-            <CheckboxComponent v-model="BK" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="BK" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
-        </section>
-        <section v-if="INPUT_CHECKBOX_C" class="flex flex-col gap-4">
-          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ INPUT_TEXT_C }} combinations</h2>
+        </va-card-content>
+        <va-card-content v-if="INPUT_CHECKBOX_C" class="flex flex-col gap-4">
+          <h5 class="va-h5 font-bold">Keyword + {{ INPUT_TEXT_C }} combinations</h5>
           <!-- C + Keyword-->
           <FormGroupComponent :label="'Keyword + ' + INPUT_TEXT_C">
-            <CheckboxComponent v-model="KC" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+            <va-switch v-model="KC" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="INPUT_TEXT_C + ' + KEYWORD'">
-            <CheckboxComponent v-model="CK" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="CK" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
-        </section>
+        </va-card-content>
 
       </div>
-
-      <h2 class="mt-8 text-xl" v-if="INPUT_CHECKBOX_B"> 3 KEYWORDS COMBINATIONS </h2>
-      <div class="grid grid-cols-3 gap-8" v-if="INPUT_CHECKBOX_B">
+    </va-card>
+    <va-card class="flex flex-col gap-4" v-if="INPUT_CHECKBOX_B">
+      <va-card-title> <h4 class="va-h4">3 KEYWORDS COMBINATIONS</h4></va-card-title>
+      <div class="grid grid-cols-3 justify-between" >
         <!-- Keyword + A + B-->
-        <section class="flex flex-col gap-4">
-          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ INPUT_TEXT_A }} +
-            {{ INPUT_TEXT_B }} combinations</h2>
+        <va-card-content class="flex flex-col gap-4 pt-0">
+          <h5 class="va-h5 font-bold">Keyword + {{ INPUT_TEXT_A }} +
+            {{ INPUT_TEXT_B }} combinations</h5>
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_A} + ${INPUT_TEXT_B}`">
-            <CheckboxComponent v-model="KAB" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
+            <va-switch v-model="KAB" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_B} + ${INPUT_TEXT_A}`">
-            <CheckboxComponent v-model="KBA" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
+            <va-switch v-model="KBA" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_A} + Keyword + ${INPUT_TEXT_B}`">
-            <CheckboxComponent v-model="AKB" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+            <va-switch v-model="AKB" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_A} + ${INPUT_TEXT_B} + KEYWORD`">
-            <CheckboxComponent v-model="ABK" :label="`Example: ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="ABK" :label="`Example: ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_B} + Keyword + ${INPUT_TEXT_A}`">
-            <CheckboxComponent v-model="BKA" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+            <va-switch v-model="BKA" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_B} + ${INPUT_TEXT_A} + KEYWORD`">
-            <CheckboxComponent v-model="BAK" :label="`Example: ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="BAK" :label="`Example: ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
 
-        </section>
-        <section v-if="INPUT_CHECKBOX_C" class="flex flex-col gap-4">
+        </va-card-content>
+        <va-card-content v-if="INPUT_CHECKBOX_C" class="flex flex-col gap-4">
           <!-- Keyword + A + C-->
-          <h2 class="font-bold col-span-2  my-2 border-b-2">Keyword + {{ INPUT_TEXT_A }} +
-            {{ INPUT_TEXT_C }} combinations</h2>
+          <h5 class="va-h5 font-bold">Keyword + {{ INPUT_TEXT_A }} +
+            {{ INPUT_TEXT_C }} combinations</h5>
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_A} + ${INPUT_TEXT_C}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="KAC" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" />
+            <va-switch v-model="KAC" :label="`Example: ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_C} + ${INPUT_TEXT_A}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="KCA" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" />
+            <va-switch v-model="KCA" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_A} + Keyword + ${INPUT_TEXT_C}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="AKC" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+            <va-switch v-model="AKC" :label="`Example: ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_A} + ${INPUT_TEXT_C} + KEYWORD`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="ACK" :label="`Example: ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="ACK" :label="`Example: ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_C} + Keyword + ${INPUT_TEXT_A}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="CKA" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
+            <va-switch v-model="CKA" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_C} + ${INPUT_TEXT_A} + KEYWORD`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="CAK" :label="`Example: ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="CAK" :label="`Example: ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
 
-        </section>
-        <section v-if="INPUT_CHECKBOX_C" class="flex flex-col gap-4">
+        </va-card-content>
+        <va-card-content v-if="INPUT_CHECKBOX_C" class="flex flex-col gap-4">
           <h2 class="font-bold col-span-2 my-2 border-b-2">Keyword + {{ INPUT_TEXT_B }} +
             {{ INPUT_TEXT_C }} combinations</h2>
           <!-- Keyword + B + C-->
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_B} + ${INPUT_TEXT_C}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="KBC" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" />
+            <va-switch v-model="KBC" :label="`Example: ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_C} + ${INPUT_TEXT_B}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="KCB" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" />
+            <va-switch v-model="KCB" :label="`Example: ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_B} + Keyword + ${INPUT_TEXT_C}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="BKC" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
+            <va-switch v-model="BKC" :label="`Example: ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_B} + ${INPUT_TEXT_C} + KEYWORD`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="BCK" :label="`Example: ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="BCK" :label="`Example: ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_C} + Keyword + ${INPUT_TEXT_B}`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="CKB" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
+            <va-switch v-model="CKB" :label="`Example: ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" />
           </FormGroupComponent>
           <FormGroupComponent :label="`${INPUT_TEXT_C} + ${INPUT_TEXT_B} + KEYWORD`" v-if="INPUT_CHECKBOX_C">
-            <CheckboxComponent v-model="CBK" :label="`Example: ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
+            <va-switch v-model="CBK" :label="`Example: ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" />
           </FormGroupComponent>
 
-        </section>
+        </va-card-content>
 
 
 
       </div>
-
-      <h2 class="border-b-2 mt-4 text-xl " v-if="INPUT_CHECKBOX_C"> 4 KEYWORDS COMBINATIONS</h2>
-      <div class="grid grid-cols-4 gap-8" v-if="INPUT_CHECKBOX_C">
+    </va-card>
+    <va-card class="flex flex-col gap-4" v-if="INPUT_CHECKBOX_C">
+      <va-card-title> <h4 class="va-h4">4 KEYWORDS COMBINATIONS</h4></va-card-title>
+      <div class="grid grid-cols-4 justify-between" >
         <!-- Keyword + A + B-->
-        <section class="flex flex-col gap-4">
+        <va-card-content class="flex flex-col gap-4 pt-0">
 
           <!--K-->
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_A} + ${INPUT_TEXT_B} + ${INPUT_TEXT_C}`">
-            <CheckboxComponent :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KABC" />
+            <va-switch :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KABC" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_A} + ${INPUT_TEXT_C} + ${INPUT_TEXT_B}`">
-            <CheckboxComponent :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KACB" />
+            <va-switch :label="`${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KACB" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_B} + ${INPUT_TEXT_A} + ${INPUT_TEXT_C}`">
-            <CheckboxComponent :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KBAC" />
+            <va-switch :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="KBAC" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_B} + ${INPUT_TEXT_C} + ${INPUT_TEXT_A}`">
-            <CheckboxComponent :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KBCA" />
+            <va-switch :label="`${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KBCA" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_C} + ${INPUT_TEXT_A} + ${INPUT_TEXT_B}`">
-            <CheckboxComponent :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KCAB" />
+            <va-switch :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="KCAB" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`Keyword + ${INPUT_TEXT_C} + ${INPUT_TEXT_B} + ${INPUT_TEXT_A}`">
-            <CheckboxComponent :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KCBA" />
+            <va-switch :label="`${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="KCBA" />
           </FormGroupComponent>
 
 
-        </section>
+        </va-card-content>
 
-        <section class="flex flex-col gap-4">
+        <va-card-content class="flex flex-col gap-4">
 
           <!--A-->
 
           <FormGroupComponent :label="`${INPUT_TEXT_A} + Keyword + ${INPUT_TEXT_C} + ${INPUT_TEXT_B}`">
-            <CheckboxComponent :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="AKCB" />
+            <va-switch :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]}`" v-model="AKCB" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_A} + Keyword + ${INPUT_TEXT_B} + ${INPUT_TEXT_C}`">
-            <CheckboxComponent :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
+            <va-switch :label="`${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]}`" v-model="AKBC" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_A} + ${INPUT_TEXT_B} + ${INPUT_TEXT_C} + KEYWORD`">
-            <CheckboxComponent :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ABCK" />
+            <va-switch :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ABCK" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_A} + ${INPUT_TEXT_B} + Keyword + ${INPUT_TEXT_C}`">
-            <CheckboxComponent :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="ABKC" />
+            <va-switch :label="`${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="ABKC" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_A} + ${INPUT_TEXT_C} + ${INPUT_TEXT_B} + KEYWORD`">
-            <CheckboxComponent :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ACBK" />
+            <va-switch :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="ACBK" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_A} + ${INPUT_TEXT_C} + Keyword + ${INPUT_TEXT_B}`">
-            <CheckboxComponent :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="ACKB" />
+            <va-switch :label="`${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="ACKB" />
           </FormGroupComponent>
-        </section>
-        <section class="flex flex-col gap-4">
+        </va-card-content>
+        <va-card-content class="flex flex-col gap-4">
           <!--B-->
 
 
           <FormGroupComponent :label="`${INPUT_TEXT_B} + Keyword + ${INPUT_TEXT_A} + ${INPUT_TEXT_C}`">
-            <CheckboxComponent :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BKAC" />
+            <va-switch :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BKAC" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_B} + Keyword + ${INPUT_TEXT_C} + ${INPUT_TEXT_A}`">
-            <CheckboxComponent :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BKCA" />
+            <va-switch :label="`${B_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BKCA" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_B} + ${INPUT_TEXT_A} + Keyword + ${INPUT_TEXT_C}`">
-            <CheckboxComponent :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BAKC" />
+            <va-switch :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${C_ARRAY[0]}`" v-model="BAKC" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_B} + ${INPUT_TEXT_A} + ${INPUT_TEXT_C} + KEYWORD`">
-            <CheckboxComponent :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BACK" />
+            <va-switch :label="`${B_ARRAY[0]} ${A_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BACK" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_B} + ${INPUT_TEXT_C} + Keyword + ${INPUT_TEXT_A}`">
-            <CheckboxComponent :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BCKA" />
+            <va-switch :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="BCKA" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_B} + ${INPUT_TEXT_C} + ${INPUT_TEXT_A} + KEYWORD`">
-            <CheckboxComponent :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BCAK" />
+            <va-switch :label="`${B_ARRAY[0]} ${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="BCAK" />
           </FormGroupComponent>
 
-        </section>
-        <section class="flex flex-col gap-4">
+        </va-card-content>
+        <va-card-content class="flex flex-col gap-4">
           <!--C-->
 
 
           <FormGroupComponent :label="`${INPUT_TEXT_C} + Keyword + ${INPUT_TEXT_B} + ${INPUT_TEXT_A}`">
-            <CheckboxComponent :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CKBA" />
+            <va-switch :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CKBA" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_C} + Keyword + ${INPUT_TEXT_A} + ${INPUT_TEXT_B}`">
-            <CheckboxComponent :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CKAB" />
+            <va-switch :label="`${C_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CKAB" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_C} + ${INPUT_TEXT_A} + ${INPUT_TEXT_B} + KEYWORD`">
-            <CheckboxComponent :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CABK" />
+            <va-switch :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CABK" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_C} + ${INPUT_TEXT_A} + Keyword + ${INPUT_TEXT_B}`">
-            <CheckboxComponent :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CAKB" />
+            <va-switch :label="`${C_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]} ${B_ARRAY[0]}`" v-model="CAKB" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_C} + ${INPUT_TEXT_B} + ${INPUT_TEXT_A} + KEYWORD`">
-            <CheckboxComponent :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CBAK" />
+            <va-switch :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${A_ARRAY[0]} ${K_ARRAY[0]}`" v-model="CBAK" />
           </FormGroupComponent>
 
           <FormGroupComponent :label="`${INPUT_TEXT_C} + ${INPUT_TEXT_B} + Keyword + ${INPUT_TEXT_A}`">
-            <CheckboxComponent :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CBKA" />
+            <va-switch :label="`${C_ARRAY[0]} ${B_ARRAY[0]} ${K_ARRAY[0]} ${A_ARRAY[0]}`" v-model="CBKA" />
           </FormGroupComponent>
-        </section>
+        </va-card-content>
       </div>
 
-    </div>
+    </va-card>
 
 
     <!-- END OF COMBINATIONS ZONE-->
     <!-- RESULT ZONE-->
-    <section class="flex justify-between">
+    <va-card-content class="flex justify-between">
       <span>
         Status: {{ STATUS }}
       </span>
       <button type="button"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-32"
         @click="onClickButtonCopy()">Copy result</button>
-    </section>
-    <section class="flex">
+    </va-card-content>
+    <va-card-content class="flex">
       <textarea rows="20" v-model="INPUT_TEXTAREA_RESULTS" label="Final result" readonly
         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
-    </section>
+    </va-card-content>
     <!-- END OF RESULT ZONE-->
     <!-- RESET ZONE-->
-    <section class="flex justify-between mb-4">
+    <va-card-content class="flex justify-between mb-4">
       <button type="button"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         @click="onClickButtonReset()">Reset</button>
       <button type="button"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         @click="onClickButtonGenerate()">Generate</button>
-    </section>
+    </va-card-content>
     <!-- END OF RESET ZONE-->
   </div>
 </template>
