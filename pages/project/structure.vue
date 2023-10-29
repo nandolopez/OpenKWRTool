@@ -4,294 +4,186 @@ definePageMeta({
     layout: false,
 });
 
+import { IURL } from "~/interfaces/IURL";
 import { IKeyword } from "../../interfaces/IKeyword";
 
-//Main keywords from local storage
-const Keywords = ref<IKeyword[]>([]);
-const STRUCTURE = ref<string[]>([]);
+//DATA
+const KEYWORDS = ref<IKeyword[]>([]);
+const STRUCTURE = ref<IURL[]>([]);
 
-//For undo last action button
-const LAST_ACTION = ref<IKeyword[]>([]);
-const ACTIVE_URL = ref<number>(0);
 
-//If the last action is a deletion recover it
-const LAST_ACTION_IS_DELETE = ref(false);
+//INPUTS
+const INPUT_ADD_URL = ref("")
+const INPUT_EDIT_URL = ref("")
+const INPUT_SEARCH = ref("")
+const RADIO_KEYWORD_TYPE = ref("Transactional")
 
-//SEARCH INPUTS
-const INPUT_SEARCH = ref("");
-const INPUT_URL = ref("");
-const INPUT_ACTIVE_URL = ref("");
+//STATUS
+const CHECK_ALL_STATUS = ref(false)
+const CURRENT_URL = ref(0)
 
-// For Initial status for All checked / unchecked in "check all" buttons
-const ALL_TRANSACTIONAL = ref(false);
-
-//COMPUTED PROPERTIES
-/**
- * Active URL keywords
- */
-const activeURLKeywords = computed(() => {
-    return Keywords.value.filter(
-        (e) => e.url === STRUCTURE.value[ACTIVE_URL.value],
-    );
-});
-
-/**
- * Display keywords by type if associated searchbox is clear, show the filtered
- * information, if input search contain something, do the filter
- */
-
-const KEYWORDS_TRANSACTIONAL = computed(() => {
-    if (INPUT_SEARCH.value !== "") {
-        ALL_TRANSACTIONAL.value = false;
-        return Keywords.value.filter(
-            (e: IKeyword) =>
-                e.type === "Transactional" &&
-                e.keyword.includes(INPUT_SEARCH.value) &&
-                e.url === "",
-        );
+//COMPUTED PROPERTIES 
+const FILTERED_KEYWORDS = computed<IKeyword[]>(() => {
+    if (INPUT_SEARCH.value !== '') {
+        return KEYWORDS.value.filter((e: IKeyword) => e.url === '' && e.type === RADIO_KEYWORD_TYPE.value && e.keyword.includes(INPUT_SEARCH.value))
+    } else {
+        return KEYWORDS.value.filter((e: IKeyword) => e.url === '' && e.type === RADIO_KEYWORD_TYPE.value)
     }
-    return Keywords.value.filter(
-        (e: IKeyword) => e.type === "Transactional" && e.url === "",
-    );
-});
+})
 
-/**
- * Enable / disable button if inptu_url has content or not
- */
-const disableButtonAddURL = computed(() => INPUT_URL.value.length < 4);
+const FILTERED_STRUCTURE = computed(() => {
+    return STRUCTURE.value.filter((e: IURL) => e.type === RADIO_KEYWORD_TYPE.value)
+})
 
-/**
- * For enable / disable action buttons (set transactional / informational) and
- * remove KW
- */
-const disableButtonIfNotSelectedKeyword = computed(() =>
-    Keywords.value.every((e: IKeyword) => e.selected === false),
-);
-
-const amountURL = computed(() =>
-    activeURLKeywords.value.reduce(
-        (accumulator: number, element: IKeyword) => accumulator + element.volume,
-        0,
-    ),
-);
+const ASSIGNED_KEYWORDS = computed(() => {
+    return KEYWORDS.value.filter((e: IKeyword) => e.url === INPUT_EDIT_URL.value)
+})
 
 //METHODS
 
-/**
- * On check all buttons set all as checked / no checked
- * and modify his global status
- */
+const onClickButtonAddKeyword = () => {
+    FILTERED_KEYWORDS.value.forEach((e:IKeyword)=>{
+        if(e.selected){
+            KEYWORDS.value[e.id].url = INPUT_EDIT_URL.value
+            KEYWORDS.value[e.id].selected = false
+        }
+    })
+    INPUT_SEARCH.value = ""
+    onUpdateLocalStorage()
+}
 
 const onClickButtonAddURL = () => {
-    if(INPUT_URL.value.length >2){
-        STRUCTURE.value.push(INPUT_URL.value);
-        ACTIVE_URL.value = STRUCTURE.value.length;
-        if (STRUCTURE.value.length === 0) {
-            localStorage.setItem("blog", JSON.stringify([INPUT_URL.value]));
-        }
-        INPUT_URL.value = "";
-        onUpdateLocalStorage();
-        ACTIVE_URL.value = STRUCTURE.value.length
+    if (INPUT_ADD_URL.value.length > 3) {
+        STRUCTURE.value.push({ id: STRUCTURE.value.length, path: INPUT_ADD_URL.value, type: RADIO_KEYWORD_TYPE.value })
     }
-};
+    INPUT_ADD_URL.value = ""
+    onUpdateLocalStorage()
+}
+const onClickButtonCheckAll = () => {
+    CHECK_ALL_STATUS.value = !CHECK_ALL_STATUS.value
+    FILTERED_KEYWORDS.value.forEach(e => KEYWORDS.value[e.id].selected = CHECK_ALL_STATUS.value)
+}
 
-/**
- * On check all buttons set all as checked / no checked
- * and modify his global status
- */
+const onInputEditURL = (event: any) =>{
+    const new_url = event.target.value
+    const structure_index = FILTERED_STRUCTURE.value[CURRENT_URL.value].id
+    ASSIGNED_KEYWORDS.value.forEach((e:IKeyword)=>{
+        KEYWORDS.value[e.id].url = new_url
+    })
+    
+    console.log(STRUCTURE.value[structure_index])
+    STRUCTURE.value[structure_index].path = new_url
+    onUpdateLocalStorage()
+}
 
-const onClickButtonCheckAllTransactional = () => {
-    ALL_TRANSACTIONAL.value = !ALL_TRANSACTIONAL.value;
-    KEYWORDS_TRANSACTIONAL.value.forEach(
-        (e) => (Keywords.value[e.id].selected = ALL_TRANSACTIONAL.value),
-    );
-    onUpdateLocalStorage();
-};
-
-/**
- *  1. If last action it's a remove of keyword, recover it and in her previous
- *  position (defined by ID)
- *  2. Recompose the IDs based in the index of each keywords
- *
- *  3. If we like undo a assignment, the affected keywords as before
- *
- */
-const onClickButtonUndoLastAction = () => {
-    LAST_ACTION.value.forEach((e: IKeyword) => {
-        Keywords.value[e.id].type = e.type;
-        Keywords.value[e.id].selected = false;
-    });
-
-    LAST_ACTION.value = [];
-    LAST_ACTION_IS_DELETE.value = false;
-    onUpdateLocalStorage();
-};
-/**
- *  1. If last action it's a remove of keyword, recover it and in her previous
- *  position (defined by ID)
- *  2. Recompose the IDs based in the index of each keywords
- *
- *  3. If we like undo a assignment, the affected keywords as before
- *
- */
-const onClickURL = (url: string) => {
-    ACTIVE_URL.value = STRUCTURE.value.indexOf(url);
-    INPUT_ACTIVE_URL.value = STRUCTURE.value[ACTIVE_URL.value];
-};
-
-const onClickButtonAddKeywordsToURL = () => {
-    LAST_ACTION.value = [];
-    Keywords.value.forEach((e) => {
-        if (e.selected) {
-            LAST_ACTION.value.push({ ...e });
-            Keywords.value[e.id].url = STRUCTURE.value[ACTIVE_URL.value];
-            Keywords.value[e.id].selected = false;
-        }
-    });
-    onUpdateLocalStorage();
-
-    INPUT_SEARCH.value = "";
-};
-
-const onInputTextURL = () => {
-    activeURLKeywords.value.forEach((e) => {
-        Keywords.value[e.id].url = INPUT_ACTIVE_URL.value;
-    });
-    if (ACTIVE_URL.value === 0) {
-        const blog = JSON.parse(localStorage.getItem("blog") || "");
-        blog[0] = INPUT_ACTIVE_URL.value;
-
-        localStorage.setItem("blog", JSON.stringify(blog));
-    }
-    STRUCTURE.value[ACTIVE_URL.value] = INPUT_ACTIVE_URL.value;
-    onUpdateLocalStorage();
-};
-
-const onClickButtonRemoveURL = () => {
-    activeURLKeywords.value.forEach((e) => {
-        Keywords.value[e.id].url = "";
-    });
-    STRUCTURE.value.splice(ACTIVE_URL.value, 1);
-    ACTIVE_URL.value = 0;
-    onUpdateLocalStorage();
-};
-
-const onUpdateLocalStorage = () => {
-    localStorage.setItem("keywords", JSON.stringify(Keywords.value));
-    localStorage.setItem("structure", JSON.stringify(STRUCTURE.value));
-};
+const onClickButtonRemoveURL = () =>{
+    ASSIGNED_KEYWORDS.value.forEach((e:IKeyword)=>{
+        KEYWORDS.value[e.id].url = ''
+    })
+    const structure_index = FILTERED_STRUCTURE.value[CURRENT_URL.value].id
+    STRUCTURE.value.splice(structure_index, 1)
+}
 
 onMounted(() => {
-    Keywords.value = JSON.parse(localStorage.keywords);
+    KEYWORDS.value = JSON.parse(localStorage.keywords).map((e: IKeyword) => { return { ...e, selected: false } });
     STRUCTURE.value = JSON.parse(localStorage.structure);
-    if (STRUCTURE.value.length > 0) STRUCTURE.value = ["https://yoursite.com"]
-    INPUT_ACTIVE_URL.value = STRUCTURE.value[ACTIVE_URL.value];
+    INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[0].path
+    console.log(KEYWORDS.value[25])
 });
+
+const onSelectURL = (index: number) => {
+    CURRENT_URL.value = index
+    INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path
+}
+
+
+const onUpdateLocalStorage = () => {
+    localStorage.setItem('structure', JSON.stringify(STRUCTURE.value))
+    localStorage.setItem('keywords', JSON.stringify(KEYWORDS.value))
+    
+}
+
+
 </script>
 <template>
     <NuxtLayout name="projects">
-        <section class="flex justify-around">
+        <va-card>
+            <va-card-title>
+                <h5 class="text-center va-h5 w-full">What you want to structure?</h5>
+            </va-card-title>
+            <va-card-content class="flex justify-center gap-4">
+                <va-radio v-model="RADIO_KEYWORD_TYPE" option="Transactional" name="radio-group"
+                    label="Website structure" />
+                <va-radio v-model="RADIO_KEYWORD_TYPE" option="Informational" name="radio-group" label="blog" />
+            </va-card-content>
+        </va-card>
+        <div class="grid grid-cols-3 gap-4">
+            <va-card :color="RADIO_KEYWORD_TYPE === 'Transactional' ? 'success' : 'info'">
+                <va-card-title>
+                    <h5 class="va-h5 text-center w-full">Transactional keywords</h5>
+                </va-card-title>
+                <va-card-content class="flex flex-col gap-4">
+                    <section class="flex justify-between items-center gap-2">
+                        <va-button @click="onClickButtonCheckAll()">{{ CHECK_ALL_STATUS ? 'Unc' : 'C' }}heck
+                            All</va-button>
+                        <va-input type="search" v-model="INPUT_SEARCH" placeholder="Search keywords" preset="bordered" />
+                        <va-button color="info" @click="onClickButtonAddKeyword()">Add to URL</va-button>
+                    </section>
+                    <va-sidebar-item active-color="primary" v-for="(item, index) in FILTERED_KEYWORDS" :key="index"
+                        @click="item.selected = !item.selected" :active="item.selected">
+                        <va-sidebar-item-content class="flex justify-between">
+                            <span class="flex gap-4">
+                                <svg v-if="item.selected" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                    viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="9 11 12 14 22 4"></polyline>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                {{ item.keyword }}</span>
+                            <span>{{ item.volume }}</span>
+                        </va-sidebar-item-content>
+                    </va-sidebar-item>
+                </va-card-content>
+            </va-card>
+            <va-card>
+                <va-card-title>
+                    <h5 class="va-h5 text-center w-full">URLS</h5>
+                </va-card-title>
+                <va-card-content class="flex flex-col gap-4">
+                    <section class="flex items-center gap-2">
+                        <va-input type="text" v-model="INPUT_ADD_URL" placeholder="Add SubURL (Example: brands/brand_name)"
+                            preset="bordered" @keyup.enter="onClickButtonAddURL" />
+                        <va-button color="success" @click="onClickButtonAddURL()">Add</va-button>
+                    </section>
 
-            <button type="button"
-                class="disabled:opacity-50 disabled:cursor-not-allowed text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                :disabled="LAST_ACTION.length === 0" @click="onClickButtonUndoLastAction">
-                Undo last action
-            </button>
-        </section>
-        <div class="grid grid-cols-3 gap-4 1/2">
-            <article class="flex flex-col gap-2 h-full">
-                <h2 class="block text-center text-xl mb-4">
-                    Transactional / mixed keywords
-                </h2>
-                <section class="flex justify-between items-center gap-2">
-                    <button type="button"
-                        class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-                        @click="onClickButtonCheckAllTransactional">
-                        {{ ALL_TRANSACTIONAL ? "Unc" : "C" }}heck All
-                    </button>
-                    <input type="search" v-model="INPUT_SEARCH"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Search keyword" />
-                </section>
-                <ul class="flex flex-col max-h-screen gap-2 overflow-y-auto">
-                    <li v-for="item in KEYWORDS_TRANSACTIONAL"
-                        @click="Keywords[item.id].selected = !Keywords[item.id].selected"
-                        class="flex gap-4 p-2 bg-teal-700 text-white border border-teal-200 rounded-lg shadow hover:bg-teal-100 dark:bg-teal-800 dark:border-teal-700 dark:hover:bg-teal-700 w-full">
-                        <div class="w-full flex items-center gap-4">
-                            <input id="default-checkbox" type="checkbox" v-model="Keywords[item.id].selected"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                            <a :href="'https://www.google.com/search?q=' +
-                                item.keyword.replace(' ', '+')
-                                " target="_blank" class="text-white dark:text-white">{{ item.keyword }}</a>
-                        </div>
-                        <span class="block px-4 text-right">{{ item.volume }}</span>
-                    </li>
-                </ul>
-            </article>
-            <article class="flex flex-col gap-2 h-full">
-                <h2 class="block text-center text-xl mb-4">Structure URL</h2>
-                <section class="flex justify-between items-center gap-2">
-                    <input type="text" v-model="INPUT_URL"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="example.com or /content" @keyup.enter="onClickButtonAddURL" />
-                    <button type="button"
-                        class="disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                        :disabled="disableButtonAddURL" @click="onClickButtonAddURL">
-                        Add URL
-                    </button>
-
-                </section>
-                <ul class="flex flex-col max-h-screen gap-2 overflow-y-auto">
-                    <li v-for="item in STRUCTURE" @click="onClickURL(item)"
-                        class="cursor-pointer flex items-center gap-4 p-2 border text-white border-blue-200 rounded-lg shadow hover:bg-blue-800 dark:border-blue-700 dark:hover:bg-blue-700 w-full"
-                        :class="STRUCTURE[ACTIVE_URL] === item
-                            ? 'dark:bg-blue-400 bg-blue-600 text-blue-700'
-                            : ' bg-blue-800  dark:bg-blue-800'
-                            ">
-                        <div class="w-full flex items-center gap-4">{{ item }}</div>
-                        <svg v-if="STRUCTURE[ACTIVE_URL] === item" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                            viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </li>
-                </ul>
-            </article>
-            <article class="flex flex-col gap-2 h-full">
-                <h2 class="block text-center text-xl mb-4">
-                    Keywords of {{ STRUCTURE[ACTIVE_URL] }}
-                </h2>
-                <section class="flex justify-between items-center gap-2">
-                    <input type="text" v-model="INPUT_ACTIVE_URL" @input="onInputTextURL"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    <button type="button"
-                        class="disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-rose-600 dark:hover:bg-rose-700 dark:focus:ring-rose-900"
-                        :disabled="ACTIVE_URL === 0" @click="onClickButtonRemoveURL()">
-                        RemoveURL
-                    </button>
-                </section>
-                <section class="flex justify-between items-center gap-2">
-                    <button type="button"
-                        class="disabled:opacity-50 disabled:cursor-not-allowed text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-                        :disabled="disableButtonIfNotSelectedKeyword" @click="onClickButtonAddKeywordsToURL()">
-                        Add Keywords to URL
-                    </button>
-                    {{ amountURL }} Monthly search
-                </section>
-                <ul class="flex flex-col max-h-screen gap-2 overflow-y-auto">
-                    <li v-for="item in activeURLKeywords" @click="Keywords[item.id].selected = !Keywords[item.id].selected"
-                        class="flex items-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-                        <div class="w-full flex items-center gap-4">
-                            <input id="default-checkbox" type="checkbox" v-model="Keywords[item.id].selected"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                            <a :href="'https://www.google.com/search?q=' +
-                                item.keyword.replace(' ', '+')
-                                " target="_blank" class="text-white dark:text-white">{{ item.keyword }}</a>
-                        </div>
-                        <span class="block px-4 text-right">{{ item.volume }}</span>
-                    </li>
-                </ul>
-            </article>
+                    <va-sidebar-item active-color="primary" v-for="(item, index) in FILTERED_STRUCTURE"
+                        :active="CURRENT_URL === index" @click="onSelectURL(index)">
+                        <va-sidebar-item-content class="flex justify-between">
+                            {{ index > 0 ? FILTERED_STRUCTURE[0].path + '/' : '' }}{{ item.path }}
+                        </va-sidebar-item-content>
+                    </va-sidebar-item>
+                </va-card-content>
+            </va-card>
+            <va-card>
+                <va-card-title class="flex flex-col">
+                    <h6 class="va-h6 text-center w-full">Keywrods for:</h6>
+                    <span class="text-lg">{{ CURRENT_URL > 0 ? FILTERED_STRUCTURE[0].path + '/' + INPUT_EDIT_URL : INPUT_EDIT_URL }}/</span>
+                </va-card-title>
+                <va-card-content class="flex flex-col gap-4">
+                    <section class="flex justify-between items-end gap-2">
+                        <va-input type="text" v-model="INPUT_EDIT_URL" @input="onInputEditURL($event)" preset="bordered" label="rename url" />
+                        <va-button :disabled="CURRENT_URL === 0" color="danger" @click="onClickButtonRemoveURL()">Remove URL</va-button>
+                    </section>
+                    <va-sidebar-item active-color="primary" v-for="(item, index) in ASSIGNED_KEYWORDS" :key="index"
+                        @click="item.selected = !item.selected" :active="item.selected">
+                        <va-sidebar-item-content class="flex justify-between">
+                            <span>{{ item.keyword }}</span>
+                            <span>{{ item.volume }}</span>
+                            <va-button color="danger" @click="KEYWORDS[item.id].url = ''">Remove KW</va-button>
+                        </va-sidebar-item-content>
+                    </va-sidebar-item>
+                </va-card-content>
+            </va-card>
         </div>
     </NuxtLayout>
 </template>

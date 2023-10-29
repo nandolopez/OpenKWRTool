@@ -150,8 +150,11 @@ const onInputFileLoadCSV = async (input: any) => {
 
     localStorage.setItem('project', INPUT_PROJECT_NAME.value)
     localStorage.setItem('keywords', JSON.stringify(data))
-    localStorage.setItem('structure', JSON.stringify(["https://mysite.com"]))
-    // location.reload();
+    localStorage.setItem('structure', JSON.stringify([
+        {id: 0, path: "https://mysite.com", type:'Transactional'},
+        {id: 1, path: "https://mysite.com/blog", type:'Informational'}
+    ]))
+    location.reload();
 };
 
 const onInputSelectPreset = (event: any) => {

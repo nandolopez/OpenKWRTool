@@ -219,10 +219,21 @@ onMounted(() => {
                             preset="bordered" />
                     </section>
                     <va-sidebar-item v-for="(item, index) in UNQUALIFIED" :key="index"
-                        @click="item.selected = !item.selected" :active="item.selected">
+                        @click="item.selected = !item.selected" :active="item.selected"
+                        >
+                        
                         <va-sidebar-item-content class="flex justify-between">
-                            <va-checkbox v-model="item.selected" @click="item.selected = !item.selected"
-                                :label="item.keyword" />
+                            <va-sidebar-item-title class="flex gap-4">
+                                <svg v-if="item.selected" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                    viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="9 11 12 14 22 4"></polyline>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                            <a :href="'https://google.com/search?q=' + item.keyword.replace(' ', '+')" class="text-white dark:text-white">
+                                {{ item.keyword }}
+                            </a>
+                            </va-sidebar-item-title>
                             <span>{{ item.volume }}</span>
                         </va-sidebar-item-content>
                     </va-sidebar-item>
@@ -242,8 +253,17 @@ onMounted(() => {
                     <va-sidebar-item active-color="primary" v-for="(item, index) in INFORMATIONAL" :key="index"
                         @click="item.selected = !item.selected" :active="item.selected">
                         <va-sidebar-item-content class="flex justify-between">
-                            <va-checkbox v-model="item.selected" @click="item.selected = !item.selected"
-                                :label="item.keyword" />
+                            <span class="flex gap-4">
+                                <svg v-if="item.selected" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                    viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="9 11 12 14 22 4"></polyline>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+
+                                {{ item.keyword }}
+
+                            </span>
                             <span>{{ item.volume }}</span>
                         </va-sidebar-item-content>
                     </va-sidebar-item>
@@ -263,12 +283,23 @@ onMounted(() => {
                     <va-sidebar-item active-color="primary" v-for="(item, index) in TRANSACTIONAL" :key="index"
                         @click="item.selected = !item.selected" :active="item.selected">
                         <va-sidebar-item-content class="flex justify-between">
-                            <va-checkbox v-model="item.selected" @click="item.selected = !item.selected"
-                                :label="item.keyword" />
+                            <span class="flex gap-4">
+                                <svg v-if="item.selected" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                    viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="9 11 12 14 22 4"></polyline>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                <a :href="'https://google.com/search?q=' + item.keyword.replace(' ', '+')" class="text-white">
+                                    {{ item.keyword }}
+                                </a>
+                            </span>
                             <span>{{ item.volume }}</span>
                         </va-sidebar-item-content>
                     </va-sidebar-item>
-            </va-card-content>
-        </va-card>
-    </div>
-</NuxtLayout></template>
+                </va-card-content>
+            </va-card>
+        </div>
+    </NuxtLayout>
+</template>
+<style></style>
