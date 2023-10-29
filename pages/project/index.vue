@@ -69,11 +69,11 @@ const onInputFileLoadProject = async (event: any) => {
     location.reload();
 };
 
-const onInputFileLoadCSV = async (event: any) => {
+const onInputFileLoadCSV = async (input: any) => {
     localStorage.removeItem('keywords')
     localStorage.removeItem('project')
     localStorage.removeItem('structure')
-    const file = event.target.files[0];
+    const file = input[0]
     const text = await file.text();
     const lines = text.split('\n');
     let separator = '\t';
@@ -150,13 +150,13 @@ const onInputFileLoadCSV = async (event: any) => {
 
     localStorage.setItem('project', INPUT_PROJECT_NAME.value)
     localStorage.setItem('keywords', JSON.stringify(data))
-    localStorage.setItem('structure', JSON.stringify([]))
+    localStorage.setItem('structure', JSON.stringify(["https://mysite.com"]))
     // location.reload();
 };
 
 const onInputSelectPreset = (event: any) => {
-    console.log(event)
-    if (event === 'Google') {
+
+    if (INPUT_SELECT_PRESET.value === 'Google') {
         INPUT_NUMBER_STARTING_LINE.value = 6
         INPUT_KEYWORD_COLUMN.value = 1
         INPUT_VOLUME_COLUMN.value = 4
@@ -186,53 +186,64 @@ const onInputSelectPreset = (event: any) => {
                     <section>
                         <va-alert color="#ce6e67" class="mb-6" v-if="!disabledButtonSaveProject">
                             <span class="font-medium">Note: </span> Load a project removes the current active
-                            project, please save it before load other one.
+                            project, please save the project before load other one.
                         </va-alert>
 
-                        <va-file-upload dropzone @file-added="onInputFileLoadProject($event)" />
+                        <va-file-upload dropzone @file-added="onInputFileLoadProject($event)" fileTypes=".json" />
                     </section>
                 </article>
 
             </va-card-content>
         </va-card>
-        <va-card>
+        <va-card class="mt-4">
             <va-card-title>
                 <h2 class="va-h4">New project</h2>
             </va-card-title>
             <va-card-content>
+                <article class="grid grid-cols-2 gap-4 w-full">
+                    <h5 class="va-h5">Recommendations</h5>
+                    <section class="col-span-2">
+                        <ol class="list-disc ml-4  mb-4">
+                            <li>
+                                Open the CSV with a editor (Excel / notepad / vim / textEdit...) and fill the following
+                            information
+                            </li>
+                            <li>You must fill the form for enable the CSV Uploader</li>
+                        </ol>
+                        <va-alert color="#ce6e67" class="mb-6" v-if="!disabledButtonSaveProject">
+                            Load a CSV removes the current active project, please save the current project before load a new CSV
+                        </va-alert>
+                        
+                    </section>
+                    <section class="grid grid-cols-2 gap-6 mb-6">
+                        <va-input type="text" v-model="INPUT_PROJECT_NAME" label="Project name *" />
+                        <va-select v-model="INPUT_SELECT_PRESET" class="col-span-1" label="Presets"
+                            :options="['None', 'Google']" highlight-matched-text
+                            @Update:modelValue="onInputSelectPreset($event)" />
+                        <va-select v-model="INPUT_SELECT_SEPARATOR" class="col-span-1" label="CSV separator *"
+                            :options="['Tabulations', 'Comma', 'Semicolon', 'Spaces']" highlight-matched-text />
 
-            </va-card-content>
-        </va-card>
-        <!--Loader-->
-        <!--Loader-->
-        <article class="grid grid-cols-2 gap-4 w-full">
-            <section class="col-span-2">
-                <p>Open the CSV with a editor (Excel / notepad / vim / textEdit...) and fill the following information</p>
-                <p>You must fill the form for enable the CSV Uploader</p>
-                <div class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                    role="alert" v-if="!disabledButtonSaveProject">
-                    <span class="font-medium">Note: </span> Load a CSV removes the current active
-                    project, please save it before load a new CSV.
-                </div>
-            </section>
-            <section class="grid grid-cols-2 gap-6 mb-6">
-                <va-input type="text" v-model="INPUT_PROJECT_NAME" label="Project name *" />
-                <va-select v-model="INPUT_SELECT_PRESET" class="col-span-1" label="Presets"
-                    :options="['None', 'Google']" highlight-matched-text @Update:modelValue="onInputSelectPreset($event)"  />
-                <va-select v-model="INPUT_SELECT_SEPARATOR" class="col-span-1" label="CSV separator *"
-                    :options="['Tabulations', 'Comma','Semicolon','Spaces']" highlight-matched-text />
-                
-                <va-input type="number" v-model="INPUT_NUMBER_STARTING_LINE" label="Starting line *" />
-                <va-input type="number" v-model="INPUT_KEYWORD_COLUMN" label="Keyword column *" />
-                <va-input type="number" id="keyword_column" v-model="INPUT_VOLUME_COLUMN" label="Volume column *" />
-                <va-input type="number" id="keyword_column" v-model="INPUT_ADS_HIGH" label="Google Ads High range" />
-                <va-textarea label="Black list" placeholder="All keywords that contain words listed here will be removed" v-model="TEXTAREA_BLACKLIST" />
-                <va-textarea label="Informational list" placeholder="All keywords that contain words listed here will set as Informational" v-model="TEXTAREA_FILTER_INFORMATIONAL" />
-                <va-textarea label="Transactional list" placeholder="All keywords that contain words listed here will set as Transactional" v-model="TEXTAREA_FILTER_TRANSACTIONAL" />
-            </section>
-            <section>
-                <va-file-upload dropzone @file-added="onInputFileLoadCSV($event)" :disabled="disabledCSVUploader" />
-            </section>
-        </article>
-    </NuxtLayout>
-</template>
+                        <va-input type="number" v-model="INPUT_NUMBER_STARTING_LINE" label="Starting line *" />
+                        <va-input type="number" v-model="INPUT_KEYWORD_COLUMN" label="Keyword column *" />
+                        <va-input type="number" id="keyword_column" v-model="INPUT_VOLUME_COLUMN" label="Volume column *" />
+                        <va-input type="number" id="keyword_column" v-model="INPUT_ADS_HIGH"
+                            label="Google Ads High range" />
+                        <va-textarea label="Black list"
+                            placeholder="All keywords that contain words listed here will be removed"
+                            v-model="TEXTAREA_BLACKLIST" />
+                        <va-textarea label="Informational list"
+                            placeholder="All keywords that contain words listed here will set as Informational"
+                            v-model="TEXTAREA_FILTER_INFORMATIONAL" />
+                        <va-textarea label="Transactional list"
+                            placeholder="All keywords that contain words listed here will set as Transactional"
+                            v-model="TEXTAREA_FILTER_TRANSACTIONAL" />
+                    </section>
+                    <section>
+                        <va-file-upload dropzone @file-added="onInputFileLoadCSV($event)" :disabled="disabledCSVUploader" fileTypes=".csv" />
+                    </section>
+                </article>
+
+        </va-card-content>
+    </va-card>
+
+</NuxtLayout></template>

@@ -72,6 +72,5 @@ of a specific language or port. The universal way is webpages.
 ### Used technologies
 - Vue + Nuxt: this is for make modular the app each one develop and add his own
 app storing in "modules" directory
-- Tailwindcss: for the gui.
-- Vuestic
-- Iconify
+- Tailwindcss: for the gui structure and links .
+- Vuestic: GUI Elements

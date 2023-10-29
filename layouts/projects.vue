@@ -1,43 +1,44 @@
 <script setup lang="ts">
-// "text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
+
+
+const CURRENT_SECTION = ref(0)
+
+const SECTIONS = ref<string[]>(["Save / load project", "Keyword qualifier", "Structure builder"])
+const URLS = ['/project', '/project/qualifier', '/project/structure']
+
+const ROUTE = useRoute()
+
+const onClickTab = (input: string) => navigateTo(URLS[SECTIONS.value.indexOf(input)]);
+
+
+/**
+ * On mount component...
+ * set the Tab as specific pressed URL
+ */
+
+onMounted(() => CURRENT_SECTION.value = URLS.indexOf(ROUTE.path))
 
 </script>
 
 
 <template>
     <NuxtLayout name="default">
-        <!--Loading default layout for add the sidebar and other components-->
-        <ul
-            class="flex flex-wrap text-sm font-medium my-4 text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-            <li class="mr-2">
-                <NuxtLink to="/project"
-                active-class="text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
-                class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
-                Save / load project</NuxtLink>
-            </li>
-            <li class="mr-2">
-                <NuxtLink to="/project/classificator"
-                active-class="text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
-                class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
-                Keyword
-                classification</NuxtLink>
-            </li>
-            <li class="mr-2">
-                <NuxtLink to="/project/structure"
-                active-class="text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
-                class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
-                Structure
-                builder</NuxtLink>
-            </li>
-            <li class="mr-2">
-                <NuxtLink to="/project"
-                active-class="text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
-                    class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
-                    Blog
-                    builder</NuxtLink>
-            </li>
-        </ul>
-        <slot />
+        <va-card class="mb-4">
+            <va-card-content>
+                <va-tabs v-model="CURRENT_SECTION" center>
+                    <template #tabs>
+                        <va-tab v-for="tab in SECTIONS" :key="tab" @click="onClickTab(tab)">
+                            {{ tab }}
+                        </va-tab>
+                    </template>
+                </va-tabs>
+
+            </va-card-content>
+        </va-card>
+        <div class="flex flex-col gap-4">
+            <slot />
+
+        </div>
     </NuxtLayout>
 </template>
 
