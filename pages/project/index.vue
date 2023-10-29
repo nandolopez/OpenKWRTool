@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { utils, writeFile } from 'xlsx';
 import { IKeyword } from '~/interfaces/IKeyword';
+import { IURL } from '~/interfaces/IURL';
 
 definePageMeta({
     layout: false
@@ -24,22 +26,75 @@ const TEXTAREA_FILTER_TRANSACTIONAL = ref("")
 //COMPUTED PROPERTIES
 
 //Check if exists a active project
-const disabledButtonSaveProject = computed(() => {
-    return localStorage.keywords === undefined
-})
+const disabledButtonSaveProject = computed(() => localStorage.keywords === undefined)
 
-// Validate form
+/**
+ * FORM VALIDATOR
+ * Check that all required fields contains correct information before enable the upload option
+ */
 const disabledCSVUploader = computed(() => {
-
+    
     return INPUT_PROJECT_NAME.value === '' ||
-        INPUT_NUMBER_STARTING_LINE.value === 0 ||
-        INPUT_KEYWORD_COLUMN.value === 0 ||
-        INPUT_VOLUME_COLUMN.value === 0
+    INPUT_NUMBER_STARTING_LINE.value === 0 ||
+    INPUT_KEYWORD_COLUMN.value === 0 ||
+    INPUT_VOLUME_COLUMN.value === 0
 })
 
 // Get active project from localstorage
 const projectName = computed(() => localStorage.getItem('project'))
 
+
+/**
+ * EVENT: On click over Export to Excel button
+ * 1. Get the keyword removing the unnecessary "Selected" option
+ * 2. Convert the keywords list form JSON to Excel and save it in work sheet
+ * "Keywords".
+ * 
+ * In following steps: Convert Filter the keyword and add typical keywords fields
+ * 
+ * 3. Convert the keywords list filtered by Transactional form JSON to Excel and
+ * save it in work sheet "Structure".
+ * 
+ * 4. Convert the keywords list filtered by Informational form JSON to Excel and
+ * save it in work sheet "Blog".
+ * 
+ * Save the file and the browser will download automatically
+ */
+const onClickButtonExportToExcel = () => {
+
+    const Keywords = JSON.parse(localStorage.getItem('keywords') || '').map((e: IKeyword) => {
+        return {
+            Keyword: e.keyword,
+            volume: e.volume,
+            type: e.type,
+            url: e.url
+        }
+    })
+
+    const structure = JSON.parse(localStorage.getItem('structure') || '').map((e:IURL)=>{return e.path})
+    console.log(structure)
+
+    /* generate worksheet and workbook */
+    /*
+    const workbook = utils.book_new();
+    let worksheet = utils.json_to_sheet(Keywords);
+    utils.book_append_sheet(workbook, worksheet, "Keywords");
+ 
+    let filtered = Keywords.filter(((e: IKeyword) => e.type === 'Transactional'))
+    worksheet = utils.json_to_sheet(filtered);
+    utils.book_append_sheet(workbook, worksheet, "Structure");
+    
+    filtered = Keywords.filter(((e: IKeyword) => e.type === 'Informational'))
+    worksheet = utils.json_to_sheet(filtered);
+    utils.book_append_sheet(workbook, worksheet, "Blog");
+    
+    
+    // create an XLSX file and try to save to file *
+    const name = localStorage.project
+    writeFile(workbook, name + ".xlsx", { compression: true });
+    */
+
+}
 
 const onClickButtonSaveProject = () => {
     const element = document.createElement('a');
@@ -54,12 +109,10 @@ const onClickButtonSaveProject = () => {
     element.download = 'MyProject.json';
     document.body.appendChild(element);
     element.click();
-
 }
 
-
 const onInputFileLoadProject = async (event: any) => {
-    const file = event.target.files[0];
+    const file = event[0]
     const text = await file.text();
     const ImportedData = JSON.parse(text);
     localStorage.setItem('keywords', JSON.stringify(ImportedData.keywords))
@@ -151,8 +204,8 @@ const onInputFileLoadCSV = async (input: any) => {
     localStorage.setItem('project', INPUT_PROJECT_NAME.value)
     localStorage.setItem('keywords', JSON.stringify(data))
     localStorage.setItem('structure', JSON.stringify([
-        {id: 0, path: "https://mysite.com", type:'Transactional'},
-        {id: 1, path: "https://mysite.com/blog", type:'Informational'}
+        { id: 0, path: "https://mysite.com", type: 'Transactional' },
+        { id: 1, path: "https://mysite.com/blog", type: 'Informational' }
     ]))
     location.reload();
 };
@@ -181,7 +234,8 @@ const onInputSelectPreset = (event: any) => {
                     <section class="flex flex-col items-center justify-center gap-4">
                         <va-button type="button" @click="onClickButtonSaveProject()" :disabled="disabledButtonSaveProject">
                             Save the project</va-button>
-                        <va-button type="button" @click="onClickButtonSaveProject()" :disabled="disabledButtonSaveProject">
+                        <va-button type="button" @click="onClickButtonExportToExcel()"
+                            :disabled="disabledButtonSaveProject">
                             Export to Excel</va-button>
                         <p v-if="disabledButtonSaveProject">No projects loaded in your browser</p>
 
@@ -209,14 +263,15 @@ const onInputSelectPreset = (event: any) => {
                         <ol class="list-disc ml-4  mb-4">
                             <li>
                                 Open the CSV with a editor (Excel / notepad / vim / textEdit...) and fill the following
-                            information
+                                information
                             </li>
                             <li>You must fill the form for enable the CSV Uploader</li>
                         </ol>
                         <va-alert color="#ce6e67" class="mb-6" v-if="!disabledButtonSaveProject">
-                            Load a CSV removes the current active project, please save the current project before load a new CSV
+                            Load a CSV removes the current active project, please save the current project before load a new
+                            CSV
                         </va-alert>
-                        
+
                     </section>
                     <section class="grid grid-cols-2 gap-6 mb-6">
                         <va-input type="text" v-model="INPUT_PROJECT_NAME" label="Project name *" />
@@ -242,11 +297,12 @@ const onInputSelectPreset = (event: any) => {
                             v-model="TEXTAREA_FILTER_TRANSACTIONAL" />
                     </section>
                     <section>
-                        <va-file-upload dropzone @file-added="onInputFileLoadCSV($event)" :disabled="disabledCSVUploader" fileTypes=".csv" />
+                        <va-file-upload dropzone @file-added="onInputFileLoadCSV($event)" :disabled="disabledCSVUploader"
+                            fileTypes=".csv" />
                     </section>
                 </article>
 
-        </va-card-content>
-    </va-card>
+            </va-card-content>
+        </va-card>
 
 </NuxtLayout></template>
