@@ -2,6 +2,7 @@
 import { utils, writeFile } from 'xlsx';
 import { IKeyword } from '~/interfaces/IKeyword';
 import { IURL } from '~/interfaces/IURL';
+import { IWorksheet } from '~/interfaces/IWorksheet';
 
 definePageMeta({
     layout: false
@@ -33,11 +34,11 @@ const disabledButtonSaveProject = computed(() => localStorage.keywords === undef
  * Check that all required fields contains correct information before enable the upload option
  */
 const disabledCSVUploader = computed(() => {
-    
+
     return INPUT_PROJECT_NAME.value === '' ||
-    INPUT_NUMBER_STARTING_LINE.value === 0 ||
-    INPUT_KEYWORD_COLUMN.value === 0 ||
-    INPUT_VOLUME_COLUMN.value === 0
+        INPUT_NUMBER_STARTING_LINE.value === 0 ||
+        INPUT_KEYWORD_COLUMN.value === 0 ||
+        INPUT_VOLUME_COLUMN.value === 0
 })
 
 // Get active project from localstorage
@@ -48,7 +49,7 @@ const projectName = computed(() => localStorage.getItem('project'))
  * EVENT: On click over Export to Excel button
  * 1. Get the keyword removing the unnecessary "Selected" option
  * 2. Convert the keywords list form JSON to Excel and save it in work sheet
- * "Keywords".
+ * "Keywords", ID and adding a option for check if keyword is in post.
  * 
  * In following steps: Convert Filter the keyword and add typical keywords fields
  * 
@@ -64,35 +65,127 @@ const onClickButtonExportToExcel = () => {
 
     const Keywords = JSON.parse(localStorage.getItem('keywords') || '').map((e: IKeyword) => {
         return {
-            Keyword: e.keyword,
+            keyword: e.keyword,
             volume: e.volume,
             type: e.type,
-            url: e.url
+            url: e.url,
+            in_post: false
         }
     })
-
-    const structure = JSON.parse(localStorage.getItem('structure') || '').map((e:IURL)=>{return e.path})
-    console.log(structure)
-
     /* generate worksheet and workbook */
-    /*
     const workbook = utils.book_new();
     let worksheet = utils.json_to_sheet(Keywords);
+    
     utils.book_append_sheet(workbook, worksheet, "Keywords");
  
-    let filtered = Keywords.filter(((e: IKeyword) => e.type === 'Transactional'))
-    worksheet = utils.json_to_sheet(filtered);
+    const structure = JSON.parse(localStorage.getItem('structure') || '')
+
+    //Final worksheet to conver from JSON to Excel later
+    let worksheet_object: IWorksheet[] = []
+
+    //Get transactional keywords
+    let filtered_structure = structure.filter(((e: IKeyword) => e.type === 'Transactional'))
+
+    //Checking all structure for make the Worksheet
+    filtered_structure.forEach((e: IURL) => {
+
+        //Creating entry for current URL in worksheet pending of get Volume
+        worksheet_object.push({
+            URL: e.path,
+            Keywords: "",
+            Volume: 0,
+            In_post: false,
+            Title: "",
+            MetaTitle: "",
+            MetaDescription: "",
+            Number_of_words: "0",
+        })
+
+        //Get the index of last entry for modify later the volume field
+        const last_entry_ws_object = worksheet_object.length
+        //Amount of search that will have the current URL
+        let url_volume = 0
+
+        //Get all keywords that contains current URL
+        const filtered_keywords = Keywords.filter(((kw: IKeyword) => kw.type === 'Transactional' && kw.url === e.path))
+
+        //Adding each keyword accomodated to worksheet structure
+        for (let index = 0; index < filtered_keywords.length; index++) {
+            const kw = filtered_keywords[index];
+            url_volume += kw.volume
+            worksheet_object.push({
+                URL: kw.url,
+                Keywords: kw.keyword,
+                Volume: kw.volume,
+                In_post: false,
+                Title: "",
+                MetaTitle: "",
+                MetaDescription: "",
+                Number_of_words: "",
+            })
+        }
+        //adding the final volume        
+        worksheet_object[last_entry_ws_object - 1].Volume = url_volume
+    })
+
+    
+    worksheet = utils.json_to_sheet(worksheet_object);
     utils.book_append_sheet(workbook, worksheet, "Structure");
-    
-    filtered = Keywords.filter(((e: IKeyword) => e.type === 'Informational'))
-    worksheet = utils.json_to_sheet(filtered);
+
+    //Resetting object do the same with informational keywords
+    worksheet_object = [];
+
+    //Get transactional keywords
+    filtered_structure = structure.filter(((e: IKeyword) => e.type === 'Informational'))
+
+    //Checking all structure for make the Worksheet
+    filtered_structure.forEach((e: IURL) => {
+
+        //Creating entry for current URL in worksheet pending of get Volume
+        worksheet_object.push({
+            URL: e.path,
+            Keywords: "",
+            Volume: 0,
+            In_post: false,
+            Title: "",
+            MetaTitle: "",
+            MetaDescription: "",
+            Number_of_words: "0",
+        })
+
+        //Get the index of last entry for modify later the volume field
+        const last_entry_ws_object = worksheet_object.length
+        //Amount of search that will have the current URL
+        let url_volume = 0
+
+        //Get all keywords that contains current URL
+        const filtered_keywords = Keywords.filter(((kw: IKeyword) => kw.type === 'Informational' && kw.url === e.path))
+
+        //Adding each keyword accomodated to worksheet structure
+        for (let index = 0; index < filtered_keywords.length; index++) {
+            const kw = filtered_keywords[index];
+            url_volume += kw.volume
+            worksheet_object.push({
+                URL: kw.url,
+                Keywords: kw.keyword,
+                Volume: kw.volume,
+                In_post: false,
+                Title: "",
+                MetaTitle: "",
+                MetaDescription: "",
+                Number_of_words: "",
+            })
+        }
+        //adding the final volume        
+        worksheet_object[last_entry_ws_object - 1].Volume = url_volume
+    })
+    worksheet = utils.json_to_sheet(worksheet_object);
     utils.book_append_sheet(workbook, worksheet, "Blog");
-    
-    
+
+
     // create an XLSX file and try to save to file *
     const name = localStorage.project
     writeFile(workbook, name + ".xlsx", { compression: true });
-    */
 
 }
 
@@ -305,4 +398,5 @@ const onInputSelectPreset = (event: any) => {
             </va-card-content>
         </va-card>
 
-</NuxtLayout></template>
+    </NuxtLayout>
+</template>

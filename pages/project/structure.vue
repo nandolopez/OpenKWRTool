@@ -14,13 +14,14 @@ const STRUCTURE = ref<IURL[]>([]);
 
 //INPUTS
 const INPUT_ADD_URL = ref("")
-const INPUT_EDIT_URL = ref("")
 const INPUT_SEARCH = ref("")
 const RADIO_KEYWORD_TYPE = ref("Transactional")
+const INPUT_EDIT_URL = ref("")
 
 //STATUS
 const CHECK_ALL_STATUS = ref(false)
 const CURRENT_URL = ref(0)
+const CURRENT_URL_PATH = ref("")
 
 //COMPUTED PROPERTIES
 
@@ -49,7 +50,7 @@ const FILTERED_STRUCTURE = computed(() => STRUCTURE.value.filter((e: IURL) => e.
 /**
  * Assigned keywords to current selected URL
  */
-const ASSIGNED_KEYWORDS = computed(() => KEYWORDS.value.filter((e: IKeyword) => e.url === INPUT_EDIT_URL.value))
+const ASSIGNED_KEYWORDS = computed(() => KEYWORDS.value.filter((e: IKeyword) => e.url === CURRENT_URL_PATH.value))
 
 //METHODS
 
@@ -58,15 +59,18 @@ const ASSIGNED_KEYWORDS = computed(() => KEYWORDS.value.filter((e: IKeyword) => 
  * 1. Find in filtered word all keywords that are checked.
  * 2. Set the current URL
  * 3. Set the selected option in false
+ * 4. Set all selected to false for reset the button
+ * 5. Update database in localstorage
  */
 const onClickButtonAddKeyword = () => {
     FILTERED_KEYWORDS.value.forEach((e: IKeyword) => {
         if (e.selected) {
-            KEYWORDS.value[e.id].url = INPUT_EDIT_URL.value
+            KEYWORDS.value[e.id].url = CURRENT_URL_PATH.value
             KEYWORDS.value[e.id].selected = false
         }
     })
     INPUT_SEARCH.value = ""
+    CHECK_ALL_STATUS.value = false;
     onUpdateLocalStorage()
 }
 
@@ -106,20 +110,48 @@ const onClickButtonCheckAll = () => {
  * 
  * @param event 
  * 
- * 1. Modify all keywords that contains the current URL to the new one
- * 2. Find the ID of (really the ID is the index in STRUCTURED variable) from FILTERED_STRUCTURE
+ * 1. Set NEW_URL as default like https://website/url because it's the most
+ * common case.
+ * 
+ * 2. Check that input contains information
+ * 
+ * 2.1 if contains information check if we are editing root
+ * 2.2 If we are editing root modify the root in informational and transactional
+ * 2.3 Modify associated keywords
+ * 
+ * 3. If we are editing some another keyword...
+ * 4. Edit the keywords associated to old name
+ * 5. Find the ID of (really the ID is the index in STRUCTURED variable) from FILTERED_STRUCTURE
  * I do the find over FILTERED_STRUCTURE in order to use a array smallest
  * 
- * 3. Edit the STRUCTURE record
- * 4. Update localstorage
+ * 6. Edit the STRUCTURE record
+ * 7. Update localstorage
+ * 8. Edit the Current_url_path for update in view the URL
  * 
  */
 const onInputEditURL = (event: any) => {
-    const new_url = event.target.value
-    ASSIGNED_KEYWORDS.value.forEach((e: IKeyword) => KEYWORDS.value[e.id].url = new_url)
-    const structure_index = FILTERED_STRUCTURE.value[CURRENT_URL.value].id
-    STRUCTURE.value[structure_index].path = new_url
-    onUpdateLocalStorage()
+    let new_url = "/" + event.target.value
+    if (event.target.value.length > 0) {
+        if (CURRENT_URL.value === 0) {
+            new_url = 'https://' + event.target.value
+            STRUCTURE.value[0].path = new_url
+            STRUCTURE.value[1].path = new_url + "/blog"
+
+            let filtered = KEYWORDS.value.filter((e: IKeyword) => e.url === CURRENT_URL_PATH.value);
+            filtered.forEach((e: IKeyword) => KEYWORDS.value[e.id].url = new_url)
+
+            filtered = KEYWORDS.value.filter((e: IKeyword) => e.url === CURRENT_URL_PATH.value + "/blog");
+            filtered.forEach((e: IKeyword) => KEYWORDS.value[e.id].url = new_url + "/blog")
+        }else{
+            ASSIGNED_KEYWORDS.value.forEach((e: IKeyword) => KEYWORDS.value[e.id].url = new_url)
+            const structure_index = FILTERED_STRUCTURE.value[CURRENT_URL.value].id
+            STRUCTURE.value[structure_index].path = new_url
+
+        }
+        onUpdateLocalStorage()
+        CURRENT_URL_PATH.value = new_url
+    }
+
 }
 
 /**
@@ -152,14 +184,17 @@ const onClickButtonRemoveURL = () => {
  */
 const onSelectURL = (index: number) => {
     CURRENT_URL.value = index
-    INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path
+    CURRENT_URL_PATH.value = FILTERED_STRUCTURE.value[index].path
+    INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(1, FILTERED_STRUCTURE.value[index].path.length)
+    if (index === 0) {
+        INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(8, FILTERED_STRUCTURE.value[index].path.length)
+    }
 }
 
 
 const onUpdateLocalStorage = () => {
     localStorage.setItem('structure', JSON.stringify(STRUCTURE.value))
     localStorage.setItem('keywords', JSON.stringify(KEYWORDS.value))
-
 }
 /**
  * 
@@ -246,13 +281,24 @@ onMounted(() => {
             <va-card>
                 <va-card-title class="flex flex-col">
                     <h6 class="va-h6 text-center w-full">Keywrods for:</h6>
-                    <span class="text-lg">{{ CURRENT_URL > 0 ? FILTERED_STRUCTURE[0].path + INPUT_EDIT_URL : INPUT_EDIT_URL
+                    <span class="text-lg">{{ CURRENT_URL > 0 ? FILTERED_STRUCTURE[0].path + CURRENT_URL_PATH :
+                        CURRENT_URL_PATH
                     }}/</span>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-end gap-2">
                         <va-input type="text" v-model="INPUT_EDIT_URL" @input="onInputEditURL($event)" preset="bordered"
-                            label="rename url" />
+                            label="rename url"
+                            :error= "INPUT_EDIT_URL.length === 0"
+                            error-messages="this field must contain information for autosave"
+                            >
+                            <template #prepend>
+                                <span class="border-b border-gray-100">{{ CURRENT_URL > 0 ? FILTERED_STRUCTURE[0].path + "/"
+                                    : "https://"
+                                }}</span>
+                            </template>
+
+                        </va-input>
                         <va-button :disabled="CURRENT_URL === 0" color="danger" @click="onClickButtonRemoveURL()">Remove
                             URL</va-button>
                     </section>
