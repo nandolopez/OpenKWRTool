@@ -1,5 +1,6 @@
 export interface IURL{
     id: number,
     path: string,
-    type: string
+    type: string,
+    volume: number
 }

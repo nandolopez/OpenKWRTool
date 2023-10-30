@@ -2,7 +2,7 @@
 import { utils, writeFile } from 'xlsx';
 import { IKeyword } from '~/interfaces/IKeyword';
 import { IURL } from '~/interfaces/IURL';
-import { IWorksheet } from '~/interfaces/IWorksheet';
+import { IWorsheet } from '~/interfaces/IWorksheet';
 
 definePageMeta({
     layout: false
@@ -45,6 +45,7 @@ const disabledCSVUploader = computed(() => {
 const projectName = computed(() => localStorage.getItem('project'))
 
 
+
 /**
  * EVENT: On click over Export to Excel button
  * 1. Get the keyword removing the unnecessary "Selected" option
@@ -75,110 +76,64 @@ const onClickButtonExportToExcel = () => {
     /* generate worksheet and workbook */
     const workbook = utils.book_new();
     let worksheet = utils.json_to_sheet(Keywords);
-    
+
     utils.book_append_sheet(workbook, worksheet, "Keywords");
- 
+
     const structure = JSON.parse(localStorage.getItem('structure') || '')
+    let worksheet_object: IWorsheet[] 
 
-    //Final worksheet to conver from JSON to Excel later
-    let worksheet_object: IWorksheet[] = []
+    //Final worksheet to convert from JSON to Excel later
+    const structureWS = ( input: string ) =>{
 
-    //Get transactional keywords
-    let filtered_structure = structure.filter(((e: IKeyword) => e.type === 'Transactional'))
-
-    //Checking all structure for make the Worksheet
-    filtered_structure.forEach((e: IURL) => {
-
-        //Creating entry for current URL in worksheet pending of get Volume
-        worksheet_object.push({
-            URL: e.path,
-            Keywords: "",
-            Volume: 0,
-            In_post: false,
-            Title: "",
-            MetaTitle: "",
-            MetaDescription: "",
-            Number_of_words: "0",
-        })
-
-        //Get the index of last entry for modify later the volume field
-        const last_entry_ws_object = worksheet_object.length
-        //Amount of search that will have the current URL
-        let url_volume = 0
-
-        //Get all keywords that contains current URL
-        const filtered_keywords = Keywords.filter(((kw: IKeyword) => kw.type === 'Transactional' && kw.url === e.path))
-
-        //Adding each keyword accomodated to worksheet structure
-        for (let index = 0; index < filtered_keywords.length; index++) {
-            const kw = filtered_keywords[index];
-            url_volume += kw.volume
-            worksheet_object.push({
-                URL: kw.url,
-                Keywords: kw.keyword,
-                Volume: kw.volume,
+        const temp: IWorsheet[] = []
+        
+        //Get transactional keywords
+        let filtered_structure = structure.filter(((e: IKeyword) => e.type === input))
+    
+        //Checking all structure for make the Worksheet
+        filtered_structure.forEach((e: IURL) => {    
+            //Creating entry for current URL in worksheet pending of get Volume
+            temp.push({
+                URL: e.path,
+                Keywords: "",
+                Volume: e.volume,
                 In_post: false,
                 Title: "",
                 MetaTitle: "",
                 MetaDescription: "",
-                Number_of_words: "",
+                Number_of_words: "0",
             })
-        }
-        //adding the final volume        
-        worksheet_object[last_entry_ws_object - 1].Volume = url_volume
-    })
-
     
+          
+            //Get all keywords that contains current URL
+            const filtered_keywords = Keywords.filter(((kw: IKeyword) => kw.type === input && kw.url === e.path))
+    
+            //Adding each keyword accomodated to worksheet structure
+            for (let index = 0; index < filtered_keywords.length; index++) {
+                const kw = filtered_keywords[index];
+  
+                worksheet_object.push({
+                    URL: kw.url,
+                    Keywords: kw.keyword,
+                    Volume: kw.volume,
+                    In_post: false,
+                    Title: "",
+                    MetaTitle: "",
+                    MetaDescription: "",
+                    Number_of_words: "",
+                })
+            } 
+        })
+        return temp
+    }
+
+
+    worksheet_object = structureWS('Transactional')
+
     worksheet = utils.json_to_sheet(worksheet_object);
     utils.book_append_sheet(workbook, worksheet, "Structure");
 
-    //Resetting object do the same with informational keywords
-    worksheet_object = [];
-
-    //Get transactional keywords
-    filtered_structure = structure.filter(((e: IKeyword) => e.type === 'Informational'))
-
-    //Checking all structure for make the Worksheet
-    filtered_structure.forEach((e: IURL) => {
-
-        //Creating entry for current URL in worksheet pending of get Volume
-        worksheet_object.push({
-            URL: e.path,
-            Keywords: "",
-            Volume: 0,
-            In_post: false,
-            Title: "",
-            MetaTitle: "",
-            MetaDescription: "",
-            Number_of_words: "0",
-        })
-
-        //Get the index of last entry for modify later the volume field
-        const last_entry_ws_object = worksheet_object.length
-        //Amount of search that will have the current URL
-        let url_volume = 0
-
-        //Get all keywords that contains current URL
-        const filtered_keywords = Keywords.filter(((kw: IKeyword) => kw.type === 'Informational' && kw.url === e.path))
-
-        //Adding each keyword accomodated to worksheet structure
-        for (let index = 0; index < filtered_keywords.length; index++) {
-            const kw = filtered_keywords[index];
-            url_volume += kw.volume
-            worksheet_object.push({
-                URL: kw.url,
-                Keywords: kw.keyword,
-                Volume: kw.volume,
-                In_post: false,
-                Title: "",
-                MetaTitle: "",
-                MetaDescription: "",
-                Number_of_words: "",
-            })
-        }
-        //adding the final volume        
-        worksheet_object[last_entry_ws_object - 1].Volume = url_volume
-    })
+    worksheet_object = structureWS('Informational')
     worksheet = utils.json_to_sheet(worksheet_object);
     utils.book_append_sheet(workbook, worksheet, "Blog");
 
@@ -188,6 +143,17 @@ const onClickButtonExportToExcel = () => {
     writeFile(workbook, name + ".xlsx", { compression: true });
 
 }
+
+/**
+ * EVENT: on click button "Save Project"
+ * 
+ * 1. Generate a element "a" for imitate a download of a txt file in JSON format
+ * 2. Generate the JSON with database structure from localhost
+ * 3. Generate the virtual .json file
+ * 4. Create the object to download
+ * 5. Emulate that the link add to end of file
+ * 6. Emulate click over the link for do the download
+ */
 
 const onClickButtonSaveProject = () => {
     const element = document.createElement('a');
@@ -204,6 +170,17 @@ const onClickButtonSaveProject = () => {
     element.click();
 }
 
+/**
+ * 
+ * @param event 
+ * 
+ * EVENT: on upload the project
+ * 1. Get the JSON file
+ * 2. Extract the plain text
+ * 3. Parse the text file
+ * 4. Import to local storage
+ * 5. Reload the page
+ */
 const onInputFileLoadProject = async (event: any) => {
     const file = event[0]
     const text = await file.text();
@@ -211,9 +188,32 @@ const onInputFileLoadProject = async (event: any) => {
     localStorage.setItem('keywords', JSON.stringify(ImportedData.keywords))
     localStorage.setItem('project', ImportedData.project)
     localStorage.setItem('structure', ImportedData.structure)
-    localStorage.keywords = text
     location.reload();
 };
+
+/**
+ * 
+ * @param input 
+ * 
+ * EVENT: on upload CSV
+ * 
+ * 1. Remove localstorage content for start a new project
+ * 2. Get the file
+ * 3. Ge the tabulation
+ * 4. Convert the blacklist, transactional e informational lists in arrays for
+ * process later
+ * 5.Get the information from CSV
+ * 5.1 line contains high value set as transactional
+ * 5.2 if keyword contains in list of informational set the keyword as informational
+ * 5.3 if keyword contains in list of transactional set the keyword as transactional
+ * 5.4 if keyword contains in blacklist set keyword as null for remove later
+ * 5.4 if keyword volume is 0 set keyword as null for remove later
+ * 
+ * 6. Remove all nulls keywords
+ * 7. sort the keyword by volume
+ * 8. Set the Ids based in index
+ * 9. save all in localstorage as bdatabase
+ */
 
 const onInputFileLoadCSV = async (input: any) => {
     localStorage.removeItem('keywords')
@@ -274,6 +274,11 @@ const onInputFileLoadCSV = async (input: any) => {
             }
         }
 
+        //for remove keyword without search
+        if (Number(values[INPUT_VOLUME_COLUMN.value - 1]) === 0) {
+            keyword = 'null'
+        }
+
         return {
             id: 0,
             keyword: keyword,
@@ -297,13 +302,19 @@ const onInputFileLoadCSV = async (input: any) => {
     localStorage.setItem('project', INPUT_PROJECT_NAME.value)
     localStorage.setItem('keywords', JSON.stringify(data))
     localStorage.setItem('structure', JSON.stringify([
-        { id: 0, path: "https://mysite.com", type: 'Transactional' },
-        { id: 1, path: "https://mysite.com/blog", type: 'Informational' }
+        { id: 0, path: "https://mysite.com", type: 'Transactional', volume: 0 },
+        { id: 1, path: "https://mysite.com/blog", type: 'Informational', volume: 0 }
     ]))
     location.reload();
 };
 
-const onInputSelectPreset = (event: any) => {
+/**
+ * EVENT: on user change the selectbox of presets
+ * 
+ * set the inputs as selected presets, this list will update in the future
+ */
+
+const onInputSelectPreset = () => {
 
     if (INPUT_SELECT_PRESET.value === 'Google') {
         INPUT_NUMBER_STARTING_LINE.value = 6
