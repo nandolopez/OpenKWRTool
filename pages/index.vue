@@ -11,7 +11,7 @@
         </va-card>
     </div>
     <div class="flex gap-4 mb-4 row">
-        <va-card color="info" gradient class="md12">
+        <va-card color="info" gradient class="w-full">
             <va-card-title>
                 <h2 class="va-h4">CONSIDERATIONS</h2>
             </va-card-title>
@@ -30,34 +30,34 @@
         </va-card>
     </div>
     <div class="flex gap-4 mb-4 row">
-        <va-card class="md6">
+        <va-card class="w-1/2">
             <va-card-title>
                 <h3 class="va-h4">Available tools</h3>
             </va-card-title>
             <va-card-content>
                 <ol class="list-disc p-4">
-                    <li><span class="font-bold">Concatenator: </span> mix different keywords for get variants</li>
-                    <li><span class="font-bold">Cleaner: </span> clean your keywords list to Google Keyword planner
+                    <li class="mb-4"><span class="font-bold">Concatenator: </span> mix different keywords for get variants</li>
+                    <li class="mb-4"><span class="font-bold">Cleaner: </span> clean your keywords list to Google Keyword planner
                         requirements
                     </li>
-                    <li><span class="font-bold">Projects: </span> classify the keywords, and make informational and
+                    <li class="mb-4"><span class="font-bold">Projects: </span> classify the keywords, and make informational and
                         transactional estructure</li>
                 </ol>
             </va-card-content>
         </va-card>
-        <va-card class="md6">
+        <va-card class="w-1/2">
             <va-card-title>
                 <h3 class="va-h4">Features</h3>
             </va-card-title>
             <va-card-content>
                 <ol class="list-disc p-4">
-                    <li><span class="font-bold">Open source: </span> available in <a
+                    <li class="mb-4"><span class="font-bold">Open source: </span> available in <a
                             href="https://github.com/nandolopez/OpenKWRTool">Github</a></li>
-                    <li><span class="font-bold">Customizable: </span> with flowbite + tailwindcss power</li>
-                    <li><span class="font-bold">Local work: </span> all this tools work in your browser, this website
+                    <li class="mb-4"><span class="font-bold">Customizable: </span> with Vuestic + Tailwindcss power</li>
+                    <li class="mb-4"><span class="font-bold">Local work: </span> all this tools work in your browser, this website
                         doesn't
                         collect information</li>
-                    <li><span class="font-bold">Local deploy: </span> do you want use in your business? download from <a
+                    <li class="mb-4"><span class="font-bold">Local deploy: </span> do you want use in your business? download from <a
                             href="https://github.com/nandolopez/OpenKWRTool">Github</a> and deploy a local copy</li>
                 </ol>
             </va-card-content>
