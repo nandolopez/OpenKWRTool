@@ -15,13 +15,15 @@ const STRUCTURE = ref<IURL[]>([]);
 //INPUTS
 const INPUT_ADD_URL = ref("")
 const INPUT_SEARCH = ref("")
-const RADIO_KEYWORD_TYPE = ref("Transactional")
 const INPUT_EDIT_URL = ref("")
+const RADIO_KEYWORD_TYPE = ref("Transactional")
+const SELECT_INDEX = ref()
 
 //STATUS
 const CHECK_ALL_STATUS = ref(false)
 const CURRENT_URL = ref(0)
 const CURRENT_URL_PATH = ref("")
+
 
 //COMPUTED PROPERTIES
 
@@ -51,12 +53,18 @@ const FILTERED_STRUCTURE = computed(() => STRUCTURE.value.filter((e: IURL) => e.
  * Assigned keywords to current selected URL
  */
 const ASSIGNED_KEYWORDS = computed(() => KEYWORDS.value.filter((e: IKeyword) => e.url === CURRENT_URL_PATH.value))
+
 /**
  * AMOUNT OF VOLUME SEARCH
  */
-
 const VOLUME_SEARCH = computed(() => ASSIGNED_KEYWORDS.value.reduce(((sum: number, element: IKeyword) => sum + element.volume), 0))
 
+//MOVE URL SELECT OPTIONS
+const MOVE_OPTIONS = computed(() => {
+    const indexes = [...Array(FILTERED_STRUCTURE.value.length).keys()]
+    indexes.splice(0, 1)
+    return indexes
+})
 
 //METHODS
 
@@ -83,7 +91,7 @@ const onClickButtonAddKeyword = () => {
     STRUCTURE.value[structure_index].volume = VOLUME_SEARCH.value
     STRUCTURE.value.sort((a: any, b: any) => b.volume - a.volume);
     onUpdateLocalStorage()
-    
+
 }
 
 
@@ -99,11 +107,11 @@ const onClickButtonAddKeyword = () => {
 const onClickButtonAddURL = () => {
     if (INPUT_ADD_URL.value.length > 3) {
         let url = INPUT_ADD_URL.value[0] === '/' ? INPUT_ADD_URL.value : '/' + INPUT_ADD_URL.value
-        STRUCTURE.value.push({ id: STRUCTURE.value.length, path: url, type: RADIO_KEYWORD_TYPE.value, volume:0 })
+        STRUCTURE.value.push({ id: STRUCTURE.value.length, path: url, type: RADIO_KEYWORD_TYPE.value, volume: 0 })
         INPUT_ADD_URL.value = ""
     }
     onUpdateLocalStorage()
-    onSelectURL(FILTERED_STRUCTURE.value.length-1)
+    onSelectURL(FILTERED_STRUCTURE.value.length - 1)
 }
 
 
@@ -195,15 +203,49 @@ const onClickButtonRemoveURL = () => {
  * 
  */
 const onSelectURL = (index: number) => {
-    setTimeout(()=>{
+    setTimeout(() => {
         CURRENT_URL.value = index
         CURRENT_URL_PATH.value = FILTERED_STRUCTURE.value[index].path
         INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(1, FILTERED_STRUCTURE.value[index].path.length)
         if (index === 0) {
             INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(8, FILTERED_STRUCTURE.value[index].path.length)
         }
-    },300)
+    }, 300)
 }
+
+
+/**
+ * EVENT: On change order of URL
+ * @param index 
+ * 
+ * 1. Evaluate if index and select_index are diferente. It doesn't have sense
+ * do code for move a url to the same position
+ * 2. Get the id / index of source array position
+ * 3. Get the id / index of destiny array position
+ * 4. Copy the source to a temp array
+ * 5. Move the destiny array to source with the index of source
+ * 6. Move the temp array to destiny with index of destiny
+ * 7. Reset the Selector field due is shared between all URLS
+ * 8. Save the changes in database
+ * 
+ */
+
+const onSelectURLOrder = (index: number) => {
+    if (index !== SELECT_INDEX.value) {
+        const from = FILTERED_STRUCTURE.value[index].id;
+        const to = FILTERED_STRUCTURE.value[SELECT_INDEX.value].id;
+        const temp = { ...STRUCTURE.value[from], id: to }
+        STRUCTURE.value[from] = { ...STRUCTURE.value[to], id: from }
+        STRUCTURE.value[to] = { ...temp, id: to }
+        SELECT_INDEX.value = undefined
+        onUpdateLocalStorage()
+    }
+
+}
+
+/**
+ * EVENT on do something related to database, update it
+ */
 
 
 const onUpdateLocalStorage = () => {
@@ -286,7 +328,16 @@ onMounted(() => {
                     <va-sidebar-item active-color="primary" v-for="(item, index) in FILTERED_STRUCTURE"
                         :active="CURRENT_URL === index" @click="onSelectURL(index)">
                         <va-sidebar-item-content class="flex justify-between">
-                            {{ index > 0 ? FILTERED_STRUCTURE[0].path : '' }}{{ item.path }}
+                            <span class="w-full">
+                                {{ index === 0 ? '' : index + " - " }}{{ index > 0 ? FILTERED_STRUCTURE[0].path : '' }}{{
+                                    item.path }}
+
+                            </span>
+                            <va-select v-if="index > 0" v-model="SELECT_INDEX" :options="MOVE_OPTIONS" placeholder="Move"
+                                class="w-20" @update:modelValue="onSelectURLOrder(index)" />
+                            <!--select v-if="index > 0" placeholder="Move"  width="40%" >
+                                <option v-for="item in MOVE_OPTIONS">{{item}}</option>
+                            </!--select-->
                         </va-sidebar-item-content>
                     </va-sidebar-item>
                 </va-card-content>
@@ -318,7 +369,8 @@ onMounted(() => {
                     <va-sidebar-item active-color="primary" v-for="(item, index) in ASSIGNED_KEYWORDS" :key="index"
                         @click="item.selected = !item.selected" :active="item.selected">
                         <va-sidebar-item-content class="flex justify-between">
-                            <va-button color="danger"  icon="clear" @click="KEYWORDS[item.id].url = ''" size="small"></va-button>
+                            <va-button color="danger" icon="clear" @click="KEYWORDS[item.id].url = ''"
+                                size="small"></va-button>
                             <span class="w-full">{{ item.keyword }}</span>
                             <span>{{ item.volume }}</span>
                         </va-sidebar-item-content>

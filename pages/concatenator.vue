@@ -320,6 +320,7 @@ const onClickButtonCopy = () => {
  * Reset all fields as default
  */
 const onClickButtonGenerate = () => {
+  INPUT_TEXTAREA_RESULTS.value = ""
   STATUS.value = 'Generating combinations of 2 keywords'
 
   if (KA.value) combineTwo(K_ARRAY.value, A_ARRAY.value);
@@ -412,22 +413,25 @@ const onClickButtonReset = () => {
     <va-card class="p-4 w-full h-96">
       <div class="flex gap-4 justify-between h-full">
         <va-card-content class="flex flex-col text-center md3">
-          <va-textarea class="h-full" label="Main keywords" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_MAIN" />
+          <va-textarea class="h-full" label="Main keywords" placeholder="Here your keywords" :resize="false"
+            v-model="INPUT_TEXTAREA_MAIN" />
 
         </va-card-content>
         <va-card-content class="flex flex-col gap-2">
-          <va-input placeholder="CLASSIFICATION A" v-model="INPUT_TEXT_A"/>
+          <va-input placeholder="CLASSIFICATION A" v-model="INPUT_TEXT_A" />
           <va-textarea class="h-full" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_A" />
         </va-card-content>
         <va-card-content class="flex flex-col gap-2 items-center">
           <va-checkbox v-model="INPUT_CHECKBOX_B" />
-          <va-input :disabled="!INPUT_CHECKBOX_B"  placeholder="CLASSIFICATION B" v-model="INPUT_TEXT_B"/>
-          <va-textarea class="h-full" :disabled="!INPUT_CHECKBOX_B" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_B" />
+          <va-input :disabled="!INPUT_CHECKBOX_B" placeholder="CLASSIFICATION B" v-model="INPUT_TEXT_B" />
+          <va-textarea class="h-full" :disabled="!INPUT_CHECKBOX_B" placeholder="Here your keywords" :resize="false"
+            v-model="INPUT_TEXTAREA_B" />
         </va-card-content>
         <va-card-content class="flex flex-col gap-2 items-center">
-          <va-checkbox  :disabled="!INPUT_CHECKBOX_B"  v-model="INPUT_CHECKBOX_C" />
-          <va-input :disabled="!INPUT_CHECKBOX_C"  placeholder="CLASSIFICATION C" v-model="INPUT_TEXT_C"/>
-          <va-textarea class="h-full" :disabled="!INPUT_CHECKBOX_C" placeholder="Here your keywords" :resize="false" v-model="INPUT_TEXTAREA_C" />
+          <va-checkbox :disabled="!INPUT_CHECKBOX_B" v-model="INPUT_CHECKBOX_C" />
+          <va-input :disabled="!INPUT_CHECKBOX_C" placeholder="CLASSIFICATION C" v-model="INPUT_TEXT_C" />
+          <va-textarea class="h-full" :disabled="!INPUT_CHECKBOX_C" placeholder="Here your keywords" :resize="false"
+            v-model="INPUT_TEXTAREA_C" />
         </va-card-content>
       </div>
     </va-card>
@@ -447,7 +451,9 @@ const onClickButtonReset = () => {
 
     <!-- COMBINATIONS ZONE-->
     <va-card class="flex flex-col gap-4 mb-4">
-      <va-card-title> <h4 class="va-h4">2 KEYWORDS COMBINATIONS</h4></va-card-title>
+      <va-card-title>
+        <h4 class="va-h4">2 KEYWORDS COMBINATIONS</h4>
+      </va-card-title>
       <div class="grid grid-cols-3 justify-between">
         <va-card-content class="flex flex-col gap-4 pt-0">
           <h5 class="va-h5 font-bold">Keyword + {{ INPUT_TEXT_A }} combinations</h5>
@@ -483,8 +489,10 @@ const onClickButtonReset = () => {
       </div>
     </va-card>
     <va-card class="flex flex-col gap-4" v-if="INPUT_CHECKBOX_B">
-      <va-card-title> <h4 class="va-h4">3 KEYWORDS COMBINATIONS</h4></va-card-title>
-      <div class="grid grid-cols-3 justify-between" >
+      <va-card-title>
+        <h4 class="va-h4">3 KEYWORDS COMBINATIONS</h4>
+      </va-card-title>
+      <div class="grid grid-cols-3 justify-between">
         <!-- Keyword + A + B-->
         <va-card-content class="flex flex-col gap-4 pt-0">
           <h5 class="va-h5 font-bold">Keyword + {{ INPUT_TEXT_A }} +
@@ -563,8 +571,10 @@ const onClickButtonReset = () => {
       </div>
     </va-card>
     <va-card class="flex flex-col gap-4" v-if="INPUT_CHECKBOX_C">
-      <va-card-title> <h4 class="va-h4">4 KEYWORDS COMBINATIONS</h4></va-card-title>
-      <div class="grid grid-cols-4 justify-between" >
+      <va-card-title>
+        <h4 class="va-h4">4 KEYWORDS COMBINATIONS</h4>
+      </va-card-title>
+      <div class="grid grid-cols-4 justify-between">
         <!-- Keyword + A + B-->
         <va-card-content class="flex flex-col gap-4 pt-0">
 
@@ -688,29 +698,24 @@ const onClickButtonReset = () => {
 
     <!-- END OF COMBINATIONS ZONE-->
     <!-- RESULT ZONE-->
-    <va-card-content class="flex justify-between">
-      <span>
-        Status: {{ STATUS }}
-      </span>
-      <button type="button"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-32"
-        @click="onClickButtonCopy()">Copy result</button>
+    <va-card>
+      <va-card-content class="flex justify-between">
+        <span>
+          Status: {{ STATUS }}
+        </span>
+        <va-button @click="onClickButtonCopy()">Copy result</va-button>
+      </va-card-content>
+      <va-card-content class="flex">
+        <va-textarea v-model="INPUT_TEXTAREA_RESULTS" label="Final result" readonly class="w-full h-96"/>
+  
+      </va-card-content>
+      <!-- END OF RESULT ZONE-->
+      <!-- RESET ZONE-->
+      <va-card-content class="flex justify-between mb-4 mx-auto w-1/2">
+        <va-button color="danger" @click="onClickButtonReset()">Reset</va-button>
+      <va-button color="success" @click="onClickButtonGenerate()">Generate</va-button>
     </va-card-content>
-    <va-card-content class="flex">
-      <textarea rows="20" v-model="INPUT_TEXTAREA_RESULTS" label="Final result" readonly
-        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
-    </va-card-content>
-    <!-- END OF RESULT ZONE-->
-    <!-- RESET ZONE-->
-    <va-card-content class="flex justify-between mb-4">
-      <button type="button"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        @click="onClickButtonReset()">Reset</button>
-      <button type="button"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        @click="onClickButtonGenerate()">Generate</button>
-    </va-card-content>
-    <!-- END OF RESET ZONE-->
-  </div>
-</template>
+    </va-card>
+  <!-- END OF RESET ZONE-->
+</div></template>

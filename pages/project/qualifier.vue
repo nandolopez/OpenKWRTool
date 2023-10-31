@@ -69,22 +69,19 @@ const disableButtonIfNotSelectedKeyword = computed(() => {
  */
 const onClickButtonCheckAll = (type: string = "unqualified") => {
     switch (type) {
-        case 'unqualified':
+        case 'Unqualified':
             ALL_UNQUALIFIED.value = !ALL_UNQUALIFIED.value
             UNQUALIFIED.value.forEach(e => Keywords.value[e.id].selected = ALL_UNQUALIFIED.value)
             break;
-        case 'informational':
+        case 'Informational':
             ALL_INFORMATIONAL.value = !ALL_INFORMATIONAL.value
             INFORMATIONAL.value.forEach(e => Keywords.value[e.id].selected = ALL_INFORMATIONAL.value)
             break;
-        case 'transactional':
+        case 'Transactional':
             ALL_TRANSACTIONAL.value = !ALL_TRANSACTIONAL.value
             TRANSACTIONAL.value.forEach(e => Keywords.value[e.id].selected = ALL_TRANSACTIONAL.value)
             break;
-
     }
-
-    onUpdateLocalStorage()
 }
 
 
@@ -100,16 +97,24 @@ const onClickButtonCheckAll = (type: string = "unqualified") => {
  */
 
 const onClickButtonRemoveKeywords = () => {
-    Trash.value = [];
+    Trash.value = []
+
     LAST_ACTION_IS_DELETE.value = true
 
     //I use this foreach for reassign Ids and identify the removable keywords
-    Trash.value = Keywords.value.filter((e) => e.selected === true)
+    Trash.value = [...Keywords.value.filter((e) => e.selected === true)]
 
-    Trash.value.forEach((e: IKeyword) => { Keywords.value.splice(e.id, 1) })
+    Keywords.value = Keywords.value.filter((e) => e.selected === false)
 
     onReassignIdsToKeywords()
     onUpdateLocalStorage()
+
+    INPUT_SEARCH_UNQUALIFIED.value = ""
+    INPUT_SEARCH_INFORMATIONAL.value = ""
+    INPUT_SEARCH_TRANSACTIONAL.value = ""
+    ALL_UNQUALIFIED.value = false
+    ALL_INFORMATIONAL.value = false
+    ALL_TRANSACTIONAL.value = false
 }
 
 
@@ -156,7 +161,10 @@ const onClickButtonUndoLastAction = () => {
  */
 const onReassignIdsToKeywords = () => {
     Keywords.value.sort((a: any, b: any) => b.volume - a.volume);
-    Keywords.value.forEach((element: any, index: number) => Keywords.value[index].id = index);
+    Keywords.value.forEach((element: any, index: number) => {
+        Keywords.value[index].id = index
+        Keywords.value[index].selected = false
+    });
 }
 
 
@@ -179,10 +187,14 @@ const onSetKeywordType = (type: string) => {
     ALL_TRANSACTIONAL.value = false
 }
 
-const onUpdateLocalStorage = () => localStorage.setItem('keywords', JSON.stringify(Keywords.value))
+const onUpdateLocalStorage = () => {
+    console.log('updated ls: ', Keywords.value.length)
+    localStorage.setItem('keywords', JSON.stringify(Keywords.value))
+}
 
 onMounted(() => {
     Keywords.value = JSON.parse(localStorage.keywords)
+    console.log('loaded kws: ', Keywords.value.length)
 })
 
 </script>
@@ -209,19 +221,18 @@ onMounted(() => {
         <div class="grid grid-cols-3 gap-4">
             <va-card>
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Unqualified keywords</h5>
+                    <h5 class="va-h5 text-center w-full">Unqualified keywords ({{ UNQUALIFIED.length }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
-                        <va-button @click="onClickButtonCheckAll()">{{ ALL_UNQUALIFIED ? 'Unc' : 'C' }}heck
+                        <va-button @click="onClickButtonCheckAll('Unqualified')">{{ ALL_UNQUALIFIED ? 'Unc' : 'C' }}heck
                             All</va-button>
                         <va-input type="search" v-model="INPUT_SEARCH_UNQUALIFIED" placeholder="Search unqualified keyword"
                             preset="bordered" />
                     </section>
                     <va-sidebar-item v-for="(item, index) in UNQUALIFIED" :key="index"
-                        @click="item.selected = !item.selected" :active="item.selected"
-                        >
-                        
+                        @click="item.selected = !item.selected" :active="item.selected">
+
                         <va-sidebar-item-content class="flex justify-between">
                             <va-sidebar-item-title class="flex gap-4">
                                 <svg v-if="item.selected" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -230,9 +241,10 @@ onMounted(() => {
                                     <polyline points="9 11 12 14 22 4"></polyline>
                                     <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                                 </svg>
-                            <a :href="'https://google.com/search?q=' + item.keyword.replace(' ', '+')" class="text-white dark:text-white">
-                                {{ item.keyword }}
-                            </a>
+                                <a :href="'https://google.com/search?q=' + item.keyword.replace(' ', '+')"
+                                    class="text-white dark:text-white">
+                                    {{ item.keyword }}
+                                </a>
                             </va-sidebar-item-title>
                             <span>{{ item.volume }}</span>
                         </va-sidebar-item-content>
@@ -241,11 +253,11 @@ onMounted(() => {
             </va-card>
             <va-card color="info">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Informational keywords</h5>
+                    <h5 class="va-h5 text-center w-full">Informational keywords ({{ INFORMATIONAL.length }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
-                        <va-button @click="onClickButtonCheckAll('informational')">{{ ALL_INFORMATIONAL ? 'Unc' : 'C' }}heck
+                        <va-button @click="onClickButtonCheckAll('Informational')">{{ ALL_INFORMATIONAL ? 'Unc' : 'C' }}heck
                             All</va-button>
                         <va-input type="search" v-model="INPUT_SEARCH_INFORMATIONAL"
                             placeholder="Search informational keyword" preset="bordered" />
@@ -271,11 +283,11 @@ onMounted(() => {
             </va-card>
             <va-card color="success">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Transactional keywords</h5>
+                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ TRANSACTIONAL.length }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
-                        <va-button @click="onClickButtonCheckAll()">{{ ALL_TRANSACTIONAL ? 'Unc' : 'C' }}heck
+                        <va-button @click="onClickButtonCheckAll('Transactional')">{{ ALL_TRANSACTIONAL ? 'Unc' : 'C' }}heck
                             All</va-button>
                         <va-input type="search" v-model="INPUT_SEARCH_TRANSACTIONAL"
                             placeholder="Search transactional keyword" preset="bordered" />
@@ -290,7 +302,8 @@ onMounted(() => {
                                     <polyline points="9 11 12 14 22 4"></polyline>
                                     <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                                 </svg>
-                                <a :href="'https://google.com/search?q=' + item.keyword.replace(' ', '+')" class="text-white">
+                                <a :href="'https://google.com/search?q=' + item.keyword.replace(' ', '+')"
+                                    class="text-white">
                                     {{ item.keyword }}
                                 </a>
                             </span>

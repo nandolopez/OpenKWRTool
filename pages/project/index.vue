@@ -20,9 +20,9 @@ const INPUT_KEYWORD_COLUMN = ref<number>(0)
 const INPUT_VOLUME_COLUMN = ref<number>(0)
 const INPUT_ADS_HIGH = ref<number>(0)
 
-const TEXTAREA_BLACKLIST = ref("")
-const TEXTAREA_FILTER_INFORMATIONAL = ref("")
-const TEXTAREA_FILTER_TRANSACTIONAL = ref("")
+const TEXTAREA_BLACKLIST = ref("inercia, rollersinline, corte inglés, corte ingles, doctor, barovari, euro-sport, patinete, monopatin, patineta, walmat, tres patines , 3 patines, 3patines, wallmat, electricos, canariam, electronicos, oraciones, lata, patatas, películas, película, videos, yeferson, wallapop, segunda mano, cityrun, coppel, canariam, gw, liverpool, ollie, schwinn, usados, viejos, wikipedia, madrid, rodajas, accesorios, protecciones, chuecas, tremenda, zara, rodamientos, sílaba, decathlon, palabra, oms, cerca, converese, por favor, sin, sincelejo, chicago, ingles, inglés, falabella, galeria, primaria, zigna, dibujar, años, pokemon, voladores, canción, tiktok, facebook, survive")
+const TEXTAREA_FILTER_INFORMATIONAL = ref("patinaje, mejores, como, videos, girar, limpiar, rotación, patinar")
+const TEXTAREA_FILTER_TRANSACTIONAL = ref("inercia, rollersinline, corte inglés, corte ingles, doctor, barovari, euro-sport, patinete, monopatin, patineta, walmat, tres patines , 3 patines, 3patines, wallmat, electricos, canariam, electronicos, oraciones, lata, patatas, películas, película, videos, yeferson, wallapop, segunda mano, cityrun, coppel, canariam, gw, liverpool, ollie, schwinn, usados, viejos, wikipedia, madrid, rodajas, accesorios, protecciones, chuecas, tremenda, zara, rodamientos, sílaba, decathlon, palabra, oms, cerca, converese, por favor, sin, sincelejo, chicago, ingles, inglés, falabella, galeria, primaria, zigna, dibujar, años, pokemon, voladores, canción, tiktok, facebook, survive")
 
 //COMPUTED PROPERTIES
 
@@ -80,18 +80,18 @@ const onClickButtonExportToExcel = () => {
     utils.book_append_sheet(workbook, worksheet, "Keywords");
 
     const structure = JSON.parse(localStorage.getItem('structure') || '')
-    let worksheet_object: IWorsheet[] 
+    let worksheet_object: IWorsheet[]
 
     //Final worksheet to convert from JSON to Excel later
-    const structureWS = ( input: string ) =>{
+    const structureWS = (input: string) => {
 
         const temp: IWorsheet[] = []
-        
+
         //Get transactional keywords
         let filtered_structure = structure.filter(((e: IKeyword) => e.type === input))
-    
+
         //Checking all structure for make the Worksheet
-        filtered_structure.forEach((e: IURL) => {    
+        filtered_structure.forEach((e: IURL) => {
             //Creating entry for current URL in worksheet pending of get Volume
             temp.push({
                 URL: e.path,
@@ -103,15 +103,15 @@ const onClickButtonExportToExcel = () => {
                 MetaDescription: "",
                 Number_of_words: "0",
             })
-    
-          
+
+
             //Get all keywords that contains current URL
             const filtered_keywords = Keywords.filter(((kw: IKeyword) => kw.type === input && kw.url === e.path))
-    
+
             //Adding each keyword accomodated to worksheet structure
             for (let index = 0; index < filtered_keywords.length; index++) {
                 const kw = filtered_keywords[index];
-  
+
                 worksheet_object.push({
                     URL: kw.url,
                     Keywords: kw.keyword,
@@ -122,7 +122,7 @@ const onClickButtonExportToExcel = () => {
                     MetaDescription: "",
                     Number_of_words: "",
                 })
-            } 
+            }
         })
         return temp
     }
@@ -165,7 +165,7 @@ const onClickButtonSaveProject = () => {
 
     const file = new Blob([JSON.stringify(export_data)], { type: 'text/json' });
     element.href = URL.createObjectURL(file);
-    element.download = 'MyProject.json';
+    element.download = export_data.project +'.json';
     document.body.appendChild(element);
     element.click();
 }
@@ -243,7 +243,10 @@ const onInputFileLoadCSV = async (input: any) => {
     const INFORMATIONAL = TEXTAREA_FILTER_INFORMATIONAL.value.split(", ")
     const TRANSACTIONAL = TEXTAREA_FILTER_TRANSACTIONAL.value.split(", ")
 
-    let data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any) => {
+    let csv = "kw,volume,negative,bl\n"
+    
+
+    let data = lines.slice(INPUT_NUMBER_STARTING_LINE.value - 1).map((line: any, index: number) => {
         const values = line.split(separator);
 
         //keyword by default is undefined
@@ -251,7 +254,11 @@ const onInputFileLoadCSV = async (input: any) => {
 
         let keyword = values[INPUT_KEYWORD_COLUMN.value - 1]
 
+        let negative = "no"
+        let bl = "no"
 
+        
+        
         //If people bid up for the keyword this is transactional 
         if (values[INPUT_ADS_HIGH.value - 1] === "") kw_type = 'Transactional';
 
@@ -271,13 +278,17 @@ const onInputFileLoadCSV = async (input: any) => {
         if (BLACKLIST[0] !== '') {
             if (BLACKLIST.some((bl: string) => values[INPUT_KEYWORD_COLUMN.value - 1].includes(bl))) {
                 keyword = 'null'
+                bl = 'yes'
             }
         }
-
+        
         //for remove keyword without search
-        if (Number(values[INPUT_VOLUME_COLUMN.value - 1]) === 0) {
+        if (Number(values[INPUT_VOLUME_COLUMN.value - 1] < 1)) {
             keyword = 'null'
+            negative = 'yes'
         }
+        
+        csv += values[INPUT_KEYWORD_COLUMN.value - 1] + "," + Number(values[INPUT_VOLUME_COLUMN.value - 1])  +","+negative+","+bl+"\n"
 
         return {
             id: 0,
@@ -289,8 +300,11 @@ const onInputFileLoadCSV = async (input: any) => {
         };
     });
 
-
+    
+    console.log(csv)
+    console.log('pre:, ', data.length)
     data = data.filter((e: any) => e.keyword !== 'null')
+    console.log('post:, ', data.length)
 
     data.sort((a: any, b: any) => b.volume - a.volume);
 
@@ -305,7 +319,7 @@ const onInputFileLoadCSV = async (input: any) => {
         { id: 0, path: "https://mysite.com", type: 'Transactional', volume: 0 },
         { id: 1, path: "https://mysite.com/blog", type: 'Informational', volume: 0 }
     ]))
-    location.reload();
+    // location.reload();
 };
 
 /**
@@ -381,7 +395,7 @@ const onInputSelectPreset = () => {
                         <va-input type="text" v-model="INPUT_PROJECT_NAME" label="Project name *" />
                         <va-select v-model="INPUT_SELECT_PRESET" class="col-span-1" label="Presets"
                             :options="['None', 'Google']" highlight-matched-text
-                            @Update:modelValue="onInputSelectPreset($event)" />
+                            @Update:modelValue="onInputSelectPreset()" />
                         <va-select v-model="INPUT_SELECT_SEPARATOR" class="col-span-1" label="CSV separator *"
                             :options="['Tabulations', 'Comma', 'Semicolon', 'Spaces']" highlight-matched-text />
 
