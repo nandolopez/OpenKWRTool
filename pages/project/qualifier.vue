@@ -188,13 +188,11 @@ const onSetKeywordType = (type: string) => {
 }
 
 const onUpdateLocalStorage = () => {
-    console.log('updated ls: ', Keywords.value.length)
     localStorage.setItem('keywords', JSON.stringify(Keywords.value))
 }
 
 onMounted(() => {
     Keywords.value = JSON.parse(localStorage.keywords)
-    console.log('loaded kws: ', Keywords.value.length)
 })
 
 </script>
