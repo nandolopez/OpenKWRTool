@@ -19,7 +19,9 @@ const INPUT_NUMBER_STARTING_LINE = ref<number>(0)
 const INPUT_KEYWORD_COLUMN = ref<number>(0)
 const INPUT_VOLUME_COLUMN = ref<number>(0)
 const INPUT_ADS_HIGH = ref<number>(0)
-
+const TEXTAREA_BLACKLIST = ref("")
+const TEXTAREA_FILTER_INFORMATIONAL = ref("")
+const TEXTAREA_FILTER_TRANSACTIONAL = ref("")
 
 //COMPUTED PROPERTIES
 
@@ -162,7 +164,7 @@ const onClickButtonSaveProject = () => {
 
     const file = new Blob([JSON.stringify(export_data)], { type: 'text/json' });
     element.href = URL.createObjectURL(file);
-    element.download = export_data.project +'.json';
+    element.download = export_data.project + '.json';
     document.body.appendChild(element);
     element.click();
 }
@@ -248,7 +250,7 @@ const onInputFileLoadCSV = async (input: any) => {
 
         let keyword = values[INPUT_KEYWORD_COLUMN.value - 1]
 
-        
+
         //If people bid up for the keyword this is transactional 
         if (values[INPUT_ADS_HIGH.value - 1] === "") kw_type = 'Transactional';
 
@@ -270,12 +272,12 @@ const onInputFileLoadCSV = async (input: any) => {
                 keyword = 'null'
             }
         }
-        
+
         //for remove keyword without search
         if (Number(values[INPUT_VOLUME_COLUMN.value - 1] < 1)) {
             keyword = 'null'
         }
-        
+
         return {
             id: 0,
             keyword: keyword,
