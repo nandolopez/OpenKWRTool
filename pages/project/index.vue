@@ -186,7 +186,7 @@ const onInputFileLoadProject = async (event: any) => {
     const ImportedData = JSON.parse(text);
     localStorage.setItem('keywords', JSON.stringify(ImportedData.keywords))
     localStorage.setItem('project', ImportedData.project)
-    localStorage.setItem('structure', ImportedData.structure)
+    localStorage.setItem('structure', JSON.stringify(ImportedData.structure))
     location.reload();
 };
 

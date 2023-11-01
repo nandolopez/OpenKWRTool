@@ -1,11 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
-  app:{
-    baseURL:'/OpenKWRTool'
+  app: {
+    baseURL: "/OpenKWRTool",
+    buildAssetsDir: 'assets'
   },
-  buildDir: '../nandolopez.github.io/OpenKWRTool',
-  
+  nitro: { output: { publicDir: "../nandolopez.github.io/OpenKWRTool" } },
+
   devtools: {
     enabled: true,
 
@@ -36,7 +36,7 @@ export default defineNuxtConfig({
           transparent: "rgba(0, 0, 0, 0)",
           backgroundLanding: "#070d14",
           backgroundLandingBorder: "rgba(43, 49, 56, 0.8)",
-        }
+        },
       },
     },
 

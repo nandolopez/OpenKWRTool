@@ -264,8 +264,8 @@ const onUpdateLocalStorage = () => {
  */
 
 onMounted(() => {
-    KEYWORDS.value = JSON.parse(localStorage.keywords).map((e: IKeyword) => { return { ...e, selected: false } });
-    STRUCTURE.value = JSON.parse(localStorage.structure);
+    KEYWORDS.value = JSON.parse(localStorage.getItem("keywords") ||"").map((e: IKeyword) => { return { ...e, selected: false } });
+    STRUCTURE.value = JSON.parse(localStorage.getItem("structure") ||"");
     onSelectURL(0)
 });
 
