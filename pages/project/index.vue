@@ -111,7 +111,7 @@ const onClickButtonExportToExcel = () => {
             for (let index = 0; index < filtered_keywords.length; index++) {
                 const kw = filtered_keywords[index];
 
-                worksheet_object.push({
+                temp.push({
                     URL: kw.url,
                     Keywords: kw.keyword,
                     Volume: kw.volume,

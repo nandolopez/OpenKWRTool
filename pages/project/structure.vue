@@ -324,7 +324,7 @@ onMounted(() => {
         <div class="grid grid-cols-3 gap-4">
             <va-card :color="RADIO_KEYWORD_TYPE === 'Transactional' ? 'success' : 'info'">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ FILTERED_KEYWORDS.length -1 }})</h5>
+                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ FILTERED_KEYWORDS.length}})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">

@@ -255,7 +255,7 @@ onMounted(() => {
         <div class="grid grid-cols-3 gap-4">
             <va-card>
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Unqualified keywords ({{ UNQUALIFIED.length -1 }})</h5>
+                    <h5 class="va-h5 text-center w-full">Unqualified keywords ({{ UNQUALIFIED.length }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
@@ -287,7 +287,7 @@ onMounted(() => {
             </va-card>
             <va-card color="info">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Informational keywords ({{ INFORMATIONAL.length -1 }})</h5>
+                    <h5 class="va-h5 text-center w-full">Informational keywords ({{ INFORMATIONAL.length }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
@@ -319,7 +319,7 @@ onMounted(() => {
             </va-card>
             <va-card color="success">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ TRANSACTIONAL.length -1 }})</h5>
+                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ TRANSACTIONAL.length }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
