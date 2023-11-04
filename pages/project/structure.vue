@@ -6,6 +6,7 @@ definePageMeta({
 
 import { IURL } from "~/interfaces/IURL";
 import { IKeyword } from "../../interfaces/IKeyword";
+import { isRuntimeOnly } from "nuxt/dist/app/compat/capi";
 
 //DATA
 const KEYWORDS = ref<IKeyword[]>([]);
@@ -20,7 +21,6 @@ const RADIO_KEYWORD_TYPE = ref("Transactional")
 const SELECT_INDEX = ref()
 
 //STATUS
-const CHECK_ALL_STATUS = ref(false)
 const CURRENT_URL = ref(0)
 const CURRENT_URL_PATH = ref("")
 
@@ -47,7 +47,7 @@ const FILTERED_KEYWORDS = computed<IKeyword[]>(() => {
  * Lists of filtered URLs by type = selected in RADIO_KEYWORD_TYPE
  */
 
-const FILTERED_STRUCTURE = computed(() => STRUCTURE.value.filter((e: IURL) => e.type === RADIO_KEYWORD_TYPE.value))
+const FILTERED_STRUCTURE = computed(() => STRUCTURE.value.filter((e: IURL) => e.type === RADIO_KEYWORD_TYPE.value || e.type === (RADIO_KEYWORD_TYPE.value === 'Transactional' ? 'GT' : 'GI')))
 
 /**
  * Assigned keywords to current selected URL
@@ -66,7 +66,17 @@ const MOVE_OPTIONS = computed(() => {
     return indexes
 })
 
+
+
 //METHODS
+const onClickButtonAddGroup = () =>{
+    if (INPUT_ADD_URL.value.length > 3) {
+        STRUCTURE.value.push({ id: STRUCTURE.value.length, path:  INPUT_ADD_URL.value, type: RADIO_KEYWORD_TYPE.value === 'Transactional' ? 'GT' : 'GI', volume: 0 })
+        INPUT_ADD_URL.value = ""
+    }
+    onUpdateLocalStorage()
+}
+
 
 /**
  * EVENT: on Click Add keyword to URL button
@@ -78,7 +88,7 @@ const MOVE_OPTIONS = computed(() => {
  * 6. Reorder the URLs in function of volume
  * 7. Update database in localstorage
  */
-const onClickButtonAddKeyword = () => {
+const onClickButtonToURL = () => {
     FILTERED_KEYWORDS.value.forEach((e: IKeyword) => {
         if (e.selected) {
             KEYWORDS.value[e.id].url = CURRENT_URL_PATH.value
@@ -86,7 +96,6 @@ const onClickButtonAddKeyword = () => {
         }
     })
     INPUT_SEARCH.value = ""
-    CHECK_ALL_STATUS.value = false;
     const structure_index = FILTERED_STRUCTURE.value[CURRENT_URL.value].id
     STRUCTURE.value[structure_index].volume = VOLUME_SEARCH.value
     STRUCTURE.value.sort((a: any, b: any) => b.volume - a.volume);
@@ -94,36 +103,6 @@ const onClickButtonAddKeyword = () => {
 
 }
 
-
-/**
- * EVENT: on Click Add URL button
- * 1. Find in filtered structure that are checked.
- * 2. Check if the user wrote the / if not add to the URL
- * 3. Add the URL to structure variable
- * 4. Reset the ADD_URL input
- * 5. Update the localstorage (database)
- * 6. Set current URL to last index
- */
-const onClickButtonAddURL = () => {
-    if (INPUT_ADD_URL.value.length > 3) {
-        let url = INPUT_ADD_URL.value[0] === '/' ? INPUT_ADD_URL.value : '/' + INPUT_ADD_URL.value
-        STRUCTURE.value.push({ id: STRUCTURE.value.length, path: url, type: RADIO_KEYWORD_TYPE.value, volume: 0 })
-        INPUT_ADD_URL.value = ""
-    }
-    onUpdateLocalStorage()
-    onSelectURL(FILTERED_STRUCTURE.value.length - 1)
-}
-
-
-/**
- * on Click Check/Uncheck all button
- * 1. Set the global status Check_all_status to opposite status between true / false
- * 2. For each element in filtered keywords set the selected property to CHECK_ALL_STATUS
- */
-const onClickButtonCheckAll = () => {
-    CHECK_ALL_STATUS.value = !CHECK_ALL_STATUS.value
-    FILTERED_KEYWORDS.value.forEach(e => KEYWORDS.value[e.id].selected = CHECK_ALL_STATUS.value)
-}
 
 
 /**
@@ -174,6 +153,44 @@ const onInputEditURL = (event: any) => {
 
 }
 
+
+/**
+ * EVENT: on Click Add URL button
+ * 1. Find in filtered structure that are checked.
+ * 2. Check if the user wrote the / if not add to the URL
+ * 3. Add the URL to structure variable
+ * 4. Reset the ADD_URL input
+ * 5. Update the localstorage (database)
+ * 6. Set current URL to last index
+ */
+ const onKeyPressEnterInputAddURL = () => {
+    if (INPUT_ADD_URL.value.length > 3) {
+        let url = INPUT_ADD_URL.value[0] === '/' ? INPUT_ADD_URL.value : '/' + INPUT_ADD_URL.value
+        STRUCTURE.value.push({ id: STRUCTURE.value.length, path: url, type: RADIO_KEYWORD_TYPE.value, volume: 0 })
+        INPUT_ADD_URL.value = ""
+    }
+    onUpdateLocalStorage()
+    onSelectURL(FILTERED_STRUCTURE.value.length - 1)
+}
+
+
+/**
+ * 
+ * EVENT: on Click in Remove Group Button
+ * 
+ * 1. Set all keywords assigned to this URL as '' for return to keywords without URLS
+ * 2. Get the ID (index in structured) of current URL record
+ * 3. Remove the URL from STRUCTURED
+ * 4. REduce the value of Current URL to previous one
+ * 5. Rebuild Ids * 
+ */
+const onClickButtonRemoveGroup = (position: number) => {    
+    const structure_index = FILTERED_STRUCTURE.value[position].id
+    STRUCTURE.value.splice(structure_index, 1)
+    CURRENT_URL.value--
+    STRUCTURE.value.forEach((e: IURL, index:number)=>STRUCTURE.value[index].id = index)
+}
+
 /**
  * 
  * EVENT: on Click in RemoveURL Button
@@ -182,13 +199,26 @@ const onInputEditURL = (event: any) => {
  * 2. Get the ID (index in structured) of current URL record
  * 3. Remove the URL from STRUCTURED
  * 4. REduce the value of Current URL to previous one
- * 
+ * 5. Rebuild Ids * 
  */
 const onClickButtonRemoveURL = () => {
     ASSIGNED_KEYWORDS.value.forEach((e: IKeyword) => KEYWORDS.value[e.id].url = '')
     const structure_index = FILTERED_STRUCTURE.value[CURRENT_URL.value].id
     STRUCTURE.value.splice(structure_index, 1)
     CURRENT_URL.value--
+    STRUCTURE.value.forEach((e: IURL, index:number)=>STRUCTURE.value[index].id = index)
+}
+
+/**
+ * EVENT: on input in keywrods without search
+ * Set all keywords as un selected
+ * Select only found to just press "set (selected type)"
+ */
+ const onInputSearch = () => {
+    KEYWORDS.value.forEach((e) => e.selected = false)
+    if (INPUT_SEARCH.value  !== "") {
+        FILTERED_KEYWORDS.value.forEach((e) => e.selected = true)
+    }
 }
 
 /**
@@ -205,10 +235,12 @@ const onClickButtonRemoveURL = () => {
 const onSelectURL = (index: number) => {
     setTimeout(() => {
         CURRENT_URL.value = index
-        CURRENT_URL_PATH.value = FILTERED_STRUCTURE.value[index].path
-        INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(1, FILTERED_STRUCTURE.value[index].path.length)
-        if (index === 0) {
-            INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(8, FILTERED_STRUCTURE.value[index].path.length)
+        if(!['GI','GT'].includes(FILTERED_STRUCTURE.value[index].type)){
+            CURRENT_URL_PATH.value = FILTERED_STRUCTURE.value[index].path
+            INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(1, FILTERED_STRUCTURE.value[index].path.length)
+            if (index === 0) {
+                INPUT_EDIT_URL.value = FILTERED_STRUCTURE.value[index].path.substring(8, FILTERED_STRUCTURE.value[index].path.length)
+            }
         }
     }, 300)
 }
@@ -243,6 +275,10 @@ const onSelectURLOrder = (index: number) => {
 
 }
 
+const onSelectStructureType = () => {
+
+}
+
 /**
  * EVENT on do something related to database, update it
  */
@@ -264,8 +300,8 @@ const onUpdateLocalStorage = () => {
  */
 
 onMounted(() => {
-    KEYWORDS.value = JSON.parse(localStorage.getItem("keywords") ||"").map((e: IKeyword) => { return { ...e, selected: false } });
-    STRUCTURE.value = JSON.parse(localStorage.getItem("structure") ||"");
+    KEYWORDS.value = JSON.parse(localStorage.getItem("keywords") || "").map((e: IKeyword) => { return { ...e, selected: false } });
+    STRUCTURE.value = JSON.parse(localStorage.getItem("structure") || "");
     onSelectURL(0)
 });
 
@@ -288,14 +324,13 @@ onMounted(() => {
         <div class="grid grid-cols-3 gap-4">
             <va-card :color="RADIO_KEYWORD_TYPE === 'Transactional' ? 'success' : 'info'">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Transactional keywords</h5>
+                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ FILTERED_KEYWORDS.length -1 }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
-                        <va-button @click="onClickButtonCheckAll()">{{ CHECK_ALL_STATUS ? 'Unc' : 'C' }}heck
-                            All</va-button>
-                        <va-input type="search" v-model="INPUT_SEARCH" placeholder="Search keywords" preset="bordered" />
-                        <va-button color="info" @click="onClickButtonAddKeyword()">Add to URL</va-button>
+                        <va-input type="search" v-model="INPUT_SEARCH" placeholder="Search keywords" preset="bordered"
+                            @input="onInputSearch" />
+                        <va-button color="info" @click="onClickButtonToURL()" >To URL</va-button>
                     </section>
                     <va-sidebar-item active-color="primary" v-for="(item, index) in FILTERED_KEYWORDS" :key="index"
                         @click="item.selected = !item.selected" :active="item.selected">
@@ -319,15 +354,10 @@ onMounted(() => {
                     <h5 class="va-h5 text-center w-full">URLS</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
-                    <section class="flex items-start gap-2">
-                        <va-input type="text" v-model="INPUT_ADD_URL" placeholder="Add subURL, Example: brands/brand_name"
-                            preset="bordered" @keyup.enter="onClickButtonAddURL"
-                            messages="Initial / will set automatically, just type and press ENTER. Minimal 4 characters" />
-                    </section>
 
                     <va-sidebar-item active-color="primary" v-for="(item, index) in FILTERED_STRUCTURE"
                         :active="CURRENT_URL === index" @click="onSelectURL(index)">
-                        <va-sidebar-item-content class="flex justify-between">
+                        <va-sidebar-item-content class="flex justify-between" v-if="['Transactional', 'Informational'].includes(item.type)">
                             <span class="w-full">
                                 {{ index === 0 ? '' : index + " - " }}{{ index > 0 ? FILTERED_STRUCTURE[0].path : '' }}{{
                                     item.path }}
@@ -335,11 +365,40 @@ onMounted(() => {
                             </span>
                             <va-select v-if="index > 0" v-model="SELECT_INDEX" :options="MOVE_OPTIONS" placeholder="Move"
                                 class="w-20" @update:modelValue="onSelectURLOrder(index)" />
-                            <!--select v-if="index > 0" placeholder="Move"  width="40%" >
-                                <option v-for="item in MOVE_OPTIONS">{{item}}</option>
-                            </!--select-->
+                        </va-sidebar-item-content>
+                        <va-sidebar-item-content class="flex justify-between" v-else>
+                            <span class="flex justify-between w-full">
+                                {{ index === 0 ? '' : index + " - " }}
+                                <va-input type="text" v-model="STRUCTURE[item.id].path" placeholder="type here URL or group"
+                                class="w-auto" preset="bordered" @input="onUpdateLocalStorage" />
+                                <va-button color="danger" icon="clear" @click="onClickButtonRemoveGroup(index)"
+                                size="small"></va-button>
+                            </span>
                         </va-sidebar-item-content>
                     </va-sidebar-item>
+                    <section class="flex flex-col gap-2">
+                        <ol class="flex flex-col gap-4 list-disc">
+                            <li>
+                                <strong class="font-bold text-blue-400">
+                                    For add URL
+                                </strong>
+                                (Example: brands/brandname) and press Enter, Initial "/"" will set automatically
+                            </li>
+                            <li>
+                                <strong class="font-bold text-blue-400">
+                                    For add URL Group
+                                </strong>
+                                Write the name and press "Add Group" button
+                            </li>
+                        </ol>
+                        <div class="flex gap-4">
+                            <va-input type="text" v-model="INPUT_ADD_URL" placeholder="type here URL or group"
+                                class="w-auto" preset="bordered" @keyup.enter="onKeyPressEnterInputAddURL" />
+                            <va-button :disabled="INPUT_ADD_URL.length === 0" color="pirmary" @click="onClickButtonAddGroup()">Add
+                                Group</va-button>
+
+                        </div>
+                    </section>
                 </va-card-content>
             </va-card>
             <!--ASSIGNED KEYWORDS -->
@@ -356,12 +415,12 @@ onMounted(() => {
                         <va-input type="text" v-model="INPUT_EDIT_URL" @input="onInputEditURL($event)" preset="bordered"
                             label="rename url" :error="INPUT_EDIT_URL.length === 0"
                             error-messages="this field must contain information for autosave">
+                            
                             <template #prepend>
                                 <span class="border-b border-gray-100">{{ CURRENT_URL > 0 ? FILTERED_STRUCTURE[0].path + "/"
                                     : "https://"
                                 }}</span>
                             </template>
-
                         </va-input>
                         <va-button :disabled="CURRENT_URL === 0" color="danger" @click="onClickButtonRemoveURL()">Remove
                             URL</va-button>

@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title:"Open source Keyword research tool"
+      title:"Open source Keyword research toolnp"
     }
   },
   nitro: { output: { publicDir: "../nandolopez.github.io/OpenKWRTool" } },

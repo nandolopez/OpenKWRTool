@@ -156,6 +156,42 @@ const onClickButtonUndoLastAction = () => {
 }
 
 /**
+ * EVENT: on input in Unqualified search
+ * Set all keywords as un selected
+ * Select only found to just press "set (selected type)"
+ */
+const onInputSearchUnqualified = () =>{
+    Keywords.value.forEach((e)=>e.selected = false)
+    if(INPUT_SEARCH_UNQUALIFIED.value.length>0){
+        UNQUALIFIED.value.forEach((e)=>e.selected = true)
+    }
+}
+
+/**
+ * EVENT: on input in informational search
+ * Set all keywords as un selected
+ * Select only found to just press "set (selected type)"
+ */
+const onInputSearchInformational = () =>{
+    Keywords.value.forEach((e)=>e.selected = false)
+    if(INPUT_SEARCH_INFORMATIONAL.value.length>0){
+        INFORMATIONAL.value.forEach((e)=>e.selected = true)
+    }
+}
+
+/**
+ * EVENT: on input in Unqualified search
+ * Set all keywords as un selected
+ * Select only found to just press "set (selected type)"
+ */
+const onInputSearchTransactional = () =>{
+    Keywords.value.forEach((e)=>e.selected = false)
+    if(INPUT_SEARCH_TRANSACTIONAL.value.length>0){
+        TRANSACTIONAL.value.forEach((e)=>e.selected = true)
+    }    
+}
+
+/**
  *  ? Why this function?
  *  # For sort the array as Monthly searchs and reassign the Ids based in index
  */
@@ -219,14 +255,14 @@ onMounted(() => {
         <div class="grid grid-cols-3 gap-4">
             <va-card>
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Unqualified keywords ({{ UNQUALIFIED.length }})</h5>
+                    <h5 class="va-h5 text-center w-full">Unqualified keywords ({{ UNQUALIFIED.length -1 }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
                         <va-button @click="onClickButtonCheckAll('Unqualified')">{{ ALL_UNQUALIFIED ? 'Unc' : 'C' }}heck
                             All</va-button>
                         <va-input type="search" v-model="INPUT_SEARCH_UNQUALIFIED" placeholder="Search unqualified keyword"
-                            preset="bordered" />
+                            preset="bordered"  @input="onInputSearchUnqualified()" />
                     </section>
                     <va-sidebar-item v-for="(item, index) in UNQUALIFIED" :key="index"
                         @click="item.selected = !item.selected" :active="item.selected">
@@ -251,14 +287,16 @@ onMounted(() => {
             </va-card>
             <va-card color="info">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Informational keywords ({{ INFORMATIONAL.length }})</h5>
+                    <h5 class="va-h5 text-center w-full">Informational keywords ({{ INFORMATIONAL.length -1 }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
                         <va-button @click="onClickButtonCheckAll('Informational')">{{ ALL_INFORMATIONAL ? 'Unc' : 'C' }}heck
                             All</va-button>
                         <va-input type="search" v-model="INPUT_SEARCH_INFORMATIONAL"
-                            placeholder="Search informational keyword" preset="bordered" />
+                            placeholder="Search informational keyword" preset="bordered"
+                            @input="onInputSearchInformational()"
+                             />
                     </section>
                     <va-sidebar-item active-color="primary" v-for="(item, index) in INFORMATIONAL" :key="index"
                         @click="item.selected = !item.selected" :active="item.selected">
@@ -281,14 +319,16 @@ onMounted(() => {
             </va-card>
             <va-card color="success">
                 <va-card-title>
-                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ TRANSACTIONAL.length }})</h5>
+                    <h5 class="va-h5 text-center w-full">Transactional keywords ({{ TRANSACTIONAL.length -1 }})</h5>
                 </va-card-title>
                 <va-card-content class="flex flex-col gap-4">
                     <section class="flex justify-between items-center gap-2">
                         <va-button @click="onClickButtonCheckAll('Transactional')">{{ ALL_TRANSACTIONAL ? 'Unc' : 'C' }}heck
                             All</va-button>
                         <va-input type="search" v-model="INPUT_SEARCH_TRANSACTIONAL"
-                            placeholder="Search transactional keyword" preset="bordered" />
+                            placeholder="Search transactional keyword" preset="bordered"
+                            @input="onInputSearchTransactional()"
+                         />
                     </section>
                     <va-sidebar-item active-color="primary" v-for="(item, index) in TRANSACTIONAL" :key="index"
                         @click="item.selected = !item.selected" :active="item.selected">
@@ -301,7 +341,7 @@ onMounted(() => {
                                     <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                                 </svg>
                                 <a :href="'https://google.com/search?q=' + item.keyword.replace(' ', '+')"
-                                    class="text-white">
+                                    class="text-white dark:text-white">
                                     {{ item.keyword }}
                                 </a>
                             </span>
